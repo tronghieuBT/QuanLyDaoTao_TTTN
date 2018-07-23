@@ -1,0 +1,67 @@
+﻿@model DAO.Khoa
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Chỉnh sửa thông tin khoa</h2>
+
+<div class="bootstrap-iso">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @using (Html.BeginForm(FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true)
+                    @Html.AntiForgeryToken()
+                    <div class="form-group ">
+                        @Html.LabelFor(model => model.MaKhoa, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.MaKhoa, new { @id = "makhoa", @class = "form-control", @readonly = "true" })
+                        @Html.ValidationMessageFor(model => model.MaKhoa)
+                        @Html.LabelFor(model => model.TenKhoa, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.TenKhoa, new { @id = "tenkhoa", @class = "form-control", @required = "true" })
+                        @Html.ValidationMessageFor(model => model.TenKhoa)
+                        <span class="alert-success"></span>
+                    </div>
+                    <div class="form-group ">
+                        <button id="submit" type="submit" class="btn btn-success">Lưu lại</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Quay lại", "Index")
+</div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#submit').click(function () {
+            var flag = confirm('Bạn có chắc chắn lưu thông tin đã sửa ?');
+            if (flag) {
+                var makhoa = $('#makhoa').val();
+                var tenkhoa = $('#tenkhoa').val();
+                var khoa = {
+                    MaKhoa: makhoa,
+                    TenKhoa: tenkhoa
+                };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Edit","Khoa")',
+                    data: JSON.stringify(khoa),
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8'
+                }).done(function (data) {
+                    alert(data.msg);
+                    window.open('@Url.Action("Index","Khoa")');
+                }).fail(function (data) {
+                    alert(data.msg);
+                    window.location('@Url.Action("Index","Khoa")');
+                })
+            }
+        });
+    });
+</script>

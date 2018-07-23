@@ -14,8 +14,6 @@
     <link href="~/Assets/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="~/Assets/dist/css/sb-admin-2.css" rel="stylesheet">
-    <!-- Morris Charts CSS -->
-    <link href="~/Assets/vendor/morrisjs/morris.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="~/Assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -37,7 +35,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Travel 360 Admin</a>
+                <a class="navbar-brand" href="#">Học viện công nghệ bưu chính viễn thông</a>
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
@@ -214,27 +212,46 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
                         <li>
-                            <a href="#"><i class="fa fa-dashboard fa-fw"></i> Quản lý tour</a>
+                            <a href="#"><i class="fa fa-dashboard fa-fw"></i>Quản lý dữ liệu</a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="@Url.Action("Index","TourManager")">Xem danh sách tour</a>
+                                    <a href="@Url.Action("Index","HeDaoTao")">Hệ đạo tạo</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","Khoa")">Khoa</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","Lop")">Lớp</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","SinhVien")">Sinh viên</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","Giảng viên")">Giảng viên</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","Môn học")">Môn học</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","MonHocDangKy")">Môn học đăng ký</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","LopTinChi")">Lớp tín chỉ</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","ThoiKhoaBieu")">Thời khóa biểu</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","DiemDanh")">Điểm danh</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","GiaTinChi")">Giá tín chỉ</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href='@Url.Action("Index","ConformCustomer")'><i class="fa fa-edit fa-fw"></i>Xem đánh giá</a>
+                            <a href='@Url.Action("Index","Lop")'><i class="fa fa-edit fa-fw"></i>Lớp</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> Quản lý đơn hàng<span class="fa arrow"></span></a>
@@ -297,9 +314,7 @@
     <script src="~/Assets/vendor/bootstrap/js/bootstrap.min.js"></script>
     <!-- Metis Menu Plugin JavaScript -->
     <script src="~/Assets/vendor/metisMenu/metisMenu.min.js"></script>
-    <script src="~/Assets/vendor/morrisjs/morris.min.js"></script>
-    <script src="~/Assets/data/morris-data.js"></script>
     <!-- Custom Theme JavaScript -->
-    <script src="~/Assets/dist/js/sb-admin-2.js"></script>
+    <script src="~/Assets/dist/js/sb-admin-2.js"></script> 
 </body>
 </html>

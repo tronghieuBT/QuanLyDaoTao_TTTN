@@ -88,6 +88,7 @@
     <Compile Include="Khoa.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
+    <Compile Include="KhoaDAO.cs" />
     <Compile Include="Lop.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>

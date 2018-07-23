@@ -1,0 +1,38 @@
+﻿@model List<DAO.Khoa>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Khoa</h2>
+<div class="row" style="text-align: right">
+    <button type="button" class="btn btn-success btn-insert" >Thêm</button>
+</div>
+<br>
+<div>
+    <table class="table">
+        <tr>
+            <th>Mã khoa</th>
+            <th>Tên khoa</th>
+            <th>Hành động</th>
+        </tr>
+        @foreach (var item in Model)
+        {        
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.MaKhoa)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.TenKhoa)
+                </td>
+                <td>
+                    @Html.ActionLink("Chỉnh sửa","Edit","Khoa",new { maKhoa = item.MaKhoa },null)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Quay lại", "Index")
+</p>
