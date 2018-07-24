@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>SB Admin 2 - Du Lịch 360 Admin</title>
+    <title>Admin 2 - Học viện công nghệ bưu chính viễn thông</title>
     <!-- Bootstrap Core CSS -->
     <link href="~/Assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <!-- MetisMenu CSS -->
@@ -22,7 +22,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
     <div id="wrapper">
@@ -254,10 +254,10 @@
                             <a href='@Url.Action("Index","Lop")'><i class="fa fa-edit fa-fw"></i>Lớp</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Quản lý đơn hàng<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Quản lý tiến độ<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href='@Url.Action("Index","DatTourManage")'>Xem đơn hàng</a>
+                                    <a href='@Url.Action("Index","DatTourManage")'>Xem tiến độ đào tạo</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -267,7 +267,6 @@
                             <ul class="nav nav-second-level">
                                 <li>
                                     <button type="submit" onclick="getListAdmin()">Xem tất cả admin</button>
-                                    @*<a onclick="getListAdmin()" href="#">Xem tất cả admin</a>*@
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -282,31 +281,8 @@
             @RenderBody()
         </div>
         <!-- /#page-wrapper -->
-        <script>
-            function ViewContent() {
-                $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("UpdateViewCustommerConform", "HomeAdmin")',
-                    success: function (d) {
-                        document.getElementById("conform-customer").innerHTML = 0;
-                    }
-                });
-                return false;
-            }
-        </script>
     </div>
-    <script type="text/javascript">
-        function getListAdmin() {
-            var yourVariable = '<%=Session["Role"]%>';
-            if (yourVariable.valueOf() == null) {
-                alert("Bạn không có quyền truy cập !");
-                return;
-            }
-            else {
-                window.location.href = '@Url.Action("Index", "UpdateAdmin")';
-            }
-        }
-    </script>
+
     <!-- /#wrapper -->
     <!-- jQuery -->
     <script src="~/Assets/vendor/jquery/jquery.min.js"></script>

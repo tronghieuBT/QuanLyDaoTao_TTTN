@@ -131,6 +131,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhoaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LopController.cs" />
     <Compile Include="Controllers\DangNhapController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -139,6 +140,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Script\Lop\create.js" />
     <Content Include="Assets\data\flot-data.js" />
     <Content Include="Assets\data\morris-data.js" />
     <Content Include="Assets\dist\css\sb-admin-2.css" />
@@ -299,6 +301,10 @@
     <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Khoa\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Khoa\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Khoa\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Lop\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Lop\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Lop\Create.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

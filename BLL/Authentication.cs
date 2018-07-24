@@ -29,7 +29,8 @@ namespace BLL
             } 
             if(flag == 1)
             {
-                SinhVien sv = SinhVienDAO.GetLoginSinhVien(email, pass);
+                SinhVienDAO context = new SinhVienDAO();
+                SinhVien sv = context.GetLoginSinhVien(email, pass);
                 if(sv == null)
                 {
                     return null;

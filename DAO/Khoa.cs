@@ -22,7 +22,7 @@ namespace DAO
             this.Lops = new HashSet<Lop>();
         }
         [Required(ErrorMessage ="Mã khoa không được trống",AllowEmptyStrings =false)]
-        [StringLength(10)]
+        [StringLength(50)]
         [Display(Name = "Mã khoa")]
         public string MaKhoa { get; set; }
         [Required(ErrorMessage ="Tên khoa không được trống",AllowEmptyStrings =false)]

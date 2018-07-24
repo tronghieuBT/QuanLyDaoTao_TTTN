@@ -36,7 +36,6 @@
 <div>
     @Html.ActionLink("Quay lại", "Index")
 </div>
-<script src="~/Scripts/jquery-1.10.2.js"></script>
 <script>
     $(document).ready(function () {
         $('#submit').click(function () {
@@ -56,12 +55,11 @@
                     contentType: 'application/json; charset=utf-8'
                 }).done(function (data) {
                     alert(data.msg);
-                    window.open('@Url.Action("Index","Khoa")');
                 }).fail(function (data) {
                     alert(data.msg);
-                    window.location('@Url.Action("Index","Khoa")');
                 })
             }
+            return false;
         });
     });
 </script>

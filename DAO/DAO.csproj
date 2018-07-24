@@ -82,6 +82,7 @@
     <Compile Include="HeDaoTao.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
+    <Compile Include="HeDaoTaoDAO.cs" />
     <Compile Include="HocPhiTheoDangKy.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
@@ -92,6 +93,7 @@
     <Compile Include="Lop.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
+    <Compile Include="LopDAO.cs" />
     <Compile Include="LopTinChi.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
@@ -106,6 +108,9 @@
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
     <Compile Include="SinhVienDAO.cs" />
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>DB_QLDT.tt</DependentUpon>
+    </Compile>
     <Compile Include="ThoiKhoaBieu.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>

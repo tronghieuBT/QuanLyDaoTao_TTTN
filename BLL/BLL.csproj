@@ -41,8 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication.cs" />
+    <Compile Include="EnumNienKhoa.cs" />
+    <Compile Include="HeDaoTaoBLL.cs" />
     <Compile Include="KhoaBLL.cs" />
+    <Compile Include="LopBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SinhVienBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAO\DAO.csproj">

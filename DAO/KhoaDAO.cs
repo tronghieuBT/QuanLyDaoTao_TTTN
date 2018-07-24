@@ -9,6 +9,7 @@ namespace DAO
 {
     public class KhoaDAO
     {
+        #region GetAll
         /// <summary>
         /// Lấy tất cả record
         /// </summary>
@@ -21,11 +22,14 @@ namespace DAO
                 return listKhoa;
             }
         }
-         /// <summary>
-         /// Lấy 1 record dựa vào ma khoa
-         /// </summary>
-         /// <param name="maKhoa"></param>
-         /// <returns>Khoa</returns>
+        #endregion
+
+        #region GetById
+        /// <summary>
+        /// Lấy 1 record dựa vào ma khoa
+        /// </summary>
+        /// <param name="maKhoa"></param>
+        /// <returns>Khoa</returns>
         public Khoa GetById(string maKhoa)
         {
             using (var context = new QuanLyDaoTaoEntities())
@@ -34,6 +38,9 @@ namespace DAO
                 return khoa;
             }
         }
+        #endregion
+
+        #region Create
         /// <summary>
         /// Tạo mới 1 record
         /// </summary>
@@ -46,6 +53,9 @@ namespace DAO
                 context.SaveChanges(); 
             }
         }
+        #endregion
+
+        #region Edit
         /// <summary>
         /// Chỉnh sửa 1 record
         /// </summary>
@@ -64,5 +74,25 @@ namespace DAO
                 }
             }
         }
+        #endregion
+
+        #region Delete
+        /// <summary>
+        ///  Xoa 1 record dựa vào mã khoa
+        /// </summary>
+        /// <param name="maKhoa"></param>
+        public void Delete(string maKhoa)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                Khoa kh = context.Khoas.Find(maKhoa);
+                if (kh != null)
+                {                              
+                    context.Khoas.Remove(kh);                       
+                    context.SaveChanges();
+                }
+            }
+        }
+        #endregion
     }
 }
