@@ -12,19 +12,20 @@ namespace QuanLyDaoTao_TTTN.Controllers
         }
 
         [HttpPost]
-        public ActionResult KiemTraDangNhap(string email, string pass)
+        public ActionResult KiemTraDangNhap(string userName, string password)
         {
             Authentication authen = new Authentication();
-            string checkLogin = authen.CheckLogin(email, pass);
+            string checkLogin = authen.CheckLogin(userName, password);
             if (checkLogin == null)
             {
-                return Content("False");
+                ModelState.AddModelError("", "Tai khoan sai");
+                return RedirectToAction("Index");
             }
             if (checkLogin.Split(':')[0].Equals("SINHVIEN"))
             {
-                return RedirectToAction("", "");
+                return RedirectToAction("Index","SinhVien");
             }
-            return RedirectToAction("", "");
+            return RedirectToAction("Index", "GiaoVien");
         }
     }
 }

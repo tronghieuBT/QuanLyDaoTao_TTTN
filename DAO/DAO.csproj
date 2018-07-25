@@ -79,6 +79,7 @@
     <Compile Include="GiaTinChi.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
+    <Compile Include="GiaTinChiDAO.cs" />
     <Compile Include="HeDaoTao.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
@@ -97,23 +98,23 @@
     <Compile Include="LopTinChi.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
+    <Compile Include="LopTinChiDAO.cs" />
     <Compile Include="MonHoc.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
     <Compile Include="MonHocDangKy.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
+    <Compile Include="MonHocDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SinhVien.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
     <Compile Include="SinhVienDAO.cs" />
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>DB_QLDT.tt</DependentUpon>
-    </Compile>
     <Compile Include="ThoiKhoaBieu.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
+    <Compile Include="ThoiKhoaBieuDAO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

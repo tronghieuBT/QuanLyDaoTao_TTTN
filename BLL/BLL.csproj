@@ -41,12 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication.cs" />
-    <Compile Include="EnumNienKhoa.cs" />
+    <Compile Include="Common\EnumNienKhoa.cs" />
+    <Compile Include="GiangVienBLL.cs" />
+    <Compile Include="GiaTinChiBLL.cs" />
     <Compile Include="HeDaoTaoBLL.cs" />
     <Compile Include="KhoaBLL.cs" />
     <Compile Include="LopBLL.cs" />
+    <Compile Include="LopTinChiBLL.cs" />
+    <Compile Include="MonHocBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SinhVienBLL.cs" />
+    <Compile Include="ThoiKhoaBieuBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAO\DAO.csproj">

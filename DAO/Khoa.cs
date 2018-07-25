@@ -21,11 +21,12 @@ namespace DAO
             this.GiangViens = new HashSet<GiangVien>();
             this.Lops = new HashSet<Lop>();
         }
-        [Required(ErrorMessage ="Mã khoa không được trống",AllowEmptyStrings =false)]
-        [StringLength(50)]
+        [Required(ErrorMessage = "Mã khoa không được trống", AllowEmptyStrings = false)]
+        [StringLength(10)]
         [Display(Name = "Mã khoa")]
         public string MaKhoa { get; set; }
-        [Required(ErrorMessage ="Tên khoa không được trống",AllowEmptyStrings =false)]
+
+        [Required(ErrorMessage = "Tên khoa không được trống", AllowEmptyStrings = false)]
         [StringLength(250)]
         [Display(Name = "Tên khoa")]
         public string TenKhoa { get; set; }

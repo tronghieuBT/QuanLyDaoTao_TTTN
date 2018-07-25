@@ -1,0 +1,43 @@
+﻿@model DAO.GiaTinChi
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>GiaTinChi</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Gia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayThayDoi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayThayDoi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HeDaoTao.TenHDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HeDaoTao.TenHDT)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MaGiaTC }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

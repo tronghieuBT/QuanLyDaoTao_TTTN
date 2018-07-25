@@ -34,7 +34,7 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                List<Lop> listLop = context.Lops.ToList();
+                var listLop = context.Lops.Include(l => l.Khoa).ToList();
                 return listLop;
             }
         }
@@ -111,5 +111,21 @@ namespace DAO
             }
         }
         #endregion     
+
+        #region   GetByMaKhoaAndNienKhoa
+        /// <summary>
+        /// Lấy danh sach lop theo khoa
+        /// </summary>
+        /// <param name="maKhoa"></param>
+        /// <returns>List<Lop></LOP></returns>
+        public List<Lop> GetByMaKhoaAndNienKhoa(string maKhoa, string nienKhoa)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                var query = context.Lops.Where(x => x.MaKhoa == maKhoa && x.NienKhoa == nienKhoa).ToList();
+                return query;
+            }
+        }
+        #endregion
     }
 }

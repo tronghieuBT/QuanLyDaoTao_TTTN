@@ -12,8 +12,6 @@ namespace DAO
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Xml.Linq;
 
     public partial class Lop
     {
@@ -26,18 +24,20 @@ namespace DAO
         [StringLength(10)]
         [Display(Name = "Mã lớp")]
         public string MaLop { get; set; }
+
         [Required(ErrorMessage = "Tên lớp không được trống", AllowEmptyStrings = false)]
         [StringLength(250)]
         [Display(Name = "Tên lớp")]
         public string TenLop { get; set; }
+
         [Required(ErrorMessage = "Niên khóa không được trống", AllowEmptyStrings = false)]
         [StringLength(50)]
         [Display(Name = "Niên khóa")]
         public string NienKhoa { get; set; }
+
         [Required(ErrorMessage = "Mã khoa không được trống", AllowEmptyStrings = false)]
         [StringLength(10)]
         [Display(Name = "Mã khoa")]
-        [ForeignKey("Khoa")]
         public string MaKhoa { get; set; }
     
         public virtual Khoa Khoa { get; set; }

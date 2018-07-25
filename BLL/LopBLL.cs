@@ -9,6 +9,8 @@ namespace BLL
 {
     public class LopBLL
     {
+        private const int SONAMDAOTAO = 5;
+
         #region GetByMaKhoa
         /// <summary>
         /// Lấy danh sach lop theo khoa
@@ -95,10 +97,13 @@ namespace BLL
                 return -1;
             }
             LopDAO context = new LopDAO();
+            
             try
             {
+                int nk = int.Parse(lop.NienKhoa) + SONAMDAOTAO;
+                lop.NienKhoa += "-" + nk.ToString().Trim();
                 Lop lpTest = context.GetById(lop.MaLop);
-                if(lpTest == null)
+                if(lpTest != null)
                 {
                     return 0;
                 }
@@ -190,15 +195,15 @@ namespace BLL
             string maLop = "";
             try
             {
-                List<Lop> lstLop = lp.GetByMaKhoa(maKhoa);
+                List<Lop> lstLop = lp.GetByMaKhoaAndNienKhoa(maKhoa,nienKhoa);
                 if(lstLop == null)
                 {
                     maLop = maHDT.Substring(0,1) + nienKhoa.Substring(1, 2) + maHDT.Substring(2, 2) + maKhoa.Substring(0, 2)+"01";
-                    return maLop;
+                    return maLop.Trim() ;
                 }
                 int dem = lstLop.Count + 1;
-                maLop = maHDT.Substring(0, 1) + nienKhoa.Substring(1, 2) + maHDT.Substring(2, 2) + maKhoa.Substring(0, 2) + dem.ToString();
-                return maLop;
+                maLop = maHDT.Substring(0, 1) + nienKhoa.Substring(1, 2) + maHDT.Substring(2, 2) + maKhoa.Substring(0, 2) +"0"+ dem.ToString();
+                return maLop.Trim();
             }
             catch(Exception ex)
             {

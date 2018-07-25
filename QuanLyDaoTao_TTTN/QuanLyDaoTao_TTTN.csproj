@@ -130,17 +130,25 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
-    <Compile Include="Areas\Admin\Controllers\KhoaController.cs" />
-    <Compile Include="Areas\Admin\Controllers\LopController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GiangViensController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GiaTinChisController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HeDaoTaosController.cs" />
+    <Compile Include="Areas\Admin\Controllers\KhoasController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LopsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LopTinChisController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MonHocsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SinhViensController.cs" />
     <Compile Include="Controllers\DangNhapController.cs" />
+    <Compile Include="Controllers\GiaoVienController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SinhVienController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Admin\Script\Lop\create.js" />
+    <Content Include="Areas\Admin\Content\Lop\create.css" />
     <Content Include="Assets\data\flot-data.js" />
     <Content Include="Assets\data\morris-data.js" />
     <Content Include="Assets\dist\css\sb-admin-2.css" />
@@ -299,12 +307,46 @@
     <Content Include="Assets\vendor\font-awesome\scss\_stacked.scss" />
     <Content Include="Assets\vendor\font-awesome\scss\_variables.scss" />
     <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Khoa\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Khoa\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Khoa\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Lop\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Lop\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Lop\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\SinhViens\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\SinhViens\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\SinhViens\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\SinhViens\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SinhViens\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Khoas\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Khoas\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Khoas\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Khoas\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Khoas\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Lops\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Lops\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Lops\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Lops\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Lops\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\GiangViens\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\GiangViens\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\GiangViens\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\GiangViens\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\GiangViens\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\HeDaoTaos\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\HeDaoTaos\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\HeDaoTaos\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\HeDaoTaos\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\HeDaoTaos\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\LopTinChis\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\LopTinChis\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\LopTinChis\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\LopTinChis\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\LopTinChis\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\MonHocs\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\MonHocs\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\MonHocs\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\MonHocs\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\MonHocs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\GiaTinChis\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\GiaTinChis\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\GiaTinChis\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\GiaTinChis\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\GiaTinChis\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -332,10 +374,13 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\DangNhap\Index.cshtml" />
+    <Content Include="Views\SinhVien\Index.cshtml" />
+    <Content Include="Views\GiaoVien\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Script\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

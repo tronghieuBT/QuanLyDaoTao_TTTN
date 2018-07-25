@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAO
 {
     public class HeDaoTaoDAO
-    {       
+    {
         #region GetAll
+
         /// <summary>
         /// Lấy tất cả record
         /// </summary>
@@ -21,6 +20,44 @@ namespace DAO
                 return listHDT;
             }
         }
-        #endregion
+
+        #endregion GetAll
+
+        public HeDaoTao GetById(string id)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                HeDaoTao hdt = context.HeDaoTaos.Find(id);
+                return hdt;
+            }
+        }
+
+        public void Create(HeDaoTao hdt)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                context.HeDaoTaos.Add(hdt);
+                context.SaveChanges();
+            }
+        }
+
+        public void Edit(HeDaoTao hdt)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                context.Entry(hdt).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+        }
+
+        public void Delete(string maHDT)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                HeDaoTao hdt = context.HeDaoTaos.Find(maHDT);
+                context.HeDaoTaos.Remove(hdt);
+                context.SaveChanges();
+            }
+        }
     }
 }
