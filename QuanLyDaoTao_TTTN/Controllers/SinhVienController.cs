@@ -22,7 +22,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                 ThoiKhoaBieuBLL contextTKB = new ThoiKhoaBieuBLL();
                 SinhVienBLL contextSV = new SinhVienBLL();
                 SinhVien sv = contextSV.GetById(Session["MaSV"].ToString().Trim());    
-                sv.LopTinChis
+                //sv.LopTinChis
                 // lấy số tuần của năm và list ngày BD , KT của từng tuần lưu vào selectList
                 Date dt = new Date();
                 DateTime dtNow = DateTime.UtcNow;

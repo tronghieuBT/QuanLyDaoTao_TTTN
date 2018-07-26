@@ -103,9 +103,6 @@
     <Compile Include="MonHoc.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
-    <Compile Include="MonHocDangKy.cs">
-      <DependentUpon>DB_QLDT.tt</DependentUpon>
-    </Compile>
     <Compile Include="MonHocDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SinhVien.cs">

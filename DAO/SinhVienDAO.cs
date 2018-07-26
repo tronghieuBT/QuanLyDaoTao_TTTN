@@ -95,14 +95,14 @@ namespace DAO
         }
         #endregion
 
-        #region GetAllLopTinChi
-        public List<LopTinChi> GetAllLopTinChi(string MaSV)
-        {
-            using (var context = new QuanLyDaoTaoEntities())
-            {
-                var query = context.MonHocDangKies;
-            }
-        }
-        #endregion
+        //#region GetAllLopTinChi
+        //public List<LopTinChi> GetAllLopTinChi(string MaSV)
+        //{
+        //    using (var context = new QuanLyDaoTaoEntities())
+        //    {
+        //        var query = context.;
+        //    }
+        //}
+        //#endregion
     }
 }

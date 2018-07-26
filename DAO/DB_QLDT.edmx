@@ -111,14 +111,6 @@
           <Property Name="SoTinChiLyThuyet" Type="smallint" Nullable="false" />
           <Property Name="SoTinChiThucHanh" Type="smallint" Nullable="false" />
         </EntityType>
-        <EntityType Name="MonHocDangKy">
-          <Key>
-            <PropertyRef Name="MaLopTC" />
-            <PropertyRef Name="MaMH" />
-          </Key>
-          <Property Name="MaLopTC" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MaMH" Type="nchar" MaxLength="10" Nullable="false" />
-        </EntityType>
         <EntityType Name="SinhVien">
           <Key>
             <PropertyRef Name="MaSV" />
@@ -336,7 +328,6 @@
           <EntitySet Name="Lop" EntityType="Self.Lop" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LopTinChi" EntityType="Self.LopTinChi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MonHoc" EntityType="Self.MonHoc" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MonHocDangKy" EntityType="Self.MonHocDangKy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SinhVien" EntityType="Self.SinhVien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThoiKhoaBieu" EntityType="Self.ThoiKhoaBieu" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_BuoiHoc_LopTinChi" Association="Self.FK_BuoiHoc_LopTinChi">
@@ -523,14 +514,6 @@
           <Property Name="SoTinChiLyThuyet" Type="Int16" Nullable="false" />
           <Property Name="SoTinChiThucHanh" Type="Int16" Nullable="false" />
           <NavigationProperty Name="LopTinChis" Relationship="Self.FK_LopTinChi_MonHoc" FromRole="MonHoc" ToRole="LopTinChi" />
-        </EntityType>
-        <EntityType Name="MonHocDangKy">
-          <Key>
-            <PropertyRef Name="MaLopTC" />
-            <PropertyRef Name="MaMH" />
-          </Key>
-          <Property Name="MaLopTC" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="MaMH" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="SinhVien">
           <Key>
@@ -734,7 +717,6 @@
           <EntitySet Name="Lops" EntityType="Self.Lop" />
           <EntitySet Name="LopTinChis" EntityType="Self.LopTinChi" />
           <EntitySet Name="MonHocs" EntityType="Self.MonHoc" />
-          <EntitySet Name="MonHocDangKies" EntityType="Self.MonHocDangKy" />
           <EntitySet Name="SinhViens" EntityType="Self.SinhVien" />
           <EntitySet Name="ThoiKhoaBieux" EntityType="Self.ThoiKhoaBieu" />
           <AssociationSet Name="FK_DiemDanh_LopTinChi" Association="Self.FK_DiemDanh_LopTinChi">
@@ -904,14 +886,6 @@
                 <ScalarProperty Name="TenMH" ColumnName="TenMH" />
                 <ScalarProperty Name="SoTinChiLyThuyet" ColumnName="SoTinChiLyThuyet" />
                 <ScalarProperty Name="SoTinChiThucHanh" ColumnName="SoTinChiThucHanh" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MonHocDangKies">
-            <EntityTypeMapping TypeName="QuanLyDaoTaoModel.MonHocDangKy">
-              <MappingFragment StoreEntitySet="MonHocDangKy">
-                <ScalarProperty Name="MaLopTC" ColumnName="MaLopTC" />
-                <ScalarProperty Name="MaMH" ColumnName="MaMH" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
