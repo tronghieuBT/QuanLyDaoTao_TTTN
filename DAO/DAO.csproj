@@ -69,6 +69,7 @@
     <Compile Include="DiemDanh.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>
+    <Compile Include="DiemDanhDAO.cs" />
     <Compile Include="DongHocPhi.cs">
       <DependentUpon>DB_QLDT.tt</DependentUpon>
     </Compile>

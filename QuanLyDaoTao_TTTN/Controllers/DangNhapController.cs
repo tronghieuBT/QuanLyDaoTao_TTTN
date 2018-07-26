@@ -1,4 +1,9 @@
 ﻿using BLL;
+using DAO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace QuanLyDaoTao_TTTN.Controllers
@@ -11,21 +16,36 @@ namespace QuanLyDaoTao_TTTN.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult KiemTraDangNhap(string userName, string password)
+        public ActionResult KiemTraDangNhap(string email, string pass)
         {
             Authentication authen = new Authentication();
-            string checkLogin = authen.CheckLogin(userName, password);
+            string checkLogin = authen.CheckLogin(email, pass);
             if (checkLogin == null)
             {
-                ModelState.AddModelError("", "Tai khoan sai");
+                ViewBag.Notifi = "Tên đăng nhập hoặc mật khẩu không chính xác!";
                 return RedirectToAction("Index");
             }
             if (checkLogin.Split(':')[0].Equals("SINHVIEN"))
             {
-                return RedirectToAction("Index","SinhVien");
+                SinhVienBLL contextSV = new SinhVienBLL();
+                SinhVien sv = contextSV.GetById(checkLogin.Split(':')[1].ToString().Trim());
+                if (sv != null)
+                {
+                    Session["SinhVien"] = sv.HoVaTenLot +" " + sv.TenSV;
+                    Session["MaSV"] = sv.MaSV;
+                    return RedirectToAction("Index", "SinhVien");
+                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index", "GiaoVien");
+            GiangVienBLL contextGV = new GiangVienBLL();
+            GiangVien gv = contextGV.GetById(checkLogin.Split(':')[1].ToString().Trim());
+            if (gv != null)
+            {
+                Session["GiangVien"] = gv.HoVaTenLot + " " + gv.TenGV;
+                Session["MaGV"] = gv.MaGV;
+                return RedirectToAction("Index", "GiangVien");
+            }
+            return RedirectToAction("Index");
         }
     }
 }

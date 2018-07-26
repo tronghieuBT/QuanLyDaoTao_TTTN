@@ -1,8 +1,283 @@
-﻿
+﻿@model List<QuanLyDaoTao_TTTN.Models.SupportThoiKhoaBieu>
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<link href="~/Content/SinhVien/reset.css" rel="stylesheet" />
+<link href="~/Content/SinhVien/style.css" rel="stylesheet" />
+<title>Schedule Template | CodyHouse</title>
+<div class="row">
 
-<h2>Index</h2>
+    @Html.DropDownList("Tuan", new SelectList(ViewBag.weeks, "Text", "Value", ViewBag.Selected), new { @class = "form-control" })
 
+</div>
+<div class="row">
+    <div class="cd-schedule loading">
+        <div class="timeline">
+            <ul>
+                <li><span>07:00</span></li>
+                <li><span>08:00</span></li>
+                <li><span>09:00</span></li>
+                <li><span>10:00</span></li>
+                <li><span>11:00</span></li>
+                <li><span>12:00</span></li>
+                <li><span>13:00</span></li>
+                <li><span>14:00</span></li>
+                <li><span>15:00</span></li>
+                <li><span>16:00</span></li>
+            </ul>
+        </div> <!-- .timeline -->
+        <div class="events">
+            <ul class="date-of-week" style="display:flex">
+                <!-- Thứ 2 -->
+                <li class="events-group">
+                    <div class="top-info"><span>Thứ 2</span></div>
+                    <ul>
+                        <li class="single-event" data-start="07:30" data-end="11:00" data-content="event-abs-circuit" data-event="event-1">
+                            <a href="#0">
+                                <em class="event-name content-tkb-monday-m"></em>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li class="single-event" data-start="13:00" data-end="16:00" data-content="event-abs-circuit" data-event="event-1">
+                            <a href="#0">
+                                <em class="event-name content-tkb-monday-a"></em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Thứ 3 -->
+                <li class="events-group">
+                    <div class="top-info"><span>Thứ 3</span></div>
+                    <ul>
+                        <li class="single-event" data-start="07:30" data-end="11:00" data-content="event-rowing-workout" data-event="event-2">
+                            <a href="#0">
+                                <em class="event-name content-tkb-tuesday-m">Rowing Workout</em>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li class="single-event" data-start="13:00" data-end="16:00" data-content="event-rowing-workout" data-event="event-2">
+                            <a href="#0">
+                                <em class="event-name content-tkb-tuesday-a">Rowing Workout</em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Thứ 4 -->
+                <li class="events-group">
+                    <div class="top-info"><span>Thứ 4</span></div>
+                    <ul>
+                        <li class="single-event" data-start="07:30" data-end="11:00" data-content="event-restorative-yoga" data-event="event-4">
+                            <a href="#0">
+                                <em class="event-name content-tkb-wednesday-m">Restorative Yoga Wednesday</em>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li class="single-event" data-start="13:00" data-end="16:00" data-content="event-restorative-yoga" data-event="event-4">
+                            <a href="#0">
+                                <em class="event-name content-tkb-wednesday-a">Restorative Yoga</em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Thứ 5 -->
+                <li class="events-group">
+                    <div class="top-info"><span>Thứ 5</span></div>
+                    <ul>
+                        <li class="single-event" data-start="07:30" data-end="11:00" data-content="event-abs-circuit" data-event="event-1">
+                            <a href="#0">
+                                <em class="event-name content-tkb-thursday-m">Abs Circuit thursday</em>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li class="single-event" data-start="13:00" data-end="16:00" data-content="event-abs-circuit" data-event="event-1">
+                            <a href="#0">
+                                <em class="event-name content-tkb-thursday-a">Abs Circuit</em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Thứ 6 -->
+                <li class="events-group">
+                    <div class="top-info"><span>Thứ 6</span></div>
+                    <ul>
+                        <li class="single-event" data-start="07:30" data-end="11:00" data-content="event-rowing-workout" data-event="event-2">
+                            <a href="#0">
+                                <em class="event-name content-tkb-friday-m">Rowing Workout friday</em>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li class="single-event" data-start="13:00" data-end="16:00" data-content="event-rowing-workout" data-event="event-2">
+                            <a href="#0">
+                                <em class="event-name content-tkb-friday-a">Rowing Workout</em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Thứ 7 -->
+                <li class="events-group">
+                    <div class="top-info"><span>Thứ 7</span></div>
+                    <ul>
+                        <li class="single-event" data-start="07:30" data-end="11:00" data-content="event-rowing-workout" data-event="event-2">
+                            <a href="#0">
+                                <em class="event-name content-tkb-saturday-m">Rowing Workout Saturday</em>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li class="single-event" data-start="13:00" data-end="16:00" data-content="event-rowing-workout" data-event="event-2">
+                            <a href="#0">
+                                <em class="event-name content-tkb-saturday-a">Rowing Workout</em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="event-modal">
+            <header class="header">
+                <div class="content">
+                    <span class="event-date"></span>
+                    <h3 class="event-name"></h3>
+                </div>
+                <div class="header-bg"></div>
+            </header>
+            <div class="body">
+                <div class="event-info"></div>
+                <div class="body-bg"></div>
+            </div>
+            <a href="#0" class="close">Close</a>
+        </div>
+        <div class="cover-layer"></div>
+    </div>
+</div>
+<!-- .cd-schedule -->
+<script src="~/Scripts/SinhVien/modernizr.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) document.write('<script src="~/Scripts/SinhVien/jquery-3.0.0.min.js"><\/script>');
+</script>
+<script src="~/Scripts/SinhVien/main.js"></script>
+
+<script>
+    function loadTKB() {
+        if(@Model.Count>0){
+            @foreach(var item in Model)
+            {
+                if (item.listTKB.Count > 0)
+                {
+                    foreach(var tkb in item.listTKB)
+                    {
+                        switch (tkb.Ngay.DayOfWeek)
+                        {
+                            case DayOfWeek.Monday:
+                                {
+                                    if(tkb.TietBD == 1)
+                                    {
+                                        <text>
+                                        $('content-tkb-monday-m').append(@item.MonHoc.TenMH)
+                                        </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+                                        $('content-tkb-monday-a').append(@item.MonHoc.TenMH)
+                                        </text>
+                                    }
+                                    break;
+                                }
+                            case DayOfWeek.Tuesday:
+                                {
+                                    if(tkb.TietBD == 1)
+                                    {
+                                        <text>
+                                        $('content-tkb-tuesday-m').append(@item.MonHoc.TenMH)
+                                        </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+                                        $('content-tkb-tuesday-a').append(@item.MonHoc.TenMH)
+                                        </text>
+                                    }
+                                    break;
+                                }
+                            case DayOfWeek.Wednesday:
+                                {
+                                    if(tkb.TietBD == 1)
+                                    {
+                                        <text>
+                                        $('content-tkb-wednesday-m').append(@item.MonHoc.TenMH)
+                                        </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+                                        $('content-tkb-wednesday-a').append(@item.MonHoc.TenMH)
+                                        </text>
+                                    }
+                                    break;
+                                }
+                            case DayOfWeek.Thursday:
+                                {
+                                    if(tkb.TietBD == 1)
+                                    {
+                                        <text>
+                                        $('content-tkb-thursday-m').append(@item.MonHoc.TenMH)
+                                        </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+                                        $('content-tkb-thursday-a').append(@item.MonHoc.TenMH)
+                                        </text>
+                                    }
+                                    break;
+                                }
+                            case DayOfWeek.Friday:
+                                {
+                                    if(tkb.TietBD == 1)
+                                    {
+                                        <text>
+                                        $('content-tkb-friday-m').append(@item.MonHoc.TenMH)
+                                        </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+                                        $('content-tkb-friday-a').append(@item.MonHoc.TenMH)
+                                        </text>
+                                    }
+                                    break;
+                                }
+                            case DayOfWeek.Saturday:
+                                {
+                                    if(tkb.TietBD == 1)
+                                    {
+                                        <text>
+                                        $('content-tkb-saturday-m').append(@item.MonHoc.TenMH)
+                                        </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+                                        $('content-tkb-saturday-a').append(@item.MonHoc.TenMH)
+                                        </text>
+                                    }
+                                    break;
+                                }
+                        }
+                    }
+                }
+            }
+        }
+    }
+</script>

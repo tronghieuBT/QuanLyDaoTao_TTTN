@@ -12,8 +12,6 @@ namespace QuanLyDaoTao_TTTN.Controllers
         public ActionResult Index()
         {
             return View();
-        }
-
-       
+        }    
     }
 }

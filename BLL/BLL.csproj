@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication.cs" />
+    <Compile Include="Common\Date.cs" />
     <Compile Include="Common\EnumNienKhoa.cs" />
+    <Compile Include="DiemDanhBLL.cs" />
     <Compile Include="GiangVienBLL.cs" />
     <Compile Include="GiaTinChiBLL.cs" />
     <Compile Include="HeDaoTaoBLL.cs" />

@@ -34,7 +34,7 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                var listLop = context.LopTinChis.Include(l => l.GiangVien).Include(l => l.MonHoc).ToList();
+                var listLop = context.LopTinChis.Include(l => l.GiangVien).Include(l => l.MonHoc).Include(l=>l.ThoiKhoaBieux).ToList();
                 return listLop;
             }
         }
@@ -117,9 +117,7 @@ namespace DAO
         }
 
         #endregion Delete
-
-
-
+                   
         #region GetByNhomAndNienKhoaAndMaMon
 
         /// <summary>
@@ -137,5 +135,6 @@ namespace DAO
         }
 
         #endregion GetByNhomAndNienKhoaAndMaMon
+                                           
     }
 }

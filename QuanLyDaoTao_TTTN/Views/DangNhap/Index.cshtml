@@ -1,64 +1,91 @@
 ﻿
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
-<link href="~/Content/DangNhap/dangnhap.css" rel="stylesheet" />
-<div class="container">
-    <div class="mid-cls">
-        <div class="form-left-to-w3l">
-            @using (Html.BeginForm("KiemTraDangNhap", "DangNhap","POST"))
+<title>Login V1</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+<link rel="icon" type="image/png" href="~/Images/DangNhap/icons/favicon.ico" />
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/vendor/animate/animate.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="~/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+<link href="~/Content/DangNhap/main.css" rel="stylesheet" />
+<link href="~/Content/DangNhap/util.css" rel="stylesheet" />
+<!--===============================================================================================-->
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div class="login100-pic js-tilt" data-tilt>
+                <img src="~/Images/DangNhap/img-01.png" alt="IMG" />
+            </div>
+            @using (Html.BeginForm("KiemTraDangNhap", "DangNhap", FormMethod.Post, new { @class = "login100-form validate-form" }))
             {
                 @Html.AntiForgeryToken()
+                <span class="login100-form-title">
+                    Đăng nhập
+                </span>  
+                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                        <input class="input100" type="text" name="email" placeholder="Email">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </span>
+                    </div>
 
-                <div class="main">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="icon-head-wthree">
-                        <h2><span class="fa fa-diamond t-w3" aria-hidden="true"></span></h2>
-                        <h4>Login</h4>
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+                        <input class="input100" type="password" name="pass" placeholder="Mật khẩu">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        </span>
                     </div>
-                    <div class="form-left-w3l">
-                        <input id="email" type="email" name="userName" placeholder="Email" required="">
-                        <div class="clear"></div>
+
+                    <div class="container-login100-form-btn">
+                        <button type="submit" class="login100-form-btn">
+                            Đăng nhập
+                        </button>
                     </div>
-                    <div class="form-right-w3ls ">
-                        <input id="pass" type="password" name="password" placeholder="Mật khẩu" required="">
-                        <div class="clear"></div>
+
+                    <div class="text-center p-t-12">
+                        <span class="txt1">
+                            @ViewBag.Notifi
+                        </span>
+                        <a class="txt2" href="#">
+                        </a>
                     </div>
-                    <div class="btnn">
-                        <input type="submit" id="dang-nhap" class="btn-success dangnhap-btn" value="Đăng nhập"/><br>
-                        <div class="clear"></div>
+
+                    <div class="text-center p-t-136">
+                        <a class="txt2" href="#">
+                        </a>
                     </div>
-                    <span class="alert-warning"></span>
-                </div>
             }
         </div>
     </div>
 </div>
 
+<!--===============================================================================================-->
+<script src="~/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/vendor/bootstrap/js/popper.js"></script>
+<script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="~/vendor/tilt/tilt.jquery.min.js"></script>
 <script>
-    @*$(document).ready(function () {
-        $('.dangnhap-btn').click(function () {
-            var e = $('#email').val();
-            var p = $('#pass').val();
-            if (email == "" || pass == "" || email == null || pass == null) {
-                $('.alert-success').html("Vui lòng điền đầy đủ thông tin đăng nhập !");
-                return;
-            }
-            var ac = {
-                email: e,
-                pass: p
-            };
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("KiemTraDangNhap", "DangNhap")',
-                data: JSON.stringify(ac),
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8'
-            }).done(function (data) {
-                $('.alert-warning').append(data.result);
-            });
-        });
-    });*@
+    $('.js-tilt').tilt({
+        scale: 1.1
+    })
 </script>
-
+<!--===============================================================================================-->
+<script src="~/Scripts/DangNhap/main.js"></script>

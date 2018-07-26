@@ -1,0 +1,51 @@
+﻿@model DAO.DiemDanh
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Chi tiết</h2>
+
+<div>
+    <h4>Diểm danh</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ngay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ngay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Buoi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Buoi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LopTinChi.NienKhoa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LopTinChi.NienKhoa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SinhVien.HoVaTenLot)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SinhVien.HoVaTenLot)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.MaPhieuDD }) |
+    @Html.ActionLink("Quay lại", "Index")
+</p>

@@ -35,7 +35,7 @@ namespace BLL
                 {
                     return null;
                 }
-                hoten = "SINHVIEN:" + sv.HoVaTenLot + " " + sv.TenSV;
+                hoten = "SINHVIEN:" + sv.MaSV;
                 return hoten;
             }
             if(flag == 2)
@@ -45,7 +45,7 @@ namespace BLL
                 {
                     return null;
                 }
-                hoten = "GIANGVIEN:" + gv.HoVaTenLot + " " + gv.TenGV;
+                hoten = "GIANGVIEN:" + gv.MaGV;
                 return hoten;
             }
             return null;

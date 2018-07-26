@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace QuanLyDaoTao_TTTN.Controllers
 {
-    public class GiaoVienController : Controller
+    public class GiangVienController : Controller
     {
-        // GET: GiaoVien
+        // GET: GiangVien
         public ActionResult Index()
         {
             return View();

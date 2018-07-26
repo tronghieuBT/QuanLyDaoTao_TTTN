@@ -44,7 +44,7 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                var sinhViens = context.SinhViens.Include(s => s.HeDaoTao1).Include(s => s.Lop).ToList();
+                var sinhViens = context.SinhViens.Include(s => s.HeDaoTao1).Include(s=>s.DiemDanhs).Include(s=>s.DongHocPhis).Include(s => s.LopTinChis).Include(s => s.Lop).ToList();
                 return sinhViens;
             }
         }
@@ -91,6 +91,16 @@ namespace DAO
                 SinhVien sv = context.SinhViens.Find(id);
                 context.SinhViens.Remove(sv);
                 context.SaveChanges();
+            }
+        }
+        #endregion
+
+        #region GetAllLopTinChi
+        public List<LopTinChi> GetAllLopTinChi(string MaSV)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                var query = context.MonHocDangKies;
             }
         }
         #endregion

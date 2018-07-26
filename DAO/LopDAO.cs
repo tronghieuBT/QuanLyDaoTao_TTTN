@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAO
 {
     public class LopDAO
     {
-        #region   GetByMaKhoa
+        #region GetByMaKhoa
+
         /// <summary>
         /// Lấy danh sach lop theo khoa
         /// </summary>
@@ -23,9 +21,11 @@ namespace DAO
                 return query;
             }
         }
-        #endregion
+
+        #endregion GetByMaKhoa
 
         #region GetAll
+
         /// <summary>
         /// Lấy tất cả record
         /// </summary>
@@ -38,9 +38,11 @@ namespace DAO
                 return listLop;
             }
         }
-        #endregion
+
+        #endregion GetAll
 
         #region GetById
+
         /// <summary>
         /// Lấy 1 record dựa vào ma lop
         /// </summary>
@@ -54,9 +56,11 @@ namespace DAO
                 return lop;
             }
         }
-        #endregion
+
+        #endregion GetById
 
         #region Create
+
         /// <summary>
         /// Tạo mới 1 record
         /// </summary>
@@ -69,9 +73,11 @@ namespace DAO
                 context.SaveChanges();
             }
         }
-        #endregion
+
+        #endregion Create
 
         #region Edit
+
         /// <summary>
         /// Chỉnh sửa 1 record
         /// </summary>
@@ -81,7 +87,7 @@ namespace DAO
             using (var context = new QuanLyDaoTaoEntities())
             {
                 Lop lp = context.Lops.Find(lop.MaLop);
-                if ( lp != null)
+                if (lp != null)
                 {
                     lp.TenLop = lop.TenLop;
                     lp.NienKhoa = lop.NienKhoa;
@@ -91,9 +97,11 @@ namespace DAO
                 }
             }
         }
-        #endregion
+
+        #endregion Edit
 
         #region Delete
+
         /// <summary>
         ///  Xoa 1 record dựa vào mã lop
         /// </summary>
@@ -110,9 +118,13 @@ namespace DAO
                 }
             }
         }
-        #endregion     
 
-        #region   GetByMaKhoaAndNienKhoa
+        #endregion Delete
+
+
+
+        #region GetByMaKhoaAndNienKhoa
+
         /// <summary>
         /// Lấy danh sach lop theo khoa
         /// </summary>
@@ -126,6 +138,7 @@ namespace DAO
                 return query;
             }
         }
-        #endregion
+
+        #endregion GetByMaKhoaAndNienKhoa
     }
 }
