@@ -1,5 +1,8 @@
 ﻿using BLL;
 using DAO;
+using QuanLyDaoTao_TTTN.Areas.Admin.Models;
+using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
@@ -33,6 +36,16 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         {
             ViewBag.MaGV = new SelectList(contextGV.GetAll(), "MaGV", "HoVaTenLot");
             ViewBag.MaMonHoc = new SelectList(contextMH.GetAll(), "MaMH", "TenMH");
+
+            var nienKhoa = from EnumNienKhoa e in Enum.GetValues(typeof(EnumNienKhoa))
+                           select new
+                           {
+                               ID = (int)Enum.Parse(typeof(EnumNienKhoa), e.ToString())
+                                     ,
+                               Name = e.ToString()
+                           };
+            SelectList selectList = new SelectList(nienKhoa, "Name", "Name");
+            ViewBag.NienKhoa = selectList;
             return View();
         }
 
@@ -102,6 +115,16 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         {
             contextLopTC.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        public JsonResult GetMaNhom(string maMonHoc, string nienKhoa, string maGiangVien, int hocKy)
+        {
+            if (string.IsNullOrEmpty(maMonHoc) || string.IsNullOrEmpty(nienKhoa) || string.IsNullOrEmpty(maGiangVien))
+            {
+                return Json(new { maNhom = "NULL" });
+            }
+            LopTinChiModel ltcModel = new LopTinChiModel();
+            return Json(new { maNhom = ltcModel.GetMaNhom(maMonHoc, nienKhoa, maGiangVien, hocKy) });
         }
     }
 }

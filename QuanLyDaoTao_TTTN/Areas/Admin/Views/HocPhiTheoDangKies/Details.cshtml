@@ -1,0 +1,59 @@
+﻿@model DAO.HocPhiTheoDangKy
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>HocPhiTheoDangKy</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SoTienDong)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SoTienDong)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SoTinChi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SoTinChi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NienKhoa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NienKhoa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GhiChu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GhiChu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GiaTinChi.MaHDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GiaTinChi.MaHDT)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

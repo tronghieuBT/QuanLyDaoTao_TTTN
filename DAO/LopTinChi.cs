@@ -26,7 +26,7 @@ namespace DAO
         public int MaLopTC { get; set; }
 
         [Required(ErrorMessage = "Học kỳ không được trống")]    
-        [Display(Name = "Mã lớp")]
+        [Display(Name = "Học kỳ")]
         public short HocKy { get; set; }
 
         [Required(ErrorMessage = "Nhóm không được trống")]

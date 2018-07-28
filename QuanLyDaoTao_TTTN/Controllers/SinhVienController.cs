@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace QuanLyDaoTao_TTTN.Controllers
@@ -16,18 +15,30 @@ namespace QuanLyDaoTao_TTTN.Controllers
         // GET: SinhVien
         public ActionResult Index()
         {
-           if (Session["MaSV"] != null)
+            if (Session["MaSV"] != null)
             {
-                MonHocBLL contecxMH = new MonHocBLL();
+                MonHocBLL contextMH = new MonHocBLL();
                 ThoiKhoaBieuBLL contextTKB = new ThoiKhoaBieuBLL();
                 SinhVienBLL contextSV = new SinhVienBLL();
-                SinhVien sv = contextSV.GetById(Session["MaSV"].ToString().Trim());    
+                SinhVien sv = contextSV.GetById(Session["MaSV"].ToString().Trim());
+                SupportThoiKhoaBieu spTKB = new SupportThoiKhoaBieu();
+                List<SinhVien> lstSV = contextSV.GetAll();
+                foreach (SinhVien sv1 in lstSV)
+                {
+                    if (sv1.MaSV == sv.MaSV)
+                    {
+                        sv = sv1;
+                    }
+                }
+                ViewData["MaLop"] = sv.MaLop;
+                ViewData["HDT"] = sv.HeDaoTao1.TenHDT;
+                ViewData["Khoa"] = sv.Lop.NienKhoa;
                 //sv.LopTinChis
                 // lấy số tuần của năm và list ngày BD , KT của từng tuần lưu vào selectList
                 Date dt = new Date();
                 DateTime dtNow = DateTime.UtcNow;
                 List<string> lstTuan = dt.GetListDate(dtNow.Year);
-                //gán list các tuần vào selectList  
+                //gán list các tuần vào selectList
                 List<SelectListItem> weeks = lstTuan.Select(x => new SelectListItem() { Value = x, Text = x }).ToList();
                 //Xem ngày hiện tại thuộc tuần nào trong năm
                 int tuan = 0;
@@ -40,33 +51,45 @@ namespace QuanLyDaoTao_TTTN.Controllers
                     tempDTEnd = DateTime.Parse(lstTuan[i].Split('-')[3], new CultureInfo("en-US"));
                     if (dtNow.DayOfYear >= tempDTStart.DayOfYear && dtNow.DayOfYear <= tempDTEnd.DayOfYear)
                     {
-                        tuan = i+1;
+                        tuan = i;
                         break;
                     }
                 }
-                //Gán vào viewbag và chọn item default là tuần hiện tại  
-                ViewBag.Selected = weeks[tuan];
-                ViewBag.Weeks = new SelectList(weeks, "Text", "Value");
-
-                // lấy thời khóa biểu của tất cả các lớp mà sinh viên đã đăng ký cùng với môn học của lớp tín chỉ
-                List<SupportThoiKhoaBieu> lstSPTKB = new List<SupportThoiKhoaBieu>();
-                foreach(var item in sv.LopTinChis)
-                {
-                    SupportThoiKhoaBieu spTKB = new SupportThoiKhoaBieu(); 
-                    spTKB.listTKB = contextTKB.GetByMaLopTC(item.MaLopTC);
-                    //duyệt danh sách thời khóa biểu của lớp tín chỉ đăng ký xem đã hoàn thành chưa
-                    foreach(var tkb in spTKB.listTKB)
-                    {
-                        if(tkb.Ngay.Year >= dtNow.Year)
-                        {
-                            spTKB.MonHoc = contecxMH.GetById(item.MaMonHoc);     
-                            lstSPTKB.Add(spTKB);
-                        }
-                    }   
-                }  
+                //Gán list tuần vào viewbag
+                ViewBag.Weeks = new SelectList(weeks, "Text", "Value", tuan);
+                ViewBag.WeekCurrent = lstTuan[tuan];
+                //// lấy thời khóa biểu của tất cả các lớp mà sinh viên đã đăng ký cùng với môn học của lớp tín chỉ
+                List<SupportThoiKhoaBieu> lstSPTKB = spTKB.GetListSPTKB(lstTuan[tuan], sv.LopTinChis);
                 return View(lstSPTKB);
             }
-            return RedirectToAction("Index","DangNhap");
+            return RedirectToAction("Index", "DangNhap");
+        }
+
+        public JsonResult LocTKBTHeoTuan(string tuan)
+        {
+            if (Session["MaSV"] != null)
+            {
+                MonHocBLL contextMH = new MonHocBLL();
+                SupportThoiKhoaBieu spTKB = new SupportThoiKhoaBieu();
+                SinhVienBLL contextSV = new SinhVienBLL();
+                SinhVien sv = contextSV.GetById(Session["MaSV"].ToString().Trim());
+
+                List<SinhVien> lstSV = contextSV.GetAll();
+                foreach (SinhVien sv1 in lstSV)
+                {
+                    if (sv1.MaSV == sv.MaSV)
+                    {
+                        sv = sv1;
+                    }
+                }
+                ViewData["MaLop"] = sv.MaLop;
+                ViewData["HDT"] = sv.HeDaoTao1.TenHDT;
+                ViewData["Khoa"] = sv.Lop.NienKhoa;
+
+                List<SupportThoiKhoaBieu> lstSPTKB = spTKB.GetListSPTKB(tuan, sv.LopTinChis);
+                return Json(new { ListData = lstSPTKB },JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { msg = "Lỗi" });
         }
     }
 }

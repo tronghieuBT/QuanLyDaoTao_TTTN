@@ -55,7 +55,7 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                SinhVien sinhVien = context.SinhViens.Find(maSV);
+                var sinhVien = context.SinhViens.Find(maSV);
                 return sinhVien;
             }
         }
@@ -94,15 +94,6 @@ namespace DAO
             }
         }
         #endregion
-
-        //#region GetAllLopTinChi
-        //public List<LopTinChi> GetAllLopTinChi(string MaSV)
-        //{
-        //    using (var context = new QuanLyDaoTaoEntities())
-        //    {
-        //        var query = context.;
-        //    }
-        //}
-        //#endregion
+                  
     }
 }
