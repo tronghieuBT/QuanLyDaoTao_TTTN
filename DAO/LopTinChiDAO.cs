@@ -34,7 +34,7 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                var listLop = context.LopTinChis.Include(l => l.GiangVien).Include(l => l.MonHoc).Include(l=>l.ThoiKhoaBieux).ToList();
+                var listLop = context.LopTinChis.Include(l => l.GiangVien).Include(l => l.MonHoc).Include(l => l.ThoiKhoaBieux).ToList();
                 return listLop;
             }
         }
@@ -86,12 +86,9 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                Lop lp = context.Lops.Find(lop.MaLopTC);
-                if (lp != null)
-                {
-                    context.Entry(lop).State = EntityState.Modified;
-                    context.SaveChanges();
-                }
+                var query = context.LopTinChis.Where(x => x.MaLopTC == lop.MaLopTC).FirstOrDefault();        
+                context.Entry(query).CurrentValues.SetValues(lop);
+                context.SaveChanges();
             }
         }
 
@@ -117,7 +114,7 @@ namespace DAO
         }
 
         #endregion Delete
-                   
+
         #region GetByNhomAndNienKhoaAndMaMon
 
         /// <summary>
@@ -135,6 +132,6 @@ namespace DAO
         }
 
         #endregion GetByNhomAndNienKhoaAndMaMon
-                                           
+
     }
 }

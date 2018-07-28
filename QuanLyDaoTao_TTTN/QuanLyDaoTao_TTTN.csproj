@@ -140,6 +140,7 @@
     <Compile Include="Areas\Admin\Controllers\LopTinChisController.cs" />
     <Compile Include="Areas\Admin\Controllers\MonHocsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SinhViensController.cs" />
+    <Compile Include="Areas\Admin\Models\GiangVienModel.cs" />
     <Compile Include="Areas\Admin\Models\LopTinChiModel.cs" />
     <Compile Include="Controllers\DangNhapController.cs" />
     <Compile Include="Controllers\GiangVienController.cs" />

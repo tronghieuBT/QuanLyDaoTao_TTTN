@@ -64,14 +64,9 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                Khoa kh =  context.Khoas.Find(khoa.MaKhoa);
-                if(kh != null)
-                {
-                    kh.TenKhoa = khoa.TenKhoa;
-                    context.Khoas.Attach(kh);
-                    context.Entry(kh).State = EntityState.Modified;
-                    context.SaveChanges();
-                }
+                var query = context.Khoas.Where(x => x.MaKhoa == khoa.MaKhoa).FirstOrDefault();
+                context.Entry(query).CurrentValues.SetValues(khoa);
+                context.SaveChanges();
             }
         }
         #endregion

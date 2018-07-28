@@ -86,12 +86,9 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                DiemDanh diemDanh = context.DiemDanhs.Find(dd.MaPhieuDD);
-                if (diemDanh != null)
-                {
-                    context.Entry(dd).State = EntityState.Modified;
-                    context.SaveChanges();
-                }
+                var query = context.DiemDanhs.Where(x => x.MaPhieuDD == dd.MaPhieuDD).FirstOrDefault();
+                context.Entry(query).CurrentValues.SetValues(dd);
+                context.SaveChanges();
             }
         }
 

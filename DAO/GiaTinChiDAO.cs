@@ -64,12 +64,9 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                GiaTinChi gtc = context.GiaTinChis.Find(giaTC.MaGiaTC);
-                if (gtc != null)
-                {
-                    context.Entry(giaTC).State = EntityState.Modified;
-                    context.SaveChanges();
-                }
+                var query = context.GiaTinChis.Where(x => x.MaGiaTC ==giaTC.MaGiaTC).FirstOrDefault();
+                context.Entry(query).CurrentValues.SetValues(giaTC);
+                context.SaveChanges();
             }
         }
         #endregion

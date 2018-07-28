@@ -58,6 +58,9 @@ namespace QuanLyDaoTao_TTTN.Controllers
                 //Gán list tuần vào viewbag
                 ViewBag.Weeks = new SelectList(weeks, "Text", "Value", tuan);
                 ViewBag.WeekCurrent = lstTuan[tuan];
+                //lọc các lớp tín chỉ mở mới xem thời khóa biểu;
+                LopTinChiBLL contextLTC = new LopTinChiBLL();
+                sv.LopTinChis = contextLTC.GetListLTCOpen(sv.LopTinChis);
                 //// lấy thời khóa biểu của tất cả các lớp mà sinh viên đã đăng ký cùng với môn học của lớp tín chỉ
                 List<SupportThoiKhoaBieu> lstSPTKB = spTKB.GetListSPTKB(lstTuan[tuan], sv.LopTinChis);
                 return View(lstSPTKB);

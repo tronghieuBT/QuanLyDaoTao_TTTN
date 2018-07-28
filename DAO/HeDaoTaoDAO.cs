@@ -45,7 +45,8 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                context.Entry(hdt).State = EntityState.Modified;
+                var query = context.HeDaoTaos.Where(x => x.MaHDT == hdt.MaHDT).FirstOrDefault();
+                context.Entry(query).CurrentValues.SetValues(hdt);
                 context.SaveChanges();
             }
         }

@@ -68,12 +68,10 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                MonHoc lp = context.MonHocs.Find(mh.MaMH);
-                if (lp != null)
-                {
-                    context.Entry(mh).State = EntityState.Modified;
-                    context.SaveChanges();
-                }
+                var query = context.MonHocs.Where(x => x.MaMH == mh.MaMH).FirstOrDefault();
+                context.Entry(query).CurrentValues.SetValues(mh);
+                context.SaveChanges();
+               
             }
         }
 

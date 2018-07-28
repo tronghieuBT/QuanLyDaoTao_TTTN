@@ -93,6 +93,11 @@ namespace BLL
             {
                 return -1;
             }
+            if(lop.NienKhoa.Length == 4)
+            {
+                int nk = Int32.Parse(lop.NienKhoa) + 1;
+                lop.NienKhoa = lop.NienKhoa + "-" + nk.ToString().Trim();            
+            }
             try
             {
                 LopTinChi lpTest = context.GetById(lop.MaLopTC);
@@ -124,6 +129,11 @@ namespace BLL
             if (lop == null)
             {
                 return false;
+            }
+            if (lop.NienKhoa.Length == 4)
+            {
+                int nk = Int32.Parse(lop.NienKhoa) + 1;
+                lop.NienKhoa = lop.NienKhoa + "-" + nk.ToString().Trim();
             }
             try
             {
@@ -167,5 +177,20 @@ namespace BLL
         }
 
         #endregion Delete
+
+        #region  GetListLTCOpen
+        public List<LopTinChi> GetListLTCOpen(ICollection<LopTinChi> lst)
+        {
+            List<LopTinChi> lstOpen = new List<LopTinChi>();
+            foreach (LopTinChi ltc in lst)
+            {
+                if (ltc.TrangThai == true)
+                {
+                    lstOpen.Add(ltc);
+                }
+            }
+            return lstOpen;
+        }
+        #endregion
     }
 }

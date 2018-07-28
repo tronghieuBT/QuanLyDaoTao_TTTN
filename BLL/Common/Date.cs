@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.Common
 {
@@ -14,15 +11,15 @@ namespace BLL.Common
 
         public List<string> GetListDate(int nam)
         {
-            List<string> lstTuan = new List<string>();  
-            int tongSoTuan = SoTuanCuaNam(nam);  
+            List<string> lstTuan = new List<string>();
+            int tongSoTuan = SoTuanCuaNam(nam);
             DateTime dt = new DateTime();
             DateTime.TryParse(nam.ToString() + "/01/01", out dt);
 
-            for (int i = 0; i< tongSoTuan; i++)
+            for (int i = 0; i < tongSoTuan; i++)
             {
-                //trong khi ngày đầu tiên của năm không phải thứ 2 thì cộng tiếp 1 ngày cho đến thứ 2 
-                while(dt.DayOfWeek != DayOfWeek.Monday)
+                //trong khi ngày đầu tiên của năm không phải thứ 2 thì cộng tiếp 1 ngày cho đến thứ 2
+                while (dt.DayOfWeek != DayOfWeek.Monday)
                 {
                     dt.AddDays(1);
                 }
@@ -31,7 +28,7 @@ namespace BLL.Common
                     + "- đến : -" + dtEnd.Month.ToString() + "/" + dtEnd.Day.ToString() + "/" + dtEnd.Year.ToString();
                 lstTuan.Add(dayOfWeek);
 
-                dt = dtEnd.AddDays(1);    
+                dt = dtEnd.AddDays(1);
             }
             return lstTuan;
         }

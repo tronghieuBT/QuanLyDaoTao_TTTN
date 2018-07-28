@@ -9,10 +9,21 @@
 
 @using (Html.BeginForm())
 {
+    var HocKy = new List<SelectListItem>()
+    {
+        new SelectListItem() { Text = "1", Value = "1" },
+        new SelectListItem() { Text = "2", Value = "2" },
+        new SelectListItem() { Text = "3", Value = "3" }
+    };
+    var trangThai = new List<SelectListItem>()
+    {
+        new SelectListItem() { Text = "Mở", Value = "true" },
+        new SelectListItem() { Text = "Đóng", Value = "false" },
+    };
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>LopTinChi</h4>
+        <h4>Lớp tín chỉ</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.MaLopTC)
@@ -20,15 +31,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.HocKy, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.HocKy, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HocKy, "", new { @class = "text-danger" })
+                @Html.DropDownList("HocKy", HocKy, new { @class = "form-control hocky", @onchange = "getMaNhom()" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Nhom, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Nhom, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Nhom, new { htmlAttributes = new {@id= "manhom", @class = "form-control", @readonly = true } })
                 @Html.ValidationMessageFor(model => model.Nhom, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -36,24 +46,32 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NienKhoa, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NienKhoa, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("NienKhoa", ViewBag.NienKhoa as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control nienkhoa", @onchange = "getMaNhom()" })
                 @Html.ValidationMessageFor(model => model.NienKhoa, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MaMonHoc, "MaMonHoc", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MaMonHoc, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("MaMonHoc", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("MaMonHoc",null, htmlAttributes: new { @class = "form-control mamonhoc", @onchange = "getMaNhom()" })
                 @Html.ValidationMessageFor(model => model.MaMonHoc, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MaGV, "MaGV", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MaGV, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("MaGV", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("MaGV", null, htmlAttributes: new { @class = "form-control magiangvien", @onchange = "getMaNhom()" })
                 @Html.ValidationMessageFor(model => model.MaGV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TrangThai, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TrangThai", trangThai, htmlAttributes: new { @class = "form-control trangthai" })
+                @Html.ValidationMessageFor(model => model.TrangThai, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -66,5 +84,35 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Quay lại", "Index")
 </div>
+<script>
+    function getMaNhom() {
+        var hk = $('.hocky').val();
+        var mamonhoc = $('.mamonhoc').val();
+        var nk = $('.nienkhoa').val();
+        var magiangvien = $('.magiangvien').val();
+        if (hk === null || mamonhoc === null || nk === null || magiangvien === null) {
+            return;
+        }
+
+        var dt = {
+            maMonHoc: mamonhoc,
+            nienKhoa: nk,
+            maGiangVien: magiangvien,
+            hocKy: hk
+        }
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetMaNhom", "LopTinChis")',
+            data: JSON.stringify(dt),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8'
+        }).done(function (dt) {
+                $('#manhom').val(parseInt(dt.maNhom));
+        }).fail(function () {
+            alert("Lỗi!");
+        })
+        return false;
+    }
+</script>

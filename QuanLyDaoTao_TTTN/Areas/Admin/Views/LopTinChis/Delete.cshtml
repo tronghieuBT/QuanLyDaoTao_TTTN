@@ -1,15 +1,13 @@
 ﻿@model DAO.LopTinChi
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Xóa";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<h3>Bạn chắc chắn muốn xóa lớp tín chỉ này ?</h3>
 <div>
-    <h4>LopTinChi</h4>
+    <h4>Thông tin lớp tín chỉ :</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -36,20 +34,23 @@
             @Html.DisplayFor(model => model.NienKhoa)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.GiangVien.HoVaTenLot)
-        </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.GiangVien.HoVaTenLot)
+            <dt>Giảng viên</dt>
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MonHoc.TenMH)
-        </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.MonHoc.TenMH)
+            @Model.GiangVien.HoVaTenLot @Model.GiangVien.TenGV
+        </dd>
+        <dd>
+            <dt>Mã môn học</dt>
+        </dd>
+        <dd>
+            @Model.MonHoc.MaMH
+        </dd>
+        <dd>
+            <dt>Tên môn học</dt>
+        </dd>
+        <dd>
+            @Model.MonHoc.TenMH 
         </dd>
 
     </dl>
@@ -58,8 +59,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Xóa" class="btn btn-default" /> |
+            @Html.ActionLink("Quay lại", "Index")
         </div>
     }
 </div>

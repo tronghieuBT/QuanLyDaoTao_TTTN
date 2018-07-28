@@ -2,6 +2,7 @@
 using DAO;
 using QuanLyDaoTao_TTTN.Areas.Admin.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -10,7 +11,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
     public class LopTinChisController : Controller
     {
         private LopTinChiBLL contextLopTC = new LopTinChiBLL();
-        private GiangVienBLL contextGV = new GiangVienBLL();
+        private GiangVienModel contextGV = new GiangVienModel();
         private MonHocBLL contextMH = new MonHocBLL();
 
         // GET: Admin/LopTinChis
@@ -34,7 +35,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // GET: Admin/LopTinChis/Create
         public ActionResult Create()
         {
-            ViewBag.MaGV = new SelectList(contextGV.GetAll(), "MaGV", "HoVaTenLot");
+            ViewBag.MaGV = new SelectList(contextGV.GetALL(), "MaGV", "TenDayDu");
             ViewBag.MaMonHoc = new SelectList(contextMH.GetAll(), "MaMH", "TenMH");
 
             var nienKhoa = from EnumNienKhoa e in Enum.GetValues(typeof(EnumNienKhoa))
@@ -54,15 +55,24 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaLopTC,HocKy,Nhom,NienKhoa,MaMonHoc,MaGV")] LopTinChi lopTinChi)
+        public ActionResult Create([Bind(Include = "MaLopTC,HocKy,Nhom,NienKhoa,MaMonHoc,MaGV,TrangThai")] LopTinChi lopTinChi)
         {
+            var nienKhoa = from EnumNienKhoa e in Enum.GetValues(typeof(EnumNienKhoa))
+                           select new
+                           {
+                               ID = (int)Enum.Parse(typeof(EnumNienKhoa), e.ToString())
+                                     ,
+                               Name = e.ToString()
+                           };
+            SelectList selectList = new SelectList(nienKhoa, "ID", "ID");
+            ViewBag.NienKhoa = selectList;
             if (ModelState.IsValid)
             {
                 contextLopTC.Create(lopTinChi);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.MaGV = new SelectList(contextGV.GetAll(), "MaGV", "HoVaTenLot", lopTinChi.MaGV);
+            ViewBag.MaGV = new SelectList(contextGV.GetALL(), "MaGV", "TenDayDu", lopTinChi.MaGV);
             ViewBag.MaMonHoc = new SelectList(contextMH.GetAll(), "MaMH", "TenMH", lopTinChi.MaMonHoc);
             return View(lopTinChi);
         }
@@ -70,12 +80,21 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // GET: Admin/LopTinChis/Edit/5
         public ActionResult Edit(int id)
         {
+            var nienKhoa = from EnumNienKhoa e in Enum.GetValues(typeof(EnumNienKhoa))
+                           select new
+                           {
+                               ID = (int)Enum.Parse(typeof(EnumNienKhoa), e.ToString())
+                                     ,
+                               Name = e.ToString()
+                           };
+            SelectList selectList = new SelectList(nienKhoa, "ID", "ID");
+            ViewBag.NienKhoa = selectList;
             LopTinChi lopTinChi = contextLopTC.GetById(id);
             if (lopTinChi == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.MaGV = new SelectList(contextGV.GetAll(), "MaGV", "HoVaTenLot", lopTinChi.MaGV);
+            ViewBag.MaGV = new SelectList(contextGV.GetALL(), "MaGV", "TenDayDu", lopTinChi.MaGV);
             ViewBag.MaMonHoc = new SelectList(contextMH.GetAll(), "MaMH", "TenMH", lopTinChi.MaMonHoc);
             return View(lopTinChi);
         }
@@ -85,14 +104,14 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaLopTC,HocKy,Nhom,NienKhoa,MaMonHoc,MaGV")] LopTinChi lopTinChi)
+        public ActionResult Edit([Bind(Include = "MaLopTC,HocKy,Nhom,NienKhoa,MaMonHoc,MaGV,TrangThai")] LopTinChi lopTinChi)
         {
             if (ModelState.IsValid)
             {
                 contextLopTC.Edit(lopTinChi);
                 return RedirectToAction("Index");
             }
-            ViewBag.MaGV = new SelectList(contextGV.GetAll(), "MaGV", "HoVaTenLot", lopTinChi.MaGV);
+            ViewBag.MaGV = new SelectList(contextGV.GetALL(), "MaGV", "TenDayDu", lopTinChi.MaGV);
             ViewBag.MaMonHoc = new SelectList(contextMH.GetAll(), "MaMH", "TenMH", lopTinChi.MaMonHoc);
             return View(lopTinChi);
         }
@@ -100,7 +119,16 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // GET: Admin/LopTinChis/Delete/5
         public ActionResult Delete(int id)
         {
-            LopTinChi lopTinChi = contextLopTC.GetById(id);
+            LopTinChiBLL contextLTC = new LopTinChiBLL();
+            LopTinChi lopTinChi = new LopTinChi();
+            List<LopTinChi> lstLTC = contextLTC.GetAll();
+            foreach(LopTinChi ltc in lstLTC)
+            {
+                if(ltc.MaLopTC == id)
+                {
+                    lopTinChi = ltc;
+                }
+            }
             if (lopTinChi == null)
             {
                 return HttpNotFound();

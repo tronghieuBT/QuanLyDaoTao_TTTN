@@ -5,10 +5,10 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Danh sách lớp tín chỉ</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Thêm mới", "Create")
 </p>
 <table class="table">
     <tr>
@@ -22,10 +22,13 @@
             @Html.DisplayNameFor(model => model.NienKhoa)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.GiangVien.HoVaTenLot)
+            Giảng viên
         </th>
         <th>
             @Html.DisplayNameFor(model => model.MonHoc.TenMH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TrangThai)
         </th>
         <th></th>
     </tr>
@@ -42,15 +45,28 @@
             @Html.DisplayFor(modelItem => item.NienKhoa)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.GiangVien.HoVaTenLot)
+            @Html.DisplayFor(modelItem => item.GiangVien.HoVaTenLot) @Html.DisplayFor(modelItem => item.GiangVien.TenGV)
+            
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MonHoc.TenMH)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MaLopTC }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MaLopTC }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MaLopTC })
+            @{ 
+                if (item.TrangThai == true)
+                {
+                  @Html.Raw("Mở")
+                }
+                else
+                {
+                  @Html.Raw("Đóng")
+                }
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Sửa", "Edit", new { id=item.MaLopTC }) |
+            @Html.ActionLink("Chi tiết", "Details", new { id=item.MaLopTC }) |
+            @Html.ActionLink("Xóa lớp", "Delete", new { id=item.MaLopTC })
         </td>
     </tr>
 }

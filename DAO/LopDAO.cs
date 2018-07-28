@@ -86,15 +86,10 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                Lop lp = context.Lops.Find(lop.MaLop);
-                if (lp != null)
-                {
-                    lp.TenLop = lop.TenLop;
-                    lp.NienKhoa = lop.NienKhoa;
-                    context.Lops.Attach(lp);
-                    context.Entry(lp).State = EntityState.Modified;
-                    context.SaveChanges();
-                }
+                var query = context.Lops.Where(x => x.MaLop == lop.MaLop).FirstOrDefault();
+                context.Entry(query).CurrentValues.SetValues(lop);
+                context.SaveChanges();
+               
             }
         }
 

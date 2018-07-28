@@ -77,7 +77,8 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                context.Entry(sinhVien).State = EntityState.Modified;
+                var query = context.SinhViens.Where(x => x.MaSV == sinhVien.MaSV).FirstOrDefault();
+                context.Entry(query).CurrentValues.SetValues(sinhVien);
                 context.SaveChanges();
             }
         }
