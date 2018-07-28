@@ -101,6 +101,7 @@
           <Property Name="NienKhoa" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="MaMonHoc" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="MaGV" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TrangThai" Type="bit" />
         </EntityType>
         <EntityType Name="MonHoc">
           <Key>
@@ -504,6 +505,7 @@
           <NavigationProperty Name="ThoiKhoaBieux" Relationship="Self.FK_BuoiHoc_LopTinChi" FromRole="LopTinChi" ToRole="ThoiKhoaBieu" />
           <NavigationProperty Name="MonHoc" Relationship="Self.FK_LopTinChi_MonHoc" FromRole="LopTinChi" ToRole="MonHoc" />
           <NavigationProperty Name="SinhViens" Relationship="Self.DangKy" FromRole="LopTinChi" ToRole="SinhVien" />
+          <Property Name="TrangThai" Type="Boolean" />
         </EntityType>
         <EntityType Name="MonHoc">
           <Key>
@@ -870,6 +872,7 @@
           <EntitySetMapping Name="LopTinChis">
             <EntityTypeMapping TypeName="QuanLyDaoTaoModel.LopTinChi">
               <MappingFragment StoreEntitySet="LopTinChi">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
                 <ScalarProperty Name="MaLopTC" ColumnName="MaLopTC" />
                 <ScalarProperty Name="HocKy" ColumnName="HocKy" />
                 <ScalarProperty Name="Nhom" ColumnName="Nhom" />

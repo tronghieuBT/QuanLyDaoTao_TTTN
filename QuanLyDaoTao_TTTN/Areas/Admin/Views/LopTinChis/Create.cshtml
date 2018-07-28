@@ -77,7 +77,7 @@
         var mamonhoc = $('.mamonhoc').val();
         var nk = $('.nienkhoa').val();
         var magiangvien = $('.magiangvien').val();
-        if (hk == null || mamonhoc == null || nk == null || magiangvien == null) {
+        if (hk === null || mamonhoc === null || nk === null || magiangvien === null) {
             return;
         }
 
@@ -93,10 +93,8 @@
             data: JSON.stringify(dt),
             dataType: "json",
             contentType: 'application/json; charset=utf-8'
-        }).done(function (data) {
-            if (dt.maNhom != null || dt.maNhom != "") {
-                $('#manhom').text(dt.maNhom);
-            }
+        }).done(function (dt) {
+                $('#manhom').val(parseInt(dt.maNhom));
         }).fail(function () {
             alert("Lỗi!");
         })

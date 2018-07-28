@@ -47,7 +47,11 @@ namespace DAO
         [StringLength(10)]
         [Display(Name = "Mã giảng viên")]
         public string MaGV { get; set; }
-    
+
+        [Required(ErrorMessage = "Trạng thái không được trống")]
+        [Display(Name = "Trạng thái")]
+        public Nullable<bool> TrangThai { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DiemDanh> DiemDanhs { get; set; }
         public virtual GiangVien GiangVien { get; set; }

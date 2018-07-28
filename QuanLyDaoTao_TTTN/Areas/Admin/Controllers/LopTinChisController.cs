@@ -44,7 +44,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
                                      ,
                                Name = e.ToString()
                            };
-            SelectList selectList = new SelectList(nienKhoa, "Name", "Name");
+            SelectList selectList = new SelectList(nienKhoa, "ID", "ID");
             ViewBag.NienKhoa = selectList;
             return View();
         }
