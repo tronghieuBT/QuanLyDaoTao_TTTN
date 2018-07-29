@@ -45,7 +45,20 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
                                      ,
                                Name = e.ToString()
                            };
-            SelectList selectList = new SelectList(nienKhoa, "ID", "ID");
+            List<SelectListItem> listNienKhoa = new List<SelectListItem>();
+            foreach( var item in nienKhoa)
+            {
+                if (item.ID >= DateTime.UtcNow.Year)
+                {
+                    SelectListItem slectListItem = new SelectListItem()
+                    {
+                        Text = item.ID.ToString(),
+                        Value = item.ID.ToString()
+                    };
+                    listNienKhoa.Add(slectListItem);
+                }
+            }
+            SelectList selectList = new SelectList(listNienKhoa, "Text", "Value");
             ViewBag.NienKhoa = selectList;
             return View();
         }

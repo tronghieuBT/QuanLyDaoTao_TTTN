@@ -1,4 +1,5 @@
-﻿using DAO;
+﻿using BLL.Common;
+using DAO;
 using System;
 using System.Collections.Generic;
 
@@ -181,13 +182,57 @@ namespace BLL
         #region  GetListLTCOpen
         public List<LopTinChi> GetListLTCOpen(ICollection<LopTinChi> lst)
         {
+            MonHocBLL contextMH = new MonHocBLL();
             List<LopTinChi> lstOpen = new List<LopTinChi>();
             foreach (LopTinChi ltc in lst)
             {
                 if (ltc.TrangThai == true)
                 {
+                    ltc.MonHoc = contextMH.GetById(ltc.MaMonHoc);
                     lstOpen.Add(ltc);
                 }
+            }
+            return lstOpen;
+        }
+        #endregion
+
+        #region  GetListLTCDangKy
+        /// <summary>
+        /// Lấy ra các lớp được đăng ký để sinh viên đăng ký
+        /// </summary>
+        /// <param name="lst"></param>
+        /// <returns></returns>
+        public List<LopTinChi> GetListLTCDangKy(ICollection<LopTinChi> lst)
+        {
+            MonHocBLL contextMH = new MonHocBLL();
+            List<LopTinChi> lstOpen = new List<LopTinChi>();
+            Date supportDateTime = new Date();
+            DateTime dt = DateTime.UtcNow;
+
+            foreach (LopTinChi ltc in lst)
+            {
+
+                if(ltc.HocKy == 1)
+                {
+                    if(Int32.Parse(ltc.NienKhoa.Split('-')[0]) == dt.Year)
+                    {
+                        if (ltc.TrangThai == true)
+                        {
+                            if(ltc.HocKy == 1)
+                            {
+                                if(dt.Month >=9 && dt.Month <= 12)
+                                {
+                                    DateTime ngayCuoiNam = new DateTime(dt.Year,12,31);
+                                    dt = dt.AddDays(1);
+                                  //  int soTietCoTheMo = supportDateTime.SoTietHocCoTheMo(dt, ngayCuoiNam);
+                                }
+                            }
+                            ltc.MonHoc = contextMH.GetById(ltc.MaMonHoc);
+                            lstOpen.Add(ltc);
+                        }
+                    }
+                }
+                
             }
             return lstOpen;
         }

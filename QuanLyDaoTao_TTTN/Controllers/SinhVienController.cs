@@ -47,7 +47,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                     DateTime tempDTStart = new DateTime();
                     DateTime tempDTEnd = new DateTime();
                     // Lấy datetime từ list Tuần và format về "dd/mm/yy"
-                    tempDTEnd = DateTime.Parse(lstTuan[i].Split('-')[1], new CultureInfo("en-US"));
+                    tempDTStart = DateTime.Parse(lstTuan[i].Split('-')[1], new CultureInfo("en-US"));
                     tempDTEnd = DateTime.Parse(lstTuan[i].Split('-')[3], new CultureInfo("en-US"));
                     if (dtNow.DayOfYear >= tempDTStart.DayOfYear && dtNow.DayOfYear <= tempDTEnd.DayOfYear)
                     {
@@ -93,6 +93,20 @@ namespace QuanLyDaoTao_TTTN.Controllers
                 return Json(new { ListData = lstSPTKB },JsonRequestBehavior.AllowGet);
             }
             return Json(new { msg = "Lỗi" });
+        }
+
+        public ActionResult DangKyMonHoc()
+        {
+            if (Session["MaSV"] != null)
+            {
+                LopTinChiBLL contextLTC = new LopTinChiBLL();
+                List<LopTinChi> lstLTC = contextLTC.GetAll();
+                //  chỉ cho sinh viên đăng ký lớp đang mở
+                lstLTC = contextLTC.GetListLTCOpen(lstLTC);
+                ViewBag.ListLTC = lstLTC;
+                return View(lstLTC);
+            } 
+            return RedirectToAction("Index", "DangNhap");
         }
     }
 }

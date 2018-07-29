@@ -140,8 +140,11 @@
     <Compile Include="Areas\Admin\Controllers\LopTinChisController.cs" />
     <Compile Include="Areas\Admin\Controllers\MonHocsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SinhViensController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ThoiKhoaBieuxController.cs" />
     <Compile Include="Areas\Admin\Models\GiangVienModel.cs" />
     <Compile Include="Areas\Admin\Models\LopTinChiModel.cs" />
+    <Compile Include="Areas\Admin\Models\MonHocModel.cs" />
+    <Compile Include="Areas\Admin\Models\ThoiKhoaBieuModel.cs" />
     <Compile Include="Controllers\DangNhapController.cs" />
     <Compile Include="Controllers\GiangVienController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -156,6 +159,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Content\Lop\create.css" />
+    <Content Include="Areas\Admin\Script\ThoiKhoaBieu\full-year-calendar.js" />
+    <Content Include="Areas\Admin\Script\ThoiKhoaBieu\moment.js" />
     <Content Include="Assets\data\flot-data.js" />
     <Content Include="Assets\data\morris-data.js" />
     <Content Include="Assets\dist\css\sb-admin-2.css" />
@@ -441,6 +446,10 @@
     <Content Include="Areas\Admin\Views\HocPhiTheoDangKies\Details.cshtml" />
     <Content Include="Areas\Admin\Views\HocPhiTheoDangKies\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\HocPhiTheoDangKies\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ThoiKhoaBieux\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ThoiKhoaBieux\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\ThoiKhoaBieux\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ThoiKhoaBieux\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\DangNhap\main.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -503,10 +512,12 @@
     <Content Include="vendor\bootstrap\css\bootstrap.min.css.map" />
     <Content Include="Views\SinhVien\Index.cshtml" />
     <Content Include="Views\GiangVien\Index.cshtml" />
+    <Content Include="Views\SinhVien\DangKyMonHoc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Script\" />
+    <Folder Include="Areas\Admin\Content\ThoiKhoaBieu\" />
+    <Folder Include="Areas\Admin\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

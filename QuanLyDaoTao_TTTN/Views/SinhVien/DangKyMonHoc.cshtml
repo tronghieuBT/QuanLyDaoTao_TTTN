@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Đăng ký môn học";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .title-dk {
+        text-align: center;
+    }
+
+    .row-title {
+        border: 1px solid;
+    }
+</style>
+<div class="container">
+    <div class="row row-title">
+        <h1 class="modal-title title-dk">ĐĂNG KÝ MÔN HỌC</h1>
+    </div>
+    <div class="row">
+        <h3>Danh sách các môn được mở :</h3>
+    </div>
+    <div class="row">
+
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Mã môn học</th>
+                    <th scope="col">Tên môn học</th>
+                    <th scope="col">Mã giảng viên</th>
+                    <th scope="col">Số tín chỉ lý thuyết</th>
+                    <th scope="col">Số tín chỉ thực hành</th>
+                    <th scope="col">Tổng số tín chỉ</th>
+                    <th scope="col">Chọn</th>
+                </tr>
+            </thead>
+            @foreach (var item in ViewBag.ListLTC)
+            {
+                <tbody>
+                    <tr>
+                        <th scope="row">@item.MaMonHoc</th>
+                        <td>@item.MonHoc.TenMH</td>
+                        <td>@item.MaGV</td>
+                        <td id="tinchi-lt">@item.MonHoc.SoTinChiLyThuyet</td>
+                        <td id="tinchi-th">@item.MonHoc.SoTinChiThucHanh</td>
+                        <td id="tong-tinchi"></td>
+                        <td><input type="checkbox"/></td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+    <div class="row">
+        <h3>Các môn đã đăng ký :</h3>
+    </div>
+    <div class="row">
+
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>mdo</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>fat</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td colspan="1">Larry the Bird</td>
+                    <td>twitter</td>
+                    <td>dasdas</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var lt = $('#tinchi-lt').val();
+        var th = $('#tinchi-th').val();
+        var tong = lt + th;
+        $('#tong-tinchi').val(tong);
+
+    })
+</script>

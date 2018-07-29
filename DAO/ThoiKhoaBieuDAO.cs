@@ -37,5 +37,40 @@ namespace DAO
             }
         }
         #endregion
+
+        #region Create
+        public void Create(ThoiKhoaBieu tkb)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                context.ThoiKhoaBieux.Add(tkb);
+                context.SaveChanges();
+            }
+        }
+        #endregion
+
+        #region Edit
+        public void Edit(ThoiKhoaBieu tkb)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                var query = context.ThoiKhoaBieux.Where(x => x.Ngay == tkb.Ngay && x.Buoi == tkb.Buoi && x.MaLopTC == tkb.MaLopTC).FirstOrDefault();
+                context.Entry(query).CurrentValues.SetValues(tkb);
+                context.SaveChanges();
+            }
+        }
+        #endregion
+
+        #region Delete
+        public void Delete(DateTime ngay, string buoi,int maLopTC)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                ThoiKhoaBieu tkb = context.ThoiKhoaBieux.Where(x => x.Ngay == ngay && x.Buoi == buoi&& x.MaLopTC == maLopTC).FirstOrDefault();
+                context.ThoiKhoaBieux.Remove(tkb);
+                context.SaveChanges();
+            }
+        }
+        #endregion
     }
 }

@@ -40,5 +40,7 @@ namespace BLL.Common
             Calendar cal = dfi.Calendar;
             return cal.GetWeekOfYear(date1, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
         }
+
+       
     }
 }

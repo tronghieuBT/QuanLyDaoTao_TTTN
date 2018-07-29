@@ -8,6 +8,14 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     <link href="~/Content/Site.css" rel="stylesheet" />
+    <style>
+         body{
+             padding-top: 0;
+         }
+        .nav-menu {
+            margin-left: 330px !important;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse narbar-top">
@@ -19,15 +27,15 @@
                     <span class="icon-bar"></span>
                 </button>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse nav-menu">
                 <ul class="nav navbar-nav nav-custom">
                     <li>@Html.ActionLink("Học viện công nghệ bưu chính viễn thông", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Đăng ký môn học", "DangKyMonHoc", "Home")</li>
+                    <li>@Html.ActionLink("Đăng ký môn học", "DangKyMonHoc", "SinhVien")</li>
                     <li>@Html.ActionLink("Thời khóa biểu", "ThoiKhoaBieu", "Home")</li>
                     <li>@Html.ActionLink("Xem học phí", "HocPhi", "Home")</li>
                     <li>@Html.ActionLink("Xem lịch giảng", "LichGiang", "Home")</li>
-                    <li id="dangnhap">@Html.ActionLink("Đăng nhập","Index", "DangNhap")</li>
-                    <li>@Session["SinhVien"] @Session["GiangVien"]</li>
+                    <li id="dangnhap">@Html.ActionLink("Đăng nhập", "Index", "DangNhap")</li>
+                    <li><a>@Session["SinhVien"] @Session["GiangVien"]</a></li>
                 </ul>
             </div>
         </div>
@@ -35,11 +43,10 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-        </footer>
+        <footer></footer>
     </div>
 
-   
+
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

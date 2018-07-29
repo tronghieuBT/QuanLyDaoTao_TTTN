@@ -1,0 +1,313 @@
+﻿@model DAO.ThoiKhoaBieu
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<script src="~/Areas/Admin/Script/ThoiKhoaBieu/moment.js"></script>
+<style>
+    .content-tkb {
+        border-right-width: 1px;
+        padding-right: 50px;
+    }
+
+    .success {
+        width: 160px;
+    }
+
+    .fyc-calendar .col-sm-6 {
+        height: 350px !important;
+        width: 354px;
+    }
+
+    .calender-giangien {
+        font-weight: bold;
+    }
+
+    .fyc-calendar {
+        border: 1px solid;
+    }
+</style>
+
+<h2>Tạo mới thời khóa biểu</h2>
+
+@using (Html.BeginForm())
+{
+    var buoi = new List<SelectListItem>()
+    {
+        new SelectListItem() { Text = "Buổi sáng", Value = "Sáng" }  ,
+        new SelectListItem() { Text = "Buổi Chiều", Value = "Chiều" }
+    };
+
+    var TietBD = new List<SelectListItem>()
+    {
+        new SelectListItem() { Text = "1", Value = "1" }  ,
+        new SelectListItem() { Text = "5", Value = "5" }
+    };
+    @Html.AntiForgeryToken()
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 content-tkb">
+                <div class="row">
+                    <h4>Thêm thời khóa biểu</h4>
+                </div>
+                <div class="row">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Buoi, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("Buoi", buoi, htmlAttributes: new { @class = "form-control buoi" })
+                                @Html.ValidationMessageFor(model => model.Buoi, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TietBD, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("TietBD", TietBD, htmlAttributes: new { @class = "form-control tiet-bd" })
+                                @Html.ValidationMessageFor(model => model.TietBD, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MaLopTC, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("MaLopTC", ViewBag.LopTCDuocMo as List<SelectListItem>, htmlAttributes: new { @class = "form-control malopTC", @onchange = "getThongTinLop()" })
+                                @Html.ValidationMessageFor(model => model.MaLopTC, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Ngay, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="input-group date" id="datetimepicker5">
+                                <input type="text" class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Thêm" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <h4>Chi tiết lớp</h4>
+                </div>
+                <div class="row">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="success">Mã lớp tín chỉ: </td>
+                                <td id="maloptc"></td>
+                            </tr>
+                            <tr>
+                                <td class="success">Tên môn học :</td>
+                                <td id="tenmh"></td>
+                            </tr>
+                            <tr>
+                                <td class="success">Mã giảng viên : </td>
+                                <td id="magiangvien"></td>
+                            </tr>
+                            <tr>
+                                <td class="success">Giảng viên giảng dạy: </td>
+                                <td id="giangvien"> </td>
+                            </tr>
+                            <tr>
+                                <td class="success">Số tín chỉ : </td>
+                                <td id="sotinchi"></td>
+                            </tr>
+                            <tr>
+                                <td class="success">Trạng thái :</td>
+                                <td id="trangthai"></td>
+                            </tr>
+                            <tr>
+                                <td class="success">Niên khóa : </td>
+                                <td id="nienkhoa"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row note-giangvien">
+            <div class="row">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-8">
+                    <h5> màu Xanh dương  : giảng viên đã có lịch buổi sáng còn trống buổi chiều</h5>
+                    <h5> màu xanh lá cây : giảng viên đã có lịch buổi chiều còn trống buổi sáng</h5>
+                    <h5> màu cam đậm     : giảng viên đã kín lịch</h5>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h4 class="calender-giangien"></h4>
+        </div>
+        <div class="row">
+            <!--Calendar-->
+            <div id="full-year-calendar"></div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Quay lại", "Index")
+</div>
+<script>
+    function getThongTinLop() {
+        var maLTC = $('.malopTC').val();
+        var ltc = {
+            maLopTC: maLTC
+        };
+        $('#maloptc').html('');
+        $('#trangthai').html('');
+        $('#nienkhoa').html('');
+        $('#magiangvien').html('');
+        $('#tenmh').html('');
+        $('#giangvien').html('');
+        $('#sotinchi').html('');
+        $('.calender-giangien').html('');
+        //lấy thông tin lớp tín chỉ
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetLopTC", "ThoiKhoaBieux")',
+            data: JSON.stringify(ltc),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8'
+        }).done(function (data) {
+            var listData = data.LTC;
+            $('#maloptc').append(parseInt(listData.MaLopTC));
+            $('#trangthai').append(listData.TrangThai);
+            $('#nienkhoa').append(listData.NienKhoa);
+            $('#magiangvien').append(listData.MaGV);
+            $('#tenmh').append(listData.MonHoc.TenMH);
+            $('#giangvien').append(listData.GiangVien.TenDayDu);
+            $('#sotinchi').append(listData.MonHoc.TongSoTinChi);
+            $('.calender-giangien').append("Lịch của giảng viên : " + listData.GiangVien.TenDayDu);
+            var maGV = {
+                maGiangVien: listData.MaGV
+            };
+            $('.note-giangvien').hide();
+            $('.notif-giangvien').html('');
+            $('.notif-giangvien').hide();
+            $('#full-year-calendar').html('');
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetThoiKhoaBieuGiangVien", "ThoiKhoaBieux")',
+                data: JSON.stringify(maGV),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8'
+            }).done(function (data) {
+                if (data === "Giảng viên trống lịch trong thời gian tới !") {
+                    $('.notif-giangvien').show();
+                    $('.notif-giangvien').append(data);
+                    return false;
+                }
+                $('.note-giangvien').show();
+                var lstLich = data.lich;
+                var listNgayBuoiSang = [];
+                var listNgayBuoiChieu = [];
+                var listNgayFull = [];
+                for (var i = 0 ; i < lstLich.length; i++) {
+                    var ngay = lstLich[i].NgayString;
+                    if (lstLich[i].TietBD === 1) {
+                        listNgayBuoiSang.push(ngay);
+                    }
+                    else {
+                        listNgayBuoiChieu.push(ngay);
+                    }
+                }
+
+                for (var i = 0; i < listNgayBuoiSang.length; i++) {
+                    for (var j = 0; j < listNgayBuoiChieu.length; j++) {
+                        if (listNgayBuoiChieu[i] == listNgayBuoiSang[j]) {
+                            listNgayFull.push(listNgayBuoiChieu[i]);
+                            listNgayBuoiSang.splice(i, i);
+                            listNgayBuoiChieu.splice(j, 1);
+                        }
+                    }
+                }
+                var fyc = $('#full-year-calendar').fullYearCalendar({
+                    weekDaysHolidays: [0],
+                    publicHolidays: [],
+                    niwds: listNgayBuoiSang,
+                    halfDays: listNgayBuoiChieu,
+                    noSchools: listNgayFull
+                });
+                //fyc.addHoliday({ type: 'niwds', from: '2018-05-05' });
+            }).fail(function () {
+                alert("Kết nối server lỗi !");
+            });
+
+        }).fail(function () {
+            alert("Kết nối server lỗi !");
+        });
+        // Lấy thòi khóa biểu của giảng viên
+
+
+        return false;
+    }
+</script>
+
+<script src="~/Areas/Admin/Script/ThoiKhoaBieu/full-year-calendar.js"></script>
+<style>
+    .fyc-calendar {
+        margin: 40px 0;
+    }
+
+        .fyc-calendar .col-sm-6 {
+            height: 450px;
+        }
+
+    .fyc-calendar-table {
+        width: 80%;
+        height: 300px;
+        margin: 20px auto;
+    }
+
+        .fyc-calendar-table thead > tr:first-child > th {
+            padding: 20px 0;
+            background-color: #d7d7d7;
+            color: #000;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .fyc-calendar-table thead > tr > th {
+            background-color: #f5f5f5;
+            color: #000;
+        }
+
+        .fyc-calendar-table tbody > tr > td {
+            border: 1px solid #555;
+        }
+
+    .fyc-holiday {
+        background-color: #fff568;
+    }
+
+    .fyc-public-holiday {
+        background-color: #ff931e;
+    }
+
+    .fyc-niwd-holiday {
+        background-color: #25c4d4;
+    }
+
+    .fyc-halfDay-holiday {
+        background-color: #8ee153;
+    }
+</style>

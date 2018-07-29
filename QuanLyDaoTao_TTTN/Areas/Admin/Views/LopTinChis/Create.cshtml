@@ -16,9 +16,9 @@
         new SelectListItem() { Text = "3", Value = "3" }
     };
     var trangThai = new List<SelectListItem>()
-    {
-        new SelectListItem() { Text = "Mở", Value = "true" },
-        new SelectListItem() { Text = "Đóng", Value = "false" },
+    { 
+        new SelectListItem() { Text = "Mở", Value = "true" }  ,
+        new SelectListItem() { Text = "Đóng", Value = "false" } 
     };
     @Html.AntiForgeryToken()
     
@@ -43,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NienKhoa, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("NienKhoa", ViewBag.NienKhoa as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control nienkhoa", @onchange = "getMaNhom()" })
+                @Html.DropDownList("NienKhoa", ViewBag.NienKhoa as List<SelectListItem>, htmlAttributes: new { @class = "form-control nienkhoa", @onchange = "getMaNhom()" })
                 @Html.ValidationMessageFor(model => model.NienKhoa, "", new { @class = "text-danger" })
             </div>
         </div>

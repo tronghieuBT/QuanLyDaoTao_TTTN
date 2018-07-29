@@ -9,6 +9,22 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Models
 {
     public class LopTinChiModel
     {
+        public int MaLopTC { get; set; }
+
+        public short HocKy { get; set; }
+
+        public short Nhom { get; set; }
+
+        public string NienKhoa { get; set; }
+
+        public string MaMonHoc { get; set; }
+
+        public string MaGV { get; set; }
+
+        public Nullable<bool> TrangThai { get; set; }
+
+        public MonHocModel MonHoc { get; set; } 
+        public GiangVienModel GiangVien { get; set; }
 
         public int GetMaNhom(string maMonHoc, string nienKhoa, string maGiangVien, int hocKy)
         {

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace QuanLyDaoTao_TTTN.Models
+namespace QuanLyDaoTao_TTTN.Areas.Admin.Models
 {
     public class MonHocModel
     {
+
         public string MaMH { get; set; }
 
         public string TenMH { get; set; }
@@ -14,6 +15,12 @@ namespace QuanLyDaoTao_TTTN.Models
         public short SoTinChiLyThuyet { get; set; }
 
         public short SoTinChiThucHanh { get; set; }
-                                                        
+
+        public int TongSoTinChi {
+            get
+            {
+                return this.SoTinChiLyThuyet + this.SoTinChiThucHanh;
+            }
+        }
     }
 }
