@@ -1,5 +1,6 @@
 ﻿using BLL;
 using DAO;
+using QuanLyDaoTao_TTTN.Areas.Admin.Fillter;
 using QuanLyDaoTao_TTTN.Areas.Admin.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         private LopTinChiBLL contextLTC = new LopTinChiBLL();
 
         // GET: Admin/ThoiKhoaBieux
+        [SessionCheck]
         public ActionResult Index()
         {
             var thoiKhoaBieux = contextTKB.GetAll();
@@ -23,6 +25,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/ThoiKhoaBieux/Create
+        [SessionCheck]
         public ActionResult Create()
         {
             List<LopTinChi> lstLTC = contextLTC.GetAll();

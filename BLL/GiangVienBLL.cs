@@ -102,5 +102,24 @@ namespace BLL
                 return false;
             }
         }
+
+        public GiangVien GetByEmailAndPass(string email, string pass)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(pass))
+            {
+                return null;
+            }
+            try
+            {
+                GiangVien gv = contextGV.GetByEmailAndPass(email,pass);
+                return gv;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+
+        }
     }
 }

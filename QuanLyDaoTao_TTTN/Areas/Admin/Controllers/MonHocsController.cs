@@ -1,5 +1,6 @@
 ﻿using BLL;
 using DAO;
+using QuanLyDaoTao_TTTN.Areas.Admin.Fillter;
 using System.Net;
 using System.Web.Mvc;
 
@@ -10,12 +11,14 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         private MonHocBLL contextMH = new MonHocBLL();
 
         // GET: Admin/MonHocs
+        [SessionCheck]
         public ActionResult Index()
         {
             return View(contextMH.GetAll());
         }
 
         // GET: Admin/MonHocs/Details/5
+        [SessionCheck]
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -31,6 +34,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/MonHocs/Create
+        [SessionCheck]
         public ActionResult Create()
         {
             return View();
@@ -41,6 +45,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Create([Bind(Include = "MaMH,TenMH,SoTinChiLyThuyet,SoTinChiThucHanh")] MonHoc monHoc)
         {
             if (ModelState.IsValid)
@@ -53,6 +58,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/MonHocs/Edit/5
+        [SessionCheck]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -72,6 +78,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Edit([Bind(Include = "MaMH,TenMH,SoTinChiLyThuyet,SoTinChiThucHanh")] MonHoc monHoc)
         {
             if (ModelState.IsValid)
@@ -83,6 +90,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/MonHocs/Delete/5
+        [SessionCheck]
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -100,6 +108,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // POST: Admin/MonHocs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult DeleteConfirmed(string id)
         {
             contextMH.Delete(id);

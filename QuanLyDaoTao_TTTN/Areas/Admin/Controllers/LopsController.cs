@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using DAO;
 using BLL;
+using QuanLyDaoTao_TTTN.Areas.Admin.Fillter;
 
 namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
 {
@@ -16,15 +17,19 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         private LopBLL contextLop = new LopBLL();
         private KhoaBLL contextKhoa = new KhoaBLL();
         // GET: Admin/Lops
+        [SessionCheck]
         public ActionResult Index()
         {
+          
             var lops = contextLop.GetAll();
             return View(lops);
         }
 
         // GET: Admin/Lops/Details/5
+        [SessionCheck]
         public ActionResult Details(string id)
         {
+           
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -38,8 +43,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/Lops/Create
+        [SessionCheck]
         public ActionResult Create()
-        {
+        {   
             ViewBag.MaKhoa = new SelectList(contextKhoa.GetAll(), "MaKhoa", "TenKhoa");
             return View();
         }
@@ -49,8 +55,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Create([Bind(Include = "MaLop,TenLop,NienKhoa,MaKhoa")] Lop lop)
-        {
+        {   
             if (ModelState.IsValid)
             {
                 contextLop.Create(lop);   
@@ -62,8 +69,10 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/Lops/Edit/5
+        [SessionCheck]
         public ActionResult Edit(string id)
         {
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -82,8 +91,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Edit([Bind(Include = "MaLop,TenLop,NienKhoa,MaKhoa")] Lop lop)
-        {
+        {   
             if (ModelState.IsValid)
             {
                 contextLop.Edit(lop);
@@ -94,8 +104,10 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/Lops/Delete/5
+        [SessionCheck]
         public ActionResult Delete(string id)
         {
+           
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -111,8 +123,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // POST: Admin/Lops/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult DeleteConfirmed(string id)
-        {
+        {  
             contextLop.Delete(id);  
             return RedirectToAction("Index");
         }     

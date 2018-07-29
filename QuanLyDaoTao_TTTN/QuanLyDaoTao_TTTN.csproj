@@ -141,6 +141,7 @@
     <Compile Include="Areas\Admin\Controllers\MonHocsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SinhViensController.cs" />
     <Compile Include="Areas\Admin\Controllers\ThoiKhoaBieuxController.cs" />
+    <Compile Include="Areas\Admin\Fillter\SessionCheck.cs" />
     <Compile Include="Areas\Admin\Models\GiangVienModel.cs" />
     <Compile Include="Areas\Admin\Models\LopTinChiModel.cs" />
     <Compile Include="Areas\Admin\Models\MonHocModel.cs" />
@@ -158,7 +159,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Content\Admin\admin.css" />
     <Content Include="Areas\Admin\Content\Lop\create.css" />
+    <Content Include="Areas\Admin\Images\LoginAdmin\blur-26347-27038-hd-wallpapers.jpg" />
+    <Content Include="Areas\Admin\Script\ThoiKhoaBieu\bootstrap-datetimepicker.min.js" />
     <Content Include="Areas\Admin\Script\ThoiKhoaBieu\full-year-calendar.js" />
     <Content Include="Areas\Admin\Script\ThoiKhoaBieu\moment.js" />
     <Content Include="Assets\data\flot-data.js" />
@@ -517,7 +521,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Content\ThoiKhoaBieu\" />
-    <Folder Include="Areas\Admin\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,5 +1,6 @@
 ﻿using BLL;
 using DAO;
+using QuanLyDaoTao_TTTN.Areas.Admin.Fillter;
 using QuanLyDaoTao_TTTN.Areas.Admin.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         private MonHocBLL contextMH = new MonHocBLL();
 
         // GET: Admin/LopTinChis
+        [SessionCheck]
         public ActionResult Index()
         {
             var lopTinChis = contextLopTC.GetAll();
@@ -22,6 +24,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/LopTinChis/Details/5
+        [SessionCheck]
         public ActionResult Details(int id)
         {
             LopTinChi lopTinChi = contextLopTC.GetById(id);
@@ -33,6 +36,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/LopTinChis/Create
+        [SessionCheck]
         public ActionResult Create()
         {
             ViewBag.MaGV = new SelectList(contextGV.GetALL(), "MaGV", "TenDayDu");
@@ -68,6 +72,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Create([Bind(Include = "MaLopTC,HocKy,Nhom,NienKhoa,MaMonHoc,MaGV,TrangThai")] LopTinChi lopTinChi)
         {
             var nienKhoa = from EnumNienKhoa e in Enum.GetValues(typeof(EnumNienKhoa))
@@ -91,6 +96,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/LopTinChis/Edit/5
+        [SessionCheck]
         public ActionResult Edit(int id)
         {
             var nienKhoa = from EnumNienKhoa e in Enum.GetValues(typeof(EnumNienKhoa))
@@ -117,6 +123,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Edit([Bind(Include = "MaLopTC,HocKy,Nhom,NienKhoa,MaMonHoc,MaGV,TrangThai")] LopTinChi lopTinChi)
         {
             if (ModelState.IsValid)
@@ -130,6 +137,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/LopTinChis/Delete/5
+        [SessionCheck]
         public ActionResult Delete(int id)
         {
             LopTinChiBLL contextLTC = new LopTinChiBLL();
@@ -152,6 +160,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // POST: Admin/LopTinChis/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult DeleteConfirmed(int id)
         {
             contextLopTC.Delete(id);

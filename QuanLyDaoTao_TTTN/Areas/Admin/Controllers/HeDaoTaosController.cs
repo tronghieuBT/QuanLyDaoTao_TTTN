@@ -1,5 +1,6 @@
 ﻿using BLL;
 using DAO;
+using QuanLyDaoTao_TTTN.Areas.Admin.Fillter;
 using System.Net;
 using System.Web.Mvc;
 
@@ -10,14 +11,16 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         private HeDaoTaoBLL contextHDT = new HeDaoTaoBLL();
 
         // GET: Admin/HeDaoTaos
+        [SessionCheck]
         public ActionResult Index()
-        {
+        {  
             return View(contextHDT.GetAll());
         }
 
         // GET: Admin/HeDaoTaos/Details/5
+        [SessionCheck]
         public ActionResult Details(string id)
-        {
+        { 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -31,8 +34,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/HeDaoTaos/Create
+        [SessionCheck]
         public ActionResult Create()
-        {
+        { 
             return View();
         }
 
@@ -41,8 +45,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Create([Bind(Include = "MaHDT,TenHDT,GhiChu")] HeDaoTao heDaoTao)
-        {
+        {    
             if (ModelState.IsValid)
             {
                 contextHDT.Create(heDaoTao);
@@ -53,8 +58,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/HeDaoTaos/Edit/5
+        [SessionCheck]
         public ActionResult Edit(string id)
-        {
+        {  
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -72,8 +78,10 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Edit([Bind(Include = "MaHDT,TenHDT,GhiChu")] HeDaoTao heDaoTao)
         {
+           
             if (ModelState.IsValid)
             {
                 contextHDT.Edit(heDaoTao);
@@ -83,8 +91,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/HeDaoTaos/Delete/5
+        [SessionCheck]
         public ActionResult Delete(string id)
-        {
+        {    
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -100,8 +109,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // POST: Admin/HeDaoTaos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult DeleteConfirmed(string id)
-        {
+        {   
             HeDaoTao heDaoTao = contextHDT.GetById(id);
             contextHDT.Delete(id);
             return RedirectToAction("Index");

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DAO;
+using QuanLyDaoTao_TTTN.Areas.Admin.Fillter;
 
 namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
 {
@@ -15,15 +16,17 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         private QuanLyDaoTaoEntities db = new QuanLyDaoTaoEntities();
 
         // GET: Admin/HocPhiTheoDangKies
+        [SessionCheck]
         public ActionResult Index()
-        {
+        {  
             var hocPhiTheoDangKies = db.HocPhiTheoDangKies.Include(h => h.GiaTinChi);
             return View(hocPhiTheoDangKies.ToList());
         }
 
         // GET: Admin/HocPhiTheoDangKies/Details/5
+        [SessionCheck]
         public ActionResult Details(string id)
-        {
+        {  
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -37,8 +40,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/HocPhiTheoDangKies/Create
+        [SessionCheck]
         public ActionResult Create()
-        {
+        {   
             ViewBag.MaGiaTC = new SelectList(db.GiaTinChis, "MaGiaTC", "MaHDT");
             return View();
         }
@@ -48,8 +52,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Create([Bind(Include = "ID,SoTienDong,SoTinChi,NienKhoa,GhiChu,MaGiaTC")] HocPhiTheoDangKy hocPhiTheoDangKy)
-        {
+        {  
             if (ModelState.IsValid)
             {
                 db.HocPhiTheoDangKies.Add(hocPhiTheoDangKy);
@@ -62,8 +67,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/HocPhiTheoDangKies/Edit/5
+        [SessionCheck]
         public ActionResult Edit(string id)
-        {
+        {  
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -82,8 +88,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Edit([Bind(Include = "ID,SoTienDong,SoTinChi,NienKhoa,GhiChu,MaGiaTC")] HocPhiTheoDangKy hocPhiTheoDangKy)
-        {
+        { 
             if (ModelState.IsValid)
             {
                 db.Entry(hocPhiTheoDangKy).State = EntityState.Modified;
@@ -95,8 +102,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/HocPhiTheoDangKies/Delete/5
+        [SessionCheck]
         public ActionResult Delete(string id)
-        {
+        {  
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -112,8 +120,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // POST: Admin/HocPhiTheoDangKies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult DeleteConfirmed(string id)
-        {
+        {   
             HocPhiTheoDangKy hocPhiTheoDangKy = db.HocPhiTheoDangKies.Find(id);
             db.HocPhiTheoDangKies.Remove(hocPhiTheoDangKy);
             db.SaveChanges();

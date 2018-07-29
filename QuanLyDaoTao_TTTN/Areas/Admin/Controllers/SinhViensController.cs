@@ -1,5 +1,6 @@
 ﻿using BLL;
 using DAO;
+using QuanLyDaoTao_TTTN.Areas.Admin.Fillter;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -13,6 +14,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         private LopBLL contextLop = new LopBLL();
 
         // GET: Admin/SinhViens
+        [SessionCheck]
         public ActionResult Index()
         {
             var sinhViens = contextSV.GetAll();
@@ -20,6 +22,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/SinhViens/Details/5
+        [SessionCheck]
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -35,6 +38,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/SinhViens/Create
+        [SessionCheck]
         public ActionResult Create()
         {
             ViewBag.HeDaoTao = new SelectList(contextHDT.GetAll(), "MaHDT", "TenHDT");
@@ -47,6 +51,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Create([Bind(Include = "MaSV,HoVaTenLot,TenSV,GioiTinh,NgaySinh,HeDaoTao,Email,MaLop,MatKhau")] SinhVien sinhVien)
         {
             if (ModelState.IsValid)
@@ -61,6 +66,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/SinhViens/Edit/5
+        [SessionCheck]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -82,6 +88,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Edit([Bind(Include = "MaSV,HoVaTenLot,TenSV,GioiTinh,NgaySinh,HeDaoTao,Email,MaLop,MatKhau")] SinhVien sinhVien)
         {
             if (ModelState.IsValid)
@@ -95,6 +102,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/SinhViens/Delete/5
+        [SessionCheck]
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -112,6 +120,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // POST: Admin/SinhViens/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult DeleteConfirmed(string id)
         {
             contextSV.Delete(id);

@@ -1,5 +1,6 @@
 ﻿using BLL;
 using DAO;
+using QuanLyDaoTao_TTTN.Areas.Admin.Fillter;
 using System.Net;
 using System.Web.Mvc;
 
@@ -11,15 +12,17 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         private HeDaoTaoBLL contextHDT = new HeDaoTaoBLL();
 
         // GET: Admin/GiaTinChis
+        [SessionCheck]
         public ActionResult Index()
-        {
+        {   
             var giaTinChis = contextGiaTC.GetAll();
             return View(giaTinChis);
         }
 
         // GET: Admin/GiaTinChis/Details/5
+        [SessionCheck]
         public ActionResult Details(string id)
-        {
+        {  
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -33,8 +36,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/GiaTinChis/Create
+        [SessionCheck]
         public ActionResult Create()
-        {
+        {  
             ViewBag.MaHDT = new SelectList(contextHDT.GetAll(), "MaHDT", "TenHDT");
             return View();
         }
@@ -44,8 +48,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Create([Bind(Include = "MaGiaTC,MaHDT,Gia,NgayThayDoi")] GiaTinChi giaTinChi)
-        {
+        {  
             if (ModelState.IsValid)
             {
                 contextGiaTC.Create(giaTinChi);
@@ -57,8 +62,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/GiaTinChis/Edit/5
+        [SessionCheck]
         public ActionResult Edit(string id)
-        {
+        {   
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -77,8 +83,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Edit([Bind(Include = "MaGiaTC,MaHDT,Gia,NgayThayDoi")] GiaTinChi giaTinChi)
-        {
+        {  
             if (ModelState.IsValid)
             {
                 contextGiaTC.Edit(giaTinChi);
@@ -89,8 +96,10 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/GiaTinChis/Delete/5
+        [SessionCheck]
         public ActionResult Delete(string id)
         {
+           
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -106,8 +115,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // POST: Admin/GiaTinChis/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult DeleteConfirmed(string id)
-        {
+        { 
             contextGiaTC.Delete(id);
             return RedirectToAction("Index");
         }

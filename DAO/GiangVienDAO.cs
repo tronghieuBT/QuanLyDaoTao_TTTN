@@ -68,5 +68,14 @@ namespace DAO
                 context.SaveChanges();
             }
         }
+
+        public GiangVien GetByEmailAndPass(string email, string pass)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                GiangVien giangVien = context.GiangViens.Where(x=> x.Email == email && x.MatKhau == pass).FirstOrDefault();
+                return giangVien;
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BLL;
 using DAO;
+using QuanLyDaoTao_TTTN.Areas.Admin.Fillter;
 using System.Net;
 using System.Web.Mvc;
 
@@ -10,14 +11,16 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         private KhoaBLL context = new KhoaBLL();
 
         // GET: Admin/Khoas
+        [SessionCheck]
         public ActionResult Index()
-        {
+        {   
             return View(context.GetAll());
         }
 
         // GET: Admin/Khoas/Details/5
+        [SessionCheck]
         public ActionResult Details(string id)
-        {
+        {   
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -31,8 +34,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/Khoas/Create
+        [SessionCheck]
         public ActionResult Create()
-        {
+        {  
             return View();
         }
 
@@ -41,8 +45,10 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Create([Bind(Include = "MaKhoa,TenKhoa")] Khoa khoa)
         {
+           
             if (ModelState.IsValid)
             {
                 context.Create(khoa);
@@ -53,8 +59,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/Khoas/Edit/5
+        [SessionCheck]
         public ActionResult Edit(string id)
-        {
+        { 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -72,8 +79,10 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult Edit([Bind(Include = "MaKhoa,TenKhoa")] Khoa khoa)
         {
+           
             if (ModelState.IsValid)
             {
                 context.Edit(khoa);
@@ -83,8 +92,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/Khoas/Delete/5
+        [SessionCheck]
         public ActionResult Delete(string id)
-        {
+        {  
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -100,8 +110,10 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // POST: Admin/Khoas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [SessionCheck]
         public ActionResult DeleteConfirmed(string id)
         {
+          
             context.Delete(id);
             return RedirectToAction("Index");
         }
