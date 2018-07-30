@@ -5,36 +5,67 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Thời khóa biểu</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Tạo thời khóa biểu", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.TietBD)
+            <label>Mã lớp tín chỉ</label>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LopTinChi.NienKhoa)
+            <label>Mã giảng viên</label>
+        </th>
+        <th>
+            <label>Giảng viên giảng dạy</label>
+        </th>
+        <th>
+            <label>Ngày</label>
+        </th>
+        <th>
+            <label>Buổi</label>
+        </th>
+        <th>
+            <label>Tiết bắt đầu</label>
+        </th>
+        <th>
+            <label>Niên khóa</label>
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TietBD)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LopTinChi.NienKhoa)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaLopTC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LopTinChi.MaGV)
+            </td>
+            <td>
+               @{ 
+                   var tenGV = item.LopTinChi.GiangVien.HoVaTenLot + " " + item.LopTinChi.GiangVien.TenGV;
+               }
+               <label>@tenGV</label>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ngay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Buoi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TietBD)
+            <td>
+                @Html.DisplayFor(modelItem => item.LopTinChi.NienKhoa)
+            </td>
+            <td>
+                @*@Html.ActionLink("Sửa", "Edit", new { tkb = item })*@ |
+                @Html.ActionLink("Xóa", "Delete", new { tkb = item })
+            </td>
+        </tr>
+    }
 </table>

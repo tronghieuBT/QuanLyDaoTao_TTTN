@@ -150,9 +150,11 @@
     <Compile Include="Controllers\GiangVienController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SinhVienController.cs" />
+    <Compile Include="Fillter\CheckLogin.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\GiangVienModel.cs" />
     <Compile Include="Models\MonHocModel.cs" />
     <Compile Include="Models\SupportThoiKhoaBieu.cs" />
     <Compile Include="Models\ThoiKhoaBieuModel.cs" />
@@ -161,6 +163,7 @@
   <ItemGroup>
     <Content Include="Areas\Admin\Content\Admin\admin.css" />
     <Content Include="Areas\Admin\Content\Lop\create.css" />
+    <Content Include="Areas\Admin\Content\ThoiKhoaBieu\jquerysctipttop.css" />
     <Content Include="Areas\Admin\Images\LoginAdmin\blur-26347-27038-hd-wallpapers.jpg" />
     <Content Include="Areas\Admin\Script\ThoiKhoaBieu\bootstrap-datetimepicker.min.js" />
     <Content Include="Areas\Admin\Script\ThoiKhoaBieu\full-year-calendar.js" />
@@ -265,6 +268,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\DangNhap\main.css" />
     <Content Include="Content\DangNhap\util.css" />
+    <Content Include="Content\footer.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="fonts\font-awesome-4.7.0\css\font-awesome.min.css" />
@@ -520,7 +524,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Content\ThoiKhoaBieu\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

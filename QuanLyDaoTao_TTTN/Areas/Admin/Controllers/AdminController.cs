@@ -1,9 +1,5 @@
 ﻿using BLL;
 using DAO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
@@ -13,19 +9,21 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // GET: Admin/Admin
         public ActionResult Index()
         {
+            Session["Admin"] = null;
             return View();
         }
-
-        public JsonResult CheckLogin(string email, string pass)
-        {
+        [HttpPost]
+        public ActionResult CheckLogin(string email, string pass)
+        {   
             GiangVienBLL contextGV = new GiangVienBLL();
             GiangVien gv = contextGV.GetByEmailAndPass(email, pass);
-            if(gv == null)
+            if (gv == null)
             {
-                return Json(new { msg = "FALSE" });
+                ViewBag.Msg = "Tên đăng nhập hoặc mật khẩu không chính xác!";
+                return RedirectToAction("Index");
             }
             Session["Admin"] = gv.HoVaTenLot + " " + gv.TenGV;
-            return Json(new { msg = "OK" });
+            return RedirectToAction("Index", "Khoas");
         }
     }
 }

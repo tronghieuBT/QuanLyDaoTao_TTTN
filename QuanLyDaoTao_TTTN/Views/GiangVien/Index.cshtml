@@ -1,11 +1,448 @@
-﻿
+﻿@model List<QuanLyDaoTao_TTTN.Models.SupportThoiKhoaBieu>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<link href="~/Content/SinhVien/reset.css" rel="stylesheet" />
+<link href="~/Content/SinhVien/style.css" rel="stylesheet" />
+<title>Schedule Template | CodyHouse</title>
 
-<h2>Giảng viên</h2>
-<div>
-    @Session["GiangVien"]
+
+<style>
+    body {
+        background-color: burlywood;
+    }
+
+    .sv-info {
+        display: flex;
+        font-weight: bold;
+        padding: 10px;
+    }
+
+    .drop-weeks {
+        display: flex;
+    }
+
+    .content-sv {
+        display: grid;
+        padding: 10px;
+        border: 0.5px solid;
+    }
+
+    .label-sv {
+        margin: 5px;
+    }
+
+    .fill-label {
+        width: 200px;
+    }
+</style>
+<div class="row">
+    <div class="col drop-weeks">
+        <label class="form-control fill-label">Lọc theo tuần</label>
+        @Html.DropDownList("Tuan", new SelectList(ViewBag.weeks, "Text", "Value"), new { @class = "form-control selected-week", @onchange = "Onchange()" })
+    </div>
+    <div class="col drop-weeks">
+        <label class="form-control fill-label week-current">Thời khóa biểu :</label>
+        <span class="form-control selected-week">@ViewBag.WeekCurrent</span>
+    </div>
 </div>
+<div class="row">
+    <div class="row sv-info">
+        <div class="col">
+            <label>Thông tin giảng viên</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 content-sv">
+            <label class="label-sv">Mã giảng viên :</label>
+            <label class="label-sv">Họ và tên :</label>
+            <label class="label-sv">Giới tính :</label>
+            <label class="label-sv">Trình độ :</label>
+            <label class="label-sv">Khoa :</label>
+            <label class="label-sv">Email :</label>
+        </div>
+        <div class="col-md-9 content-sv" style="">
+            <span class="label-sv">@Session["MaGV"]</span>
+            <span class="label-sv">@Session["GiangVien"]</span>
+            <span class="label-sv">@ViewData["GioiTinh"]</span>
+            <span class="label-sv">@ViewData["TrinhDo"]</span>
+            <span class="label-sv">@ViewData["Khoa"]</span>
+            <span class="label-sv">@ViewData["Email"]</span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="cd-schedule loading">
+        <div class="timeline">
+            <ul>
+                <li><span>07:00</span></li>
+                <li><span>08:00</span></li>
+                <li><span>09:00</span></li>
+                <li><span>10:00</span></li>
+                <li><span>11:00</span></li>
+                <li><span>12:00</span></li>
+                <li><span>13:00</span></li>
+                <li><span>14:00</span></li>
+                <li><span>15:00</span></li>
+                <li><span>16:00</span></li>
+            </ul>
+        </div> <!-- .timeline -->
+        <div class="events">
+            <ul class="date-of-week" style="display:flex">
+                <!-- Thứ 2 -->
+                <li class="events-group">
+                    <div class="top-info"><span>Thứ 2</span></div>
+                    <ul>
+                        <li class="single-event" data-start="07:30" data-end="11:00" data-content="event-abs-circuit" data-event="event-1">
+                            <a href="#0">
+                                <em class="event-name content-tkb-monday-m"></em>
+                            </a>
+                        </li>
+                        <li class="single-event" data-start="13:00" data-end="16:00" data-content="event-abs-circuit" data-event="event-1">
+                            <a href="#0">
+                                <em class="event-name content-tkb-monday-a"></em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Thứ 3 -->
+                <li class="events-group">
+                    <div class="top-info"><span>Thứ 3</span></div>
+                    <ul>
+                        <li class="single-event" data-start="07:30" data-end="11:00" data-content="event-rowing-workout" data-event="event-2">
+                            <a href="#0">
+                                <em class="event-name content-tkb-tuesday-m"></em>
+                            </a>
+                        </li>
+                        <li class="single-event" data-start="13:00" data-end="16:00" data-content="event-rowing-workout" data-event="event-2">
+                            <a href="#0">
+                                <em class="event-name content-tkb-tuesday-a"></em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Thứ 4 -->
+                <li class="events-group">
+                    <div class="top-info"><span>Thứ 4</span></div>
+                    <ul>
+                        <li class="single-event" data-start="07:30" data-end="11:00" data-content="event-restorative-yoga" data-event="event-4">
+                            <a href="#0">
+                                <em class="event-name content-tkb-wednesday-m"></em>
+                            </a>
+                        </li>
+                        <li class="single-event" data-start="13:00" data-end="16:00" data-content="event-restorative-yoga" data-event="event-4">
+                            <a href="#0">
+                                <em class="event-name content-tkb-wednesday-a"></em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Thứ 5 -->
+                <li class="events-group">
+                    <div class="top-info"><span>Thứ 5</span></div>
+                    <ul>
+                        <li class="single-event" data-start="07:30" data-end="11:00" data-content="event-abs-circuit" data-event="event-1">
+                            <a href="#0">
+                                <em class="event-name content-tkb-thursday-m"></em>
+                            </a>
+                        </li>
+                        <li class="single-event" data-start="13:00" data-end="16:00" data-content="event-abs-circuit" data-event="event-1">
+                            <a href="#0">
+                                <em class="event-name content-tkb-thursday-a"></em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Thứ 6 -->
+                <li class="events-group">
+                    <div class="top-info"><span>Thứ 6</span></div>
+                    <ul>
+                        <li class="single-event" data-start="07:30" data-end="11:00" data-content="event-rowing-workout" data-event="event-2">
+                            <a href="#0">
+                                <em class="event-name content-tkb-friday-m"></em>
+                            </a>
+                        </li>
+                        <li class="single-event" data-start="13:00" data-end="16:00" data-content="event-rowing-workout" data-event="event-2">
+                            <a href="#0">
+                                <em class="event-name content-tkb-friday-a"></em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Thứ 7 -->
+                <li class="events-group">
+                    <div class="top-info"><span>Thứ 7</span></div>
+                    <ul>
+                        <li class="single-event" data-start="07:30" data-end="11:00" data-content="event-rowing-workout" data-event="event-2">
+                            <a href="#0">
+                                <em class="event-name content-tkb-saturday-m"></em>
+                            </a>
+                        </li>
+                        <li class="single-event" data-start="13:00" data-end="16:00" data-content="event-rowing-workout" data-event="event-2">
+                            <a href="#0">
+                                <em class="event-name content-tkb-saturday-a"></em>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="event-modal">
+            <header class="header">
+                <div class="content">
+                    <span class="event-date"></span>
+                    <h3 class="event-name"></h3>
+                </div>
+                <div class="header-bg"></div>
+            </header>
+            <div class="body">
+                <div class="event-info"></div>
+                <div class="body-bg"></div>
+            </div>
+            <a href="#0" class="close">Close</a>
+        </div>
+        <div class="cover-layer"></div>
+    </div>
+</div>
+<!-- .cd-schedule -->
+<script src="~/Scripts/SinhVien/modernizr.js"></script>
+<script>
+    if (!window.jQuery) document.write('<script src="~/Scripts/SinhVien/jquery-3.0.0.min.js"><\/script>');
+</script>
+<script src="~/Scripts/SinhVien/main.js"></script>
+
+<script>
+    $(document).ready( function(){
+        if(@Model.Count>0){
+            @foreach(var item in Model)
+            {
+                if (item.listTKB.Count > 0)
+                {
+                    foreach(var tkb in item.listTKB)
+                    {
+                        switch (tkb.Ngay.DayOfWeek)
+                        {
+                            case DayOfWeek.Monday:
+                                {
+                                    if(tkb.TietBD == 1)
+                                    {
+                                        <text>
+            $(".content-tkb-monday-m").text('@Html.Raw(@item.MonHoc.TenMH)');
+            </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+            $('.content-tkb-monday-a').text( '@Html.Raw(@item.MonHoc.TenMH)') ;
+            </text>
+                                    }
+                                    break;
+                                }
+                            case DayOfWeek.Tuesday:
+                                {
+                                    if(tkb.TietBD == 1)
+                                    {
+                                        <text>
+            $('.content-tkb-tuesday-m').text('@Html.Raw(@item.MonHoc.TenMH)' ) ;
+            </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+            $('.content-tkb-tuesday-a').text( '@Html.Raw(@item.MonHoc.TenMH)' );
+            </text>
+                                    }
+                                    break;
+                                }
+                            case DayOfWeek.Wednesday:
+                                {
+                                    if(tkb.TietBD == 1)
+                                    {
+                                        <text>
+
+            $('.content-tkb-wednesday-m').text('@Html.Raw(@item.MonHoc.TenMH)');
+
+            </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+            $('.content-tkb-wednesday-a').text('@Html.Raw(@item.MonHoc.TenMH)');
+            </text>
+                                    }
+                                    break;
+                                }
+                            case DayOfWeek.Thursday:
+                                {
+                                    if(tkb.TietBD == 1)
+                                    {
+                                        <text>
+            $('.content-tkb-thursday-m').text( '@Html.Raw(@item.MonHoc.TenMH)' );
+            </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+            $('.content-tkb-thursday-a').text( '@Html.Raw(@item.MonHoc.TenMH)' );
+            </text>
+                                    }
+                                    break;
+                                }
+                            case DayOfWeek.Friday:
+                                {
+                                    if(tkb.TietBD == 1)
+                                    {
+                                        <text>
+            $('.content-tkb-friday-m').text( '@Html.Raw(@item.MonHoc.TenMH)' ) ;
+            </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+            $('.content-tkb-friday-a').text( '@Html.Raw(@item.MonHoc.TenMH)' );
+            </text>
+                                    }
+                                    break;
+                                }
+                            case DayOfWeek.Saturday:
+                                {
+                                    if(tkb.TietBD == 1)
+                                    {
+                                        <text>
+            $('.content-tkb-saturday-m').text( '@Html.Raw(@item.MonHoc.TenMH)' );
+            </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+            $('.content-tkb-saturday-a').text( '@Html.Raw(@item.MonHoc.TenMH)' );
+            </text>
+                                    }
+                                    break;
+                                }
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+    function Onchange(){
+        var week =  $("#Tuan").val();
+        $('.selected-week').val(week);
+        var tuan = {
+            tuan : week
+        }
+        if(week!= null && week != ""){
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LocTKBTHeoTuan", "GiangVien")',
+                data: JSON.stringify(tuan),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8'
+            }).done(function (data) {
+                var listData = data.ListData;
+                $(".content-tkb-monday-m").html('');
+                $('.content-tkb-monday-a').html('');
+                $(".content-tkb-tuesday-m").html('');
+                $('.content-tkb-tuesday-a').html('');
+                $(".content-tkb-wednesday-m").html('');
+                $('.content-tkb-wednesday-a').html('');
+                $(".content-tkb-thursday-m").html('');
+                $('.content-tkb-thursday-a').html('');
+                $(".content-tkb-friday-m").html('');
+                $('.content-tkb-friday-a').html('');
+                $(".content-tkb-saturday-m").html('');
+                $('.content-tkb-saturday-a').html('');
+                for(var i =0;i< listData.length;i++){
+                    if (listData[i].listTKB.length > 0)
+                    {
+                        for(var j = 0;j< listData[i].listTKB.length;j++)
+                        {
+                            if(listData[i].listTKB[j].DayOfWeek == 1)
+                            {
+                                if(listData[i].listTKB[j].TietBD == 1)
+                                {
+                                    $(".content-tkb-monday-m").html(listData[i].MonHoc.TenMH);
+                                }
+                                else
+                                {
+                                    $('.content-tkb-monday-a').html(listData[i].MonHoc.TenMH) ;
+                                }
+                            }
+                            else if(listData[i].listTKB[j].DayOfWeek == 2)
+                            {
+                                if(listData[i].listTKB[j].TietBD == 1)
+                                {
+                                    $('.content-tkb-tuesday-m').html(listData[i].MonHoc.TenMH) ;
+                                }
+                                else
+                                {
+                                    $('.content-tkb-tuesday-a').html(listData[i].MonHoc.TenMH);
+                                }
+                            }
+                            else if(listData[i].listTKB[j].DayOfWeek == 3)
+                            {
+                                if(listData[i].listTKB[j].TietBD == 1)
+                                {
+
+                                    $('.content-tkb-wednesday-m').html(listData[i].MonHoc.TenMH);
+
+                                }
+                                else
+                                {
+                                    $('.content-tkb-wednesday-a').html(listData[i].MonHoc.TenMH);
+                                }
+                            }
+                            else if(listData[i].listTKB[j].DayOfWeek == 4)
+                            {
+                                if(listData[i].listTKB[j].TietBD == 1)
+                                {
+                                    $('.content-tkb-thursday-m').html(listData[i].MonHoc.TenMH);
+                                }
+                                else
+                                {
+                                    $('.content-tkb-thursday-a').html(listData[i].MonHoc.TenMH);
+                                }
+                            }
+                            else if(listData[i].listTKB[j].DayOfWeek == 5)
+                            {
+                                if(listData[i].listTKB[j].TietBD == 1)
+                                {
+                                    $('.content-tkb-friday-m').html(listData[i].MonHoc.TenMH) ;
+                                }
+                                else
+                                {
+                                    $('.content-tkb-friday-a').html(listData[i].MonHoc.TenMH);
+                                }
+                            }
+                            else if(listData[i].listTKB[j].DayOfWeek == 6)
+                            {
+                                if(listData[i].listTKB[j].TietBD == 1)
+                                {
+                                    $('.content-tkb-saturday-m').html(listData[i].MonHoc.TenMH);
+                                }
+                                else
+                                {
+                                    $('.content-tkb-saturday-a').html(listData[i].MonHoc.TenMH);
+                                }
+                            }
+                        }
+                    }
+                }
+            }).fail(function (data) {
+                alert(data.msg);
+            });
+            return false;
+        }
+    }
+</script>
+
+
 

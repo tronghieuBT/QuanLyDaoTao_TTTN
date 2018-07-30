@@ -22,27 +22,88 @@ namespace QuanLyDaoTao_TTTN.Models
             MonHocBLL contextMH = new MonHocBLL();
             foreach (var item in lopTCs)
             {
-                SupportThoiKhoaBieu spTKB = new SupportThoiKhoaBieu();
-                spTKB.listTKB = contextTKB.GetByMaLopTC(item.MaLopTC).Select(s=> new ThoiKhoaBieuModel {
-                Ngay = s.Ngay,
-                Buoi = s.Buoi,
-                MaLopTC = s.MaLopTC,
-                TietBD = s.TietBD
-                }).ToList();
-                //duyệt danh sách thời khóa biểu của lớp tín chỉ đăng ký xem đã hoàn thành chưa
-                foreach (var tkb in spTKB.listTKB)
+                if (item.TrangThai == true)
                 {
-                    if (tkb.Ngay.DayOfYear >= dtStart.DayOfYear && tkb.Ngay.DayOfYear <= dtEnd.DayOfYear)
+                    SupportThoiKhoaBieu spTKB = new SupportThoiKhoaBieu();
+                    spTKB.listTKB = contextTKB.GetByMaLopTC(item.MaLopTC).Select(s => new ThoiKhoaBieuModel
                     {
-                        var moHoc = contextMH.GetById(item.MaMonHoc);
-                        spTKB.MonHoc = new MonHocModel
+                        Ngay = s.Ngay,
+                        Buoi = s.Buoi,
+                        MaLopTC = s.MaLopTC,
+                        TietBD = s.TietBD
+                    }).ToList();
+                    //duyệt danh sách thời khóa biểu của lớp tín chỉ đăng ký xem đã hoàn thành chưa
+                    foreach (var tkb in spTKB.listTKB)
+                    {
+                        if (lstSPTKB.Count > 0)
                         {
-                            MaMH = moHoc.MaMH,
-                            SoTinChiLyThuyet = moHoc.SoTinChiLyThuyet,
-                            SoTinChiThucHanh = moHoc.SoTinChiThucHanh,
-                            TenMH = moHoc.TenMH
-                        };
-                        lstSPTKB.Add(spTKB);
+                            int count = lstSPTKB.Count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                var itemSPTKB = lstSPTKB[i];
+                                if (itemSPTKB.MonHoc.MaMH == item.MaMonHoc)
+                                {
+                                    if (tkb.Ngay.DayOfYear >= dtStart.DayOfYear && tkb.Ngay.DayOfYear <= dtEnd.DayOfYear)
+                                    {
+                                        ThoiKhoaBieuModel tkbModel = new ThoiKhoaBieuModel
+                                        {
+                                            Buoi = tkb.Buoi,
+                                            MaLopTC = tkb.MaLopTC,
+                                            Ngay = tkb.Ngay,
+                                            TietBD = tkb.TietBD
+                                        };
+                                        itemSPTKB.listTKB.Add(tkbModel);
+                                    }
+                                }
+                                else
+                                {
+                                    SupportThoiKhoaBieu sptkb = new SupportThoiKhoaBieu();
+                                    sptkb.listTKB = new List<ThoiKhoaBieuModel>();
+                                    MonHoc mh = contextMH.GetById(item.MaMonHoc);
+                                    sptkb.MonHoc = new MonHocModel
+                                    {
+                                        MaMH = mh.MaMH,
+                                        SoTinChiLyThuyet = mh.SoTinChiLyThuyet,
+                                        SoTinChiThucHanh = mh.SoTinChiThucHanh,
+                                        TenMH = mh.TenMH
+                                    };
+                                    ThoiKhoaBieuModel tkbModel = new ThoiKhoaBieuModel
+                                    {
+                                        Buoi = tkb.Buoi,
+                                        MaLopTC = tkb.MaLopTC,
+                                        Ngay = tkb.Ngay,
+                                        TietBD = tkb.TietBD
+                                    };
+                                    sptkb.listTKB.Add(tkbModel);
+                                    lstSPTKB.Add(sptkb);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (tkb.Ngay.DayOfYear >= dtStart.DayOfYear && tkb.Ngay.DayOfYear <= dtEnd.DayOfYear)
+                            {
+                                SupportThoiKhoaBieu sptkb = new SupportThoiKhoaBieu();
+                                sptkb.listTKB = new List<ThoiKhoaBieuModel>();
+                                MonHoc mh = contextMH.GetById(item.MaMonHoc);
+                                sptkb.MonHoc = new MonHocModel
+                                {
+                                    MaMH = mh.MaMH,
+                                    SoTinChiLyThuyet = mh.SoTinChiLyThuyet,
+                                    SoTinChiThucHanh = mh.SoTinChiThucHanh,
+                                    TenMH = mh.TenMH
+                                };
+                                ThoiKhoaBieuModel tkbModel = new ThoiKhoaBieuModel
+                                {
+                                    Buoi = tkb.Buoi,
+                                    MaLopTC = tkb.MaLopTC,
+                                    Ngay = tkb.Ngay,
+                                    TietBD = tkb.TietBD
+                                };
+                                sptkb.listTKB.Add(tkbModel);
+                                lstSPTKB.Add(sptkb);
+                            }
+                        }
                     }
                 }
             }

@@ -85,11 +85,11 @@ namespace BLL
         #endregion
 
         #region Delete
-        public void Delete(DateTime ngay, string buoi, int maLopTC)
+        public void Delete(ThoiKhoaBieu tkb)
         {
             try
             {
-                context.Delete(ngay, buoi, maLopTC);
+                context.Delete(tkb);
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace BLL
         }
         #endregion
 
-
+        #region  SoTietHocCoTheMo
         /// <summary>
         /// Lấy số tiết trong khaongr ngày
         /// </summary>
@@ -158,181 +158,37 @@ namespace BLL
             dem = tongSoTuan * soBuoiHocTrongTuan * 4;
             return dem;
         }
+        #endregion
 
+        #region GetCurent
+        /// <summary>
+        /// Lấy tất cả record trong  hiện tại, trước  và sau 1 năm
+        /// </summary>
+        /// <returns>List</returns>
+        public List<ThoiKhoaBieu> GetTKBCurent()
+        {
+            LopTinChiBLL contextLopTC = new LopTinChiBLL();
+            GiangVienBLL contextGV = new GiangVienBLL();
+            int yearNow = DateTime.UtcNow.Year;
+            int yearLast = yearNow - 1;
+            int yearFt = yearNow + 1;
 
-        //public bool TaoTKBTuDong(int maLopTC)
-        //{
-
-        //    ThoiKhoaBieu thoiKhoaBieuNew = new ThoiKhoaBieu();
-        //    List<ThoiKhoaBieu> lstTKBLuuTaoMoi = new List<ThoiKhoaBieu>();
-
-        //    List<SupportTKB> lstSupportTKB = new List<SupportTKB>();
-        //    LopTinChiBLL contextLTC = new LopTinChiBLL();
-        //    ThoiKhoaBieuBLL contextTKB = new ThoiKhoaBieuBLL();
-        //    GiangVienBLL contextGV = new GiangVienBLL();
-        //    MonHocBLL contextMH = new MonHocBLL();
-        //    GiangVien giangVien = new GiangVien();
-
-        //    List<ThoiKhoaBieu> lstTKB = contextTKB.GetAll();
-        //    LopTinChi ltc = contextLTC.GetById(maLopTC);
-        //    if (ltc == null)
-        //    {
-        //        return false;
-        //    }
-        //    giangVien = contextGV.GetById(ltc.MaGV);
-        //    giangVien.LopTinChis = contextLTC.GetByMaGV(giangVien.MaGV);
-
-
-        //    // nếu lớp tín chỉ đang mở
-        //    if (ltc.TrangThai == true)
-        //    {
-        //        foreach (ThoiKhoaBieu tkb in lstTKB)
-        //        {
-        //            //nếu trong tkb đã có mã lớp tc
-        //            if (tkb.MaLopTC == ltc.MaLopTC)
-        //            {
-        //                return false;
-        //            }
-        //        }
-        //        // lớp tc không có trong tkb
-        //        //duyet cac lop tin chi cua giang vien có trạng thái true
-        //        for (int i = 0; i < giangVien.LopTinChis.Count; i++)
-        //        {
-        //            if (giangVien.LopTinChis.ElementAt(i).TrangThai == true)
-        //            {
-        //                // lấy list thời khóa biểu của lớp tín chỉ giảng viên đang dạy
-        //                List<ThoiKhoaBieu> lstTKBCuaGiangVien = contextTKB.GetByMaLopTC(giangVien.LopTinChis.ElementAt(i).MaLopTC);
-        //                if (lstTKBCuaGiangVien != null)
-        //                {
-        //                    giangVien.LopTinChis.ElementAt(i).ThoiKhoaBieux = lstTKBCuaGiangVien;
-        //                    //duyệt thời khóa biểu của giảng viên , nếu ngày nào có lịch thì lưu lại
-        //                    foreach (ThoiKhoaBieu thoiKhoaBieu in giangVien.LopTinChis.ElementAt(i).ThoiKhoaBieux)
-        //                    {
-        //                        SupportTKB spTKB = new SupportTKB();
-        //                        spTKB.Ngay = thoiKhoaBieu.Ngay;
-        //                        spTKB.MaLopTC = thoiKhoaBieu.MaLopTC;
-        //                        spTKB.TietBD = thoiKhoaBieu.TietBD;
-        //                        spTKB.TrangThai = false;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        if(Int32.Parse(ltc.NienKhoa.Split('-')[0]) < DateTime.UtcNow.Year)
-        //        {
-        //            ltc.TrangThai = false;
-        //            contextLTC.Edit(ltc);
-        //        }
-        //        DateTime dtNow = DateTime.UtcNow;
-        //        MonHoc monHocCuaLopTC = contextMH.GetById(ltc.MaMonHoc);
-        //        int tongSoTinChi = monHocCuaLopTC.SoTinChiLyThuyet + monHocCuaLopTC.SoTinChiThucHanh;
-        //        int soTietCuaLopTC = tongSoTinChi*15;
-        //        int soBuoiHocCuaLopTC = 0;
-        //        // nếu tổng số tiết chia cho 4 tiết 1 buổi có dư thì thêm 1 buổi 
-        //        if(soTietCuaLopTC % 4 == 0)
-        //        {
-        //            soBuoiHocCuaLopTC = soTietCuaLopTC / 4;
-        //        }
-        //        else
-        //        {
-        //            soBuoiHocCuaLopTC = (int) soTietCuaLopTC / 4 + 1;
-        //        }
-        //        switch (ltc.HocKy)
-        //        {
-        //            case 1:
-        //                {
-        //                    DateTime dayStart = new DateTime(DateTime.UtcNow.Year, 1, 9);
-        //                    DateTime dayEnd = new DateTime(DateTime.UtcNow.Year, 12, 31);
-        //                    if(dtNow.Year == dayStart.Year)
-        //                    {
-        //                        if(dtNow.Month > 9 && dtNow.Month < 12)
-        //                        {      
-        //                            Date supportDateTime = new Date();
-        //                            List<string> lstTuan = supportDateTime.GetListDate(dtNow.Year);
-        //                            int tuanHienTai = 0;
-        //                            for (int i = 0; i < lstTuan.Count; i++)
-        //                            {
-        //                                DateTime tempDTStart = new DateTime();
-        //                                DateTime tempDTEnd = new DateTime();
-        //                                // Lấy datetime từ list Tuần và format về "dd/mm/yy"
-        //                                tempDTStart = DateTime.Parse(lstTuan[i].Split('-')[1], new CultureInfo("en-US"));
-        //                                tempDTEnd = DateTime.Parse(lstTuan[i].Split('-')[3], new CultureInfo("en-US"));
-        //                                if (dtNow.DayOfYear >= tempDTStart.DayOfYear && dtNow.DayOfYear <= tempDTEnd.DayOfYear)
-        //                                {
-        //                                    tuanHienTai = i;
-        //                                    break;
-        //                                }
-        //                            }
-        //                            // xem số tuần còn lại của học kỳ 1 năm hiện tại bỏ tuần hiện tại và tuần sau
-        //                            int soTuanConLaiCuaHocKy = lstTuan.Count - tuanHienTai-2;
-        //                            // nếu tổng số buổi học của lớp tín chỉ > 5  thì tuần học 2 buổi.
-        //                            // Ngược   lại tuần học 1 buổi
-        //                            int soTietHocCoTheMo = 0;
-        //                            int soBuoiMotTuan = 0;
-        //                            if (tongSoTinChi > 5)
-        //                            {
-        //                                soBuoiMotTuan = 2;
-        //                                soTietHocCoTheMo = SoTietHocCoTheMo(dtNow, dayEnd, soBuoiMotTuan);
-        //                            }
-        //                            else
-        //                            {
-        //                                soBuoiMotTuan = 1;
-        //                                soTietHocCoTheMo = SoTietHocCoTheMo(dtNow, dayEnd, soBuoiMotTuan);
-        //                            }
-        //                            // nếu số tiết đủ để mở lớp thì đóng lớp
-        //                            if(soTietHocCoTheMo < soTietCuaLopTC)
-        //                            {
-        //                                ltc.TrangThai = false;
-        //                                contextLTC.Edit(ltc);
-        //                                return false;
-        //                            }
-
-        //                            for(int i = 0; i< soTuanConLaiCuaHocKy; i++)
-        //                            {
-        //                                DateTime tempDTStart = new DateTime();
-        //                                DateTime tempDTEnd = new DateTime();
-        //                                // Lấy datetime từ list Tuần và format về "dd/mm/yy"
-        //                                tempDTStart = DateTime.Parse(lstTuan[tuanHienTai+2 +i].Split('-')[1], new CultureInfo("en-US"));
-        //                                tempDTEnd = DateTime.Parse(lstTuan[tuanHienTai + 2 + i].Split('-')[3], new CultureInfo("en-US"));
-                                        
-        //                                while(tempDTStart.DayOfWeek!= DayOfWeek.Sunday)
-        //                                {
-        //                                    if (lstSupportTKB.Count == 0)
-        //                                    {
-        //                                        if(soBuoiMotTuan == 1)
-        //                                        {
-        //                                            if(tempDTStart.DayOfWeek == DayOfWeek.Monday)
-        //                                            {
-        //                                                thoiKhoaBieuNew.Ngay = tempDTStart;
-        //                                                thoiKhoaBieuNew.MaLopTC = maLopTC;
-        //                                                thoiKhoaBieuNew.TietBD = 1;
-                                                        
-        //                                            }
-        //                                        }
-        //                                    }
-        //                                }
-
-        //                            }
-        //                        }
-        //                        return false;
-        //                    }
-        //                    break;
-        //                }
-        //            case 2:
-        //                {
-        //                    DateTime dayStart = new DateTime(DateTime.UtcNow.Year, 1, 1);
-        //                    DateTime dayEnd = new DateTime(DateTime.UtcNow.Year, 5, 15);
-        //                    break;
-        //                }
-        //            case 3:
-        //                {
-        //                    DateTime dayStart = new DateTime(DateTime.UtcNow.Year, 5, 16);
-        //                    DateTime dayEnd = new DateTime(DateTime.UtcNow.Year, 8, 30);
-        //                    break;
-        //                }
-        //        }
-        //    }
-        //    //trạng thái false thì lớp đó đã đóng nên không tạo tkb
-        //    return false;  
-        //}
+            List<ThoiKhoaBieu> listThoiKhoaBieu = context.GetAll();
+            foreach (ThoiKhoaBieu tkb in listThoiKhoaBieu)
+            {
+                
+                 if(tkb.Ngay.Year < yearNow && tkb.Ngay.Year > yearLast)
+                {
+                    listThoiKhoaBieu.Remove(tkb);
+                }
+                else
+                {
+                    tkb.LopTinChi = contextLopTC.GetById(tkb.MaLopTC);
+                    tkb.LopTinChi.GiangVien = contextGV.GetById(tkb.LopTinChi.MaGV);
+                }
+            }
+            return listThoiKhoaBieu;
+        }
+        #endregion
     }
 }

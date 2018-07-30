@@ -20,62 +20,22 @@
                     <h2>Đăng nhập phòng giáo vụ</h2>
                     <p>Nhập tên đăng nhập và mật khẩu của bạn để đăng nhập</p>
                 </div>
-                <form id="Login">
+              @using (Html.BeginForm("CheckLogin", "Admin", FormMethod.Post, htmlAttributes: new { @id = "Login" }))
+              {
                     <div class="form-group">
-                        <input type="email" class="form-control" id="inputEmail" placeholder="Địa chỉ email">
+                        <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Địa chỉ email" required>
                         <span class="warning email-warning"></span>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Mật khẩu">
+                        <input name="pass" type="password" class="form-control" id="inputPassword" placeholder="Mật khẩu" required>
                         <span class="warning pass-warning"></span>
-                        <span id="notifi-msg" class="warning"></span>
+                        <span id="notifi-msg" class="warning">@ViewBag.Msg </span>
                     </div>
-                   
-                    <button type="submit" class="btn btn-primary" onclick="DangNhap()">Đăng nhập</button>
-                </form>
+                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                 }
             </div>
         </div>
     </div>
-    <script>
-        function DangNhap() {
-            var em = $('#inputEmail').val();
-            if (em === null || em === "") {
-                $('.email-warning').text("Vui lòng nhập email của bạn !");
-                return;
-            }
-            var ps = $('#inputPassword').val();
-            if (ps === null || ps === "") {
-                $('.pass-warning').text("Vui lòng nhập email của bạn !");
-                return;
-            }
-
-            var dn = {
-                email: em,
-                pass : ps
-            };
-
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("CheckLogin", "Admin")',
-                data: JSON.stringify(dn),
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8'
-            }).done(function (data) {
-                if (data !== null) {
-                    if (data.msg === "OK") {
-                        window.location.href = '@Url.Action("Index","Khoas")';
-                    }
-                    else {
-                        $('#notifi-msg').text("Email hoặc mật khẩu không tồn tại!");
-                        return;
-                    }
-                }
-            }).fail(function () {
-                alert("Kết nối server lỗi !");
-            });
-            return false;
-        }
-    </script>
 </body>
 </html>
 

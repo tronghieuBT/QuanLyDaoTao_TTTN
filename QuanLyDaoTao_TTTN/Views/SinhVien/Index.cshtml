@@ -12,13 +12,16 @@
 
 <style>
     body {
-        background-color: burlywood;
+        background-color: #bce8f1;
     }
 
     .sv-info {
-        display: flex;
         font-weight: bold;
         padding: 10px;
+        border: 2px solid;
+        font-size: 18px;
+        font-family: -webkit-pictograph;
+        text-align: center;
     }
 
     .drop-weeks {
@@ -28,45 +31,64 @@
     .content-sv {
         display: grid;
         padding: 10px;
-        border: 0.5px solid;
+        font-size: 22px;
+        font-weight: bold;
+        border-left: 2px solid;
+        border-bottom: 2px solid;
+        border-right: 2px solid;
     }
 
     .label-sv {
         margin: 5px;
+        font-family: -webkit-pictograph;
     }
 
     .fill-label {
         width: 200px;
+        font-size: 18px;
+        font-weight: bold;
+        background-color: #00f6ff !important;
+    }
+
+    .selected-week {
+        font-size: 18px;
+        font-weight: bold;
     }
 </style>
 <div class="row">
-    <div class="col drop-weeks">
-        <label class="form-control fill-label">Lọc theo tuần</label>
-        @Html.DropDownList("Tuan", new SelectList(ViewBag.weeks, "Text", "Value"), new { @class = "form-control selected-week", @onchange = "Onchange()" })
-    </div>
-    <div class="col drop-weeks">
-        <label class="form-control fill-label week-current">Thời khóa biểu :</label>
-        <span class = "form-control selected-week">@ViewBag.WeekCurrent</span>
-    </div>
-</div>
-<div class="row">
-    <div class="row sv-info">
-        <div class="col">
-            <label>Thông tin sinh viên :</label>
-        </div>
-    </div>
+    <div class="row sv-info">Thông tin sinh viên</div>
     <div class="row">
         <div class="col-md-3 content-sv">
+            <label class="label-sv">Mã sinh viên :</label>
             <label class="label-sv">Họ và tên:</label>
             <label class="label-sv">Hệ đào tạo:</label>
             <label class="label-sv">Lớp :</label>
             <label class="label-sv">Khóa :</label>
         </div>
         <div class="col-md-9 content-sv" style="">
+            <span class="label-sv">@Session["MaSV"]</span>
             <span class="label-sv">@Session["SinhVien"]</span>
             <span class="label-sv">@ViewData["HDT"]</span>
             <span class="label-sv">@ViewData["MaLop"]</span>
             <span class="label-sv">@ViewData["Khoa"]</span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="row">
+        <div class="col-md-2 drop-weeks">
+            <label class="form-control fill-label">Lọc theo tuần</label>
+        </div>
+        <div class="col-md-10">
+            @Html.DropDownList("Tuan", new SelectList(ViewBag.weeks, "Text", "Value"), new { @class = "form-control selected-week ", @onchange = "Onchange()" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 drop-weeks">
+            <label class="form-control fill-label week-current">Thời khóa biểu :</label>
+        </div>
+        <div class="col-md-10">
+            <span class="form-control selected-week">@ViewBag.WeekCurrent</span>
         </div>
     </div>
 </div>
@@ -330,7 +352,7 @@
 <script>
     function Onchange(){
         var week =  $("#Tuan").val();
-
+        $('.selected-week').val(week);
         var tuan = {
             tuan : week
         }

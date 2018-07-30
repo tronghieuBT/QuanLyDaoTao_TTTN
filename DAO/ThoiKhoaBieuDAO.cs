@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAO
 {
     public class ThoiKhoaBieuDAO
     {
         #region GetAll
+
         /// <summary>
         /// Lấy tất cả record
         /// </summary>
@@ -21,24 +20,28 @@ namespace DAO
                 return listThoiKhoaBieu;
             }
         }
-        #endregion
+
+        #endregion GetAll
 
         #region GetByMaLopTC
+
         /// <summary>
-        /// Lấy record theo maLopTC 
+        /// Lấy record theo maLopTC
         /// </summary>
         /// <returns>List</returns>
         public List<ThoiKhoaBieu> GetByMaLopTC(int maLopTC)
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                List<ThoiKhoaBieu> listThoiKhoaBieu = context.ThoiKhoaBieux.Where(x=>x.MaLopTC == maLopTC).ToList();
+                List<ThoiKhoaBieu> listThoiKhoaBieu = context.ThoiKhoaBieux.Where(x => x.MaLopTC == maLopTC).ToList();
                 return listThoiKhoaBieu;
             }
         }
-        #endregion
+
+        #endregion GetByMaLopTC
 
         #region Create
+
         public void Create(ThoiKhoaBieu tkb)
         {
             using (var context = new QuanLyDaoTaoEntities())
@@ -47,9 +50,11 @@ namespace DAO
                 context.SaveChanges();
             }
         }
-        #endregion
+
+        #endregion Create
 
         #region Edit
+
         public void Edit(ThoiKhoaBieu tkb)
         {
             using (var context = new QuanLyDaoTaoEntities())
@@ -59,18 +64,38 @@ namespace DAO
                 context.SaveChanges();
             }
         }
-        #endregion
+
+        #endregion Edit
 
         #region Delete
-        public void Delete(DateTime ngay, string buoi,int maLopTC)
+
+        public void Delete(ThoiKhoaBieu tkb)
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                ThoiKhoaBieu tkb = context.ThoiKhoaBieux.Where(x => x.Ngay == ngay && x.Buoi == buoi&& x.MaLopTC == maLopTC).FirstOrDefault();
-                context.ThoiKhoaBieux.Remove(tkb);
+                ThoiKhoaBieu thoiKhoaBieu = context.ThoiKhoaBieux.Where(x => x.Ngay == tkb.Ngay && x.Buoi == tkb.Buoi && x.MaLopTC == tkb.MaLopTC).FirstOrDefault();
+                context.ThoiKhoaBieux.Remove(thoiKhoaBieu);
                 context.SaveChanges();
             }
         }
-        #endregion
+
+        #endregion Delete
+
+        #region GetCurent
+
+        /// <summary>
+        /// Lấy tất cả record trong nam hiện tại
+        /// </summary>
+        /// <returns>List</returns>
+        public List<ThoiKhoaBieu> GetCurent()
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                List<ThoiKhoaBieu> listThoiKhoaBieu = context.ThoiKhoaBieux.ToList();
+                return listThoiKhoaBieu;
+            }
+        }
+
+        #endregion GetCurent
     }
 }

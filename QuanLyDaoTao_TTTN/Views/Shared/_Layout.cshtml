@@ -6,8 +6,7 @@
     <title>@ViewBag.Title - Quản Lý Đào Tạo - Học viện Bưu Chính Viễn Thông</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    <link href="~/Content/Site.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/jquery")  
     <style>
          body{
              padding-top: 0;
@@ -30,24 +29,53 @@
             <div class="navbar-collapse collapse nav-menu">
                 <ul class="nav navbar-nav nav-custom">
                     <li>@Html.ActionLink("Học viện công nghệ bưu chính viễn thông", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Đăng ký môn học", "DangKyMonHoc", "SinhVien")</li>
-                    <li>@Html.ActionLink("Thời khóa biểu", "ThoiKhoaBieu", "Home")</li>
-                    <li>@Html.ActionLink("Xem học phí", "HocPhi", "Home")</li>
-                    <li>@Html.ActionLink("Xem lịch giảng", "LichGiang", "Home")</li>
+                    <li class="dang-ky">@Html.ActionLink("Đăng ký môn học", "DangKyMonHoc", "SinhVien")</li>
+                    <li class="thoi-khoa-bieu">@Html.ActionLink("Thời khóa biểu", "Index", "SinhVien")</li>
+                    <li class="hoc-phi">@Html.ActionLink("Xem học phí", "Index", "Home")</li>
+                    <li class="lich-giang">@Html.ActionLink("Xem lịch giảng", "LichGiang", "Home")</li>
                     <li id="dangnhap">@Html.ActionLink("Đăng nhập", "Index", "DangNhap")</li>
-                    <li><a>@Session["SinhVien"] @Session["GiangVien"]</a></li>
+                    <li><a class="sinhvien">@Session["SinhVien"]</a></li>
+                    <li><a class="giangvien">@Session["GiangVien"]</a></li>
+                    <li><a id="dx" href='@Url.Action("DangXuat","DangNhap")'>Đăng xuất</a></li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer></footer>
+        <hr class="hr-ft" />
+        <footer>
+            <section id="tabs">
+                <div class="container">
+                    <h6 class="section-title h1">Học viện công nghệ bưu chính viễn thông</h6>
+                </div>
+            </section>
+        </footer>
     </div>
-
-
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    
+    <script>
+        $(document).ready(function () {
+            var sinhvien =$('.sinhvien').text();
+            var giangvien = $('.giangvien').text();
+           
+            if (sinhvien != "" && giangvien == "") {
+                $('.giangvien').css("display", "none")
+                $('#dangnhap').css("display", "none");
+                $('.lich-giang').css("display", "none");
+            }
+            if (sinhvien == "" && giangvien != "") {
+                $('.sinhvien').css("display", "none");
+                $('#dangnhap').css("display", "none");
+                $('.dang-ky').css("display","none");
+                $('.thoi-khoa-bieu').css("display", "none");
+                $('.hoc-phi').css("display", "none");
+            }
+            if (sinhvien == "" && giangvien == "") {
+                $('#dx').css("display", "none");
+            }
+        })
+    </script>
 </body>
 </html>

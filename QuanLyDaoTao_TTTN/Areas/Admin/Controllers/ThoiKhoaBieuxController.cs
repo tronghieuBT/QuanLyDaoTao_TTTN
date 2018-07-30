@@ -20,7 +20,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         [SessionCheck]
         public ActionResult Index()
         {
-            var thoiKhoaBieux = contextTKB.GetAll();
+            var thoiKhoaBieux = contextTKB.GetTKBCurent();
             return View(thoiKhoaBieux.ToList());
         }
 
@@ -36,38 +36,35 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
             return View();
         }
 
-        //// POST: Admin/ThoiKhoaBieux/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "Ngay,Buoi,TietBD,MaLopTC")] ThoiKhoaBieu thoiKhoaBieu)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        contextTKB.ThoiKhoaBieux.Add(thoiKhoaBieu);
-        //        contextTKB.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ViewBag.MaLopTC = new SelectList(contextTKB.LopTinChis, "MaLopTC", "NienKhoa", thoiKhoaBieu.MaLopTC);
-        //    return View(thoiKhoaBieu);
-        //}
+        // POST: Admin/ThoiKhoaBieux/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Ngay,Buoi,TietBD,MaLopTC")] ThoiKhoaBieu thoiKhoaBieu)
+        {
+            if (ModelState.IsValid)
+            {                                                      
+                contextTKB.Create(thoiKhoaBieu);  
+                return RedirectToAction("Index");
+            }
+            List<LopTinChi> lstLTC = contextLTC.GetAll();
+            lstLTC = contextLTC.GetListLTCOpen(lstLTC);
+            ViewBag.MaLopTC = new SelectList(lstLTC, "MaLopTC", "NienKhoa", thoiKhoaBieu.MaLopTC);
+            return View(thoiKhoaBieu);
+        }
 
         //// GET: Admin/ThoiKhoaBieux/Edit/5
-        //public ActionResult Edit(DateTime id)
+        //public ActionResult Edit(ThoiKhoaBieu tkb)
         //{
-        //    if (id == null)
+        //    LopTinChiBLL contextLTC = new LopTinChiBLL();
+        //    if (tkb == null)
         //    {
         //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         //    }
-        //    ThoiKhoaBieu thoiKhoaBieu = contextTKB.ThoiKhoaBieux.Find(id);
-        //    if (thoiKhoaBieu == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ViewBag.MaLopTC = new SelectList(contextTKB.LopTinChis, "MaLopTC", "NienKhoa", thoiKhoaBieu.MaLopTC);
-        //    return View(thoiKhoaBieu);
+        //    LopTinChi lopTC = contextLTC.GetById(tkb.MaLopTC);
+        //    ViewBag.LopTC = lopTC;
+        //    return View(tkb);
         //}
 
         //// POST: Admin/ThoiKhoaBieux/Edit/5
@@ -87,31 +84,24 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         //    return View(thoiKhoaBieu);
         //}
 
-        //// GET: Admin/ThoiKhoaBieux/Delete/5
-        //public ActionResult Delete(DateTime id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ThoiKhoaBieu thoiKhoaBieu = contextTKB.ThoiKhoaBieux.Find(id);
-        //    if (thoiKhoaBieu == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(thoiKhoaBieu);
-        //}
+        // GET: Admin/ThoiKhoaBieux/Delete/5
+        public ActionResult Delete(ThoiKhoaBieu tkb)
+        {
+            if (tkb == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return View(tkb);
+        }
 
-        //// POST: Admin/ThoiKhoaBieux/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(DateTime id)
-        //{
-        //    ThoiKhoaBieu thoiKhoaBieu = contextTKB.ThoiKhoaBieux.Find(id);
-        //    contextTKB.ThoiKhoaBieux.Remove(thoiKhoaBieu);
-        //    contextTKB.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        // POST: Admin/ThoiKhoaBieux/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(ThoiKhoaBieu tkb)
+        {
+            contextTKB.Delete(tkb);
+            return RedirectToAction("Index");
+        }
 
         [HttpPost]
         public JsonResult GetLopTC(int maLopTC)

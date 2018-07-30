@@ -25,7 +25,8 @@ namespace QuanLyDaoTao_TTTN
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/footer.css"));
         }
     }
 }

@@ -31,6 +31,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                 SinhVien sv = contextSV.GetById(checkLogin.Split(':')[1].ToString().Trim());
                 if (sv != null)
                 {
+                    Session["GiangVien"] = Session["MaGV"] =null;
                     Session["SinhVien"] = sv.HoVaTenLot +" " + sv.TenSV;
                     Session["MaSV"] = sv.MaSV;
                     return RedirectToAction("Index", "SinhVien");
@@ -41,11 +42,17 @@ namespace QuanLyDaoTao_TTTN.Controllers
             GiangVien gv = contextGV.GetById(checkLogin.Split(':')[1].ToString().Trim());
             if (gv != null)
             {
+                Session["SinhVien"] = Session["MaSV"] = null;
                 Session["GiangVien"] = gv.HoVaTenLot + " " + gv.TenGV;
                 Session["MaGV"] = gv.MaGV;
                 return RedirectToAction("Index", "GiangVien");
             }
             return RedirectToAction("Index");
+        }
+        public ActionResult DangXuat()
+        {
+            Session["SinhVien"] = Session["MaSV"] = Session["GiangVien"] = Session["MaGV"] = null;
+            return RedirectToAction("Index", "DangNhap");
         }
     }
 }

@@ -39,14 +39,10 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
-                            <a href="#"><i class="fa fa-user fa-fw"></i>@Html.ViewBag.Admin</a>
+                            <a href="#">@Session["Admin"]<i class="fa fa-user fa-fw"></i>@Html.ViewBag.Admin</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            <a href='@Url.Action("Index","Admin")'><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -96,7 +92,7 @@
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> Quản lý tiến độ<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href='@Url.Action("Index","DatTourManage")'>Xem tiến độ đào tạo</a>
+                                    <a href='@Url.Action("Index","ThoiKhoaBieux")'>Thời khóa biểu</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
