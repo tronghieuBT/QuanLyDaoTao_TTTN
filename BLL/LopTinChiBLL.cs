@@ -237,5 +237,28 @@ namespace BLL
             return lstOpen;
         }
         #endregion
+
+        #region GetByMaGVVaMaMH
+
+        /// <summary>
+        /// Lay 1 record dua vao ma lop
+        /// </summary>
+        /// <param name="maLop"></param>
+        /// <returns>Lop</returns>
+        public List<LopTinChi> GetByMaGVVaMaMH(string maGV, string maMH)
+        {
+            try
+            {
+                List<LopTinChi> lp = context.GetByMaGVVaMaMH(maGV,maMH);
+                return lp;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
+
+        #endregion GetById
     }
 }

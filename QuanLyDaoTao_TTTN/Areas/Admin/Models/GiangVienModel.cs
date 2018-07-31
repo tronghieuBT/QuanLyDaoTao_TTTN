@@ -1,8 +1,6 @@
 ﻿using BLL;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace QuanLyDaoTao_TTTN.Areas.Admin.Models
 {
@@ -46,14 +44,13 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Models
                 TenGV = x.TenGV,
                 GioiTinh = x.GioiTinh,
                 Email = x.Email,
-                MatKhau =x.MatKhau,
+                MatKhau = x.MatKhau,
                 NgaySinh = x.NgaySinh,
                 SDT = x.SDT,
                 TrinhDo = x.TrinhDo,
-                MaKhoa = x.MaKhoa          
+                MaKhoa = x.MaKhoa
             }).ToList();
             return lstGV;
         }
-        
     }
 }

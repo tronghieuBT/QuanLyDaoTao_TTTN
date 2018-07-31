@@ -28,9 +28,37 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         [SessionCheck]
         public ActionResult Create()
         {
+            GiangVienBLL contextGV = new GiangVienBLL();
+            MonHocBLL contextMH = new MonHocBLL();
+
+            List<GiangVienModel> listGVModel = contextGV.GetAll().Select(x => new GiangVienModel
+            {
+                Email = x.Email,
+                GioiTinh = x.GioiTinh,
+                HoVaTenLot = x.HoVaTenLot,
+                MaGV = x.MaGV,
+                MaKhoa = x.MaKhoa,
+                MatKhau = x.MatKhau,
+                NgaySinh = x.NgaySinh,
+                SDT = x.SDT,
+                TenGV = x.TenGV,
+                TrinhDo = x.TrinhDo
+            }).ToList();
+            List<MonHocModel> listMH = contextMH.GetAll().Select(x => new MonHocModel
+            {
+                MaMH = x.MaMH,
+                SoTinChiLyThuyet = x.SoTinChiLyThuyet,
+                SoTinChiThucHanh = x.SoTinChiThucHanh,
+                TenMH = x.TenMH
+            }).ToList();
             List<LopTinChi> lstLTC = contextLTC.GetAll();
             lstLTC = contextLTC.GetListLTCOpen(lstLTC);
+
+
             SelectList selectList = new SelectList(lstLTC, "MaLopTC", "MaLopTC");
+
+            ViewBag.GiangVienModel = new SelectList(listGVModel, "MaGV", "TenDayDu");
+            ViewBag.MonHocModels = new SelectList(listMH, "MaMH", "TenMH");
             ViewBag.LopTCDuocMo = selectList;
             ViewBag.MaLopTC = new SelectList(lstLTC, "MaLopTC", "MaLopTC");
             return View();
@@ -44,8 +72,8 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         public ActionResult Create([Bind(Include = "Ngay,Buoi,TietBD,MaLopTC")] ThoiKhoaBieu thoiKhoaBieu)
         {
             if (ModelState.IsValid)
-            {                                                      
-                contextTKB.Create(thoiKhoaBieu);  
+            {
+                contextTKB.Create(thoiKhoaBieu);
                 return RedirectToAction("Index");
             }
             List<LopTinChi> lstLTC = contextLTC.GetAll();
@@ -154,7 +182,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult GetThoiKhoaBieuGiangVien(string maGiangVien)
         {
-            DateTime dtNow = DateTime.UtcNow;         
+            DateTime dtNow = DateTime.UtcNow;
             LopTinChiBLL contextLTC = new LopTinChiBLL();
             ThoiKhoaBieuBLL contextTKB = new ThoiKhoaBieuBLL();
             List<ThoiKhoaBieuModel> lichGV = new List<ThoiKhoaBieuModel>();
@@ -171,14 +199,14 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
                         {
                             if (tkb.Ngay.Year == dtNow.Year)
                             {
-                                    ThoiKhoaBieuModel tkbModel = new ThoiKhoaBieuModel
-                                    {
-                                        Buoi = tkb.Buoi,
-                                        MaLopTC = tkb.MaLopTC,
-                                        Ngay = tkb.Ngay,
-                                        TietBD = tkb.TietBD
-                                    };
-                                    lichGV.Add(tkbModel);
+                                ThoiKhoaBieuModel tkbModel = new ThoiKhoaBieuModel
+                                {
+                                    Buoi = tkb.Buoi,
+                                    MaLopTC = tkb.MaLopTC,
+                                    Ngay = tkb.Ngay,
+                                    TietBD = tkb.TietBD
+                                };
+                                lichGV.Add(tkbModel);
                             }
                             if (tkb.Ngay.Year > dtNow.Year)
                             {
@@ -203,5 +231,21 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
             }
             return Json(new { lich = lichGV });
         }
+        public JsonResult GetListLopTheoGiangVienMonHoc(string maGiangVien, string maMonHoc)
+        {
+            if (string.IsNullOrEmpty(maGiangVien) || string.IsNullOrEmpty(maMonHoc))
+            {
+                return Json(new { msg = "Lỗi !"});
+            }
+            LopTinChiBLL contextLTC = new LopTinChiBLL();
+            var listLopTC = contextLTC.GetByMaGVVaMaMH(maGiangVien, maMonHoc);
+            if(listLopTC.Count > 0)
+            {
+                List<int> listMaLopTC = listLopTC.Select(x => x.MaLopTC).ToList();
+                return Json(new { msg = listMaLopTC });
+            }
+            return Json(new { msg = "Không có lớp tín chỉ nào!" });
+        }
+
     }
 }

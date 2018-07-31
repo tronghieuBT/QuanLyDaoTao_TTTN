@@ -133,5 +133,20 @@ namespace DAO
 
         #endregion GetByNhomAndNienKhoaAndMaMon
 
+        #region  GetByMaGVVaMaMH
+        public List<LopTinChi> GetByMaGVVaMaMH(string maGV, string maMH)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                var query  = context.LopTinChis.Where(x=> x.MaGV == maGV && x.MaMonHoc == maMH);
+                if (query != null)
+                {
+                    List<LopTinChi> lstLopTC = query.ToList();
+                    return lstLopTC;
+                }
+                return null;
+            }
+        }
+        #endregion
     }
 }

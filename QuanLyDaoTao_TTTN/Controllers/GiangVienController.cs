@@ -34,8 +34,10 @@ namespace QuanLyDaoTao_TTTN.Controllers
 
             // lấy danh sách tuần của năm hiện tại
             List<string> lstTuan = dt.GetListDate(dtNow.Year);
+            List<string> lstTuanNew = dt.GetListDate(dtNow.Year+1);
+    
             //gán list các tuần vào selectList
-            List<SelectListItem> weeks = lstTuan.Select(x => new SelectListItem() { Value = x, Text = x }).ToList();
+            List<SelectListItem> weeks = lstTuan.Concat(lstTuanNew).Select(x => new SelectListItem() { Value = x, Text = x }).ToList();
             int tuan = 0;
             for (int i = 0; i < lstTuan.Count; i++)
             {

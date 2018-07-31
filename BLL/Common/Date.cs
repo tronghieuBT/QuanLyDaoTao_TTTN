@@ -21,13 +21,37 @@ namespace BLL.Common
                 //trong khi ngày đầu tiên của năm không phải thứ 2 thì cộng tiếp 1 ngày cho đến thứ 2
                 while (dt.DayOfWeek != DayOfWeek.Monday)
                 {
-                    dt.AddDays(1);
+                    dt = dt.AddDays(1);
                 }
                 DateTime dtEnd = dt.AddDays(6);
                 string dayOfWeek = "Từ : -" + dt.Month.ToString() + "/" + dt.Day.ToString() + "/" + dt.Year.ToString()
                     + "- đến : -" + dtEnd.Month.ToString() + "/" + dtEnd.Day.ToString() + "/" + dtEnd.Year.ToString();
                 lstTuan.Add(dayOfWeek);
 
+                dt = dtEnd.AddDays(1);
+            }
+            return lstTuan;
+        }
+
+        public List<Date> GetDateBeforeAfterOfWeeksInYear(int nam)
+        {
+            List<Date> lstTuan = new List<Date>();
+            int tongSoTuan = SoTuanCuaNam(nam);
+            DateTime dt = new DateTime();
+            DateTime.TryParse(nam.ToString() + "/01/01", out dt);
+
+            for (int i = 0; i < tongSoTuan; i++)
+            {
+                //trong khi ngày đầu tiên của năm không phải thứ 2 thì cộng tiếp 1 ngày cho đến thứ 2
+                while (dt.DayOfWeek != DayOfWeek.Monday)
+                {
+                    dt.AddDays(1);
+                }
+                DateTime dtEnd = dt.AddDays(6);
+                Date date = new Date();
+                date.NgayBD = dt;
+                date.NgayKT = dtEnd;  
+                lstTuan.Add(date);  
                 dt = dtEnd.AddDays(1);
             }
             return lstTuan;

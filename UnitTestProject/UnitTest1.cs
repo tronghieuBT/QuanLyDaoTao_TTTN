@@ -15,7 +15,7 @@ namespace UnitTestProject
             ThoiKhoaBieuBLL dt = new ThoiKhoaBieuBLL();
             DateTime dtime = DateTime.UtcNow;
             DateTime newdt = dtime.AddDays(28);
-            dt.GetByMaGV("GV01");
+           // dt.GetByMaGV("GV01");
         }
     }
 }

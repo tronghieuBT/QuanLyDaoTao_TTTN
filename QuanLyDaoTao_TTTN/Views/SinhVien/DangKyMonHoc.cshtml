@@ -33,20 +33,27 @@
                     <th scope="col">Chọn</th>
                 </tr>
             </thead>
-            @foreach (var item in ViewBag.ListLTC)
-            {
-                <tbody>
+            <tbody id="chon">
+                @foreach (var item in ViewBag.ListLTC)
+                {
                     <tr>
                         <th scope="row">@item.MaMonHoc</th>
                         <td>@item.MonHoc.TenMH</td>
                         <td>@item.MaGV</td>
                         <td id="tinchi-lt">@item.MonHoc.SoTinChiLyThuyet</td>
                         <td id="tinchi-th">@item.MonHoc.SoTinChiThucHanh</td>
-                        <td id="tong-tinchi"></td>
-                        <td><input type="checkbox"/></td>
+
+                        <td id="tong-tinchi">
+                            @{
+                                var tongTC = item.MonHoc.SoTinChiLyThuyet + item.MonHoc.SoTinChiThucHanh;
+                                @Html.Raw(tongTC);
+                            }
+                        </td>
+
+                        <td><input type="checkbox" data-maloptc=@item.MaLopTC onchange="loadData(this)" /></td>
                     </tr>
-                </tbody>
-            }
+                                }
+            </tbody>
         </table>
     </div>
     <div class="row">
@@ -57,32 +64,17 @@
         <table class="table table-sm">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Mã môn học</th>
+                    <th scope="col">Tên môn học</th>
+                    <th scope="col">Mã giảng viên</th>
+                    <th scope="col">Số tín chỉ lý thuyết</th>
+                    <th scope="col">Số tín chỉ thực hành</th>
+                    <th scope="col">Tổng số tín chỉ</th>
+                    <th scope="col">Chọn</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="1">Larry the Bird</td>
-                    <td>twitter</td>
-                    <td>dasdas</td>
-                </tr>
-            </tbody>
+            <tbody id="dangky"></tbody>
+
         </table>
     </div>
 </div>
@@ -95,4 +87,37 @@
         $('#tong-tinchi').val(tong);
 
     })
+    function loadData(data) {
+        if (data != null) {
+            var maLTC = $(data).attr('data-maloptc');
+            if (data.checked) {
+                $('#dangky').append(data.parentElement.parentElement);
+                var maMh = data.parentElement.parentElement.children[0].lastChild.textContent;
+                if (maMh !== "" && maLTC !==null) {
+                    mh = {
+                        maMonHoc: maMh,
+                        maLopTC: maLTC
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("AddMonHocDK", "SinhVien")',
+                        data: JSON.stringify(mh),
+                        dataType: "json",
+                        contentType: 'application/json; charset=utf-8'
+                    }).done(function (data) {
+
+                    }).fail(function (data) {
+
+                    });
+                    return false;
+                }
+            }
+            else {
+                $('#chon').append(data.parentElement.parentElement);
+
+            }
+        }
+
+    }
+
 </script>

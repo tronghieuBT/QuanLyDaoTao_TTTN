@@ -13,6 +13,8 @@ namespace QuanLyDaoTao_TTTN.Controllers
 {
     public class SinhVienController : Controller
     {
+        private List<DangKyModel> DangKy = new List<DangKyModel>();
+        private List<MonHoc> listMonHoc = new List<MonHoc>(); 
         // GET: SinhVien
         [CheckLogin]
         public ActionResult Index()
@@ -38,6 +40,8 @@ namespace QuanLyDaoTao_TTTN.Controllers
             Date dt = new Date();
             DateTime dtNow = DateTime.UtcNow;
             List<string> lstTuan = dt.GetListDate(dtNow.Year);
+            List<string> lstTuanNew = dt.GetListDate(dtNow.Year + 1);
+            lstTuan.AddRange(lstTuanNew);
             //gán list các tuần vào selectList
             List<SelectListItem> weeks = lstTuan.Select(x => new SelectListItem() { Value = x, Text = x }).ToList();
             //Xem ngày hiện tại thuộc tuần nào trong năm
@@ -95,16 +99,42 @@ namespace QuanLyDaoTao_TTTN.Controllers
 
         public ActionResult DangKyMonHoc()
         {
-            if (Session["MaSV"] != null)
-            {
+           
                 LopTinChiBLL contextLTC = new LopTinChiBLL();
                 List<LopTinChi> lstLTC = contextLTC.GetAll();
                 //  chỉ cho sinh viên đăng ký lớp đang mở
                 lstLTC = contextLTC.GetListLTCOpen(lstLTC);
                 ViewBag.ListLTC = lstLTC;
                 return View(lstLTC);
+           
+        }
+
+        public JsonResult AddMonHocDK(string maMonHoc, int maLopTC)
+        {
+            MonHocBLL contextMH = new MonHocBLL();
+            LopTinChiBLL contextLTC = new LopTinChiBLL();
+            LopTinChi ltc = contextLTC.GetById(maLopTC);
+            MonHoc mh = contextMH.GetById(maMonHoc);
+            if(mh == null)
+            {
+                return Json(new { msg = "False"});
             }
-            return RedirectToAction("Index", "DangNhap");
+            listMonHoc.Add(mh);
+            int tongTCLT = 0;
+            int tongTCTH = 0;
+            int tongSoTC = 0;
+            foreach(MonHoc item in listMonHoc)
+            {
+                tongTCLT += item.SoTinChiLyThuyet;
+                tongTCTH += item.SoTinChiThucHanh;
+            }
+            tongSoTC = tongTCLT + tongTCTH;
+            if(tongSoTC > 21)
+            {
+                listMonHoc.Remove(mh);
+                return Json(new { msg = "Tổng số tín chỉ đã vượt quá mức cho phép !" });
+            }
+            return Json(new { msg = "OK" });
         }
     }
 }

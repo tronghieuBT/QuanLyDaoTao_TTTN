@@ -29,8 +29,22 @@
     .fyc-calendar {
         border: 1px solid;
     }
-    .btn-sm-tkb{
-        background-color : darkseagreen;    
+
+    .btn-sm-tkb {
+        background-color: darkseagreen;
+    }
+
+    .drop-down {
+        margin-left: 25px;
+        width: 85%;
+    }
+
+    .label-fillter {
+        width: max-content;
+    }
+
+    button, html input[type=button], input[type=reset], input[type=submit] {
+        margin-top: 28px !important;
     }
 </style>
 
@@ -42,11 +56,23 @@
     {
         new SelectListItem() { Text = "Buổi sáng", Value = "Sáng" }  ,
         new SelectListItem() { Text = "Buổi Chiều", Value = "Chiều" }
-    };     
+    };
     @Html.AntiForgeryToken()
 
-
     <div class="container-fluid">
+        <div class="form-group" style="display:inline-flex">
+            <div class="row">
+                <label class="control-label label-fillter col-md-2" for="email">Lọc lớp tín chỉ theo giảng viên:</label>
+                @Html.DropDownList("MaGV", (IEnumerable<SelectListItem>)ViewBag.GiangVienModel, htmlAttributes: new { @class = "form-control drop-down col-md-8 ma-gv" })
+            </div>
+            <div class="row">
+                <label class="control-label label-fillter col-md-2" for="email">Lọc lớp tín chỉ theo môn học:</label>
+                @Html.DropDownList("MaMH", (IEnumerable<SelectListItem>)ViewBag.MonHocModels, htmlAttributes: new { @class = "form-control drop-down col-md-8 ma-mh" })
+            </div>
+            <div class="row">
+                <input id="fillter" class="col .btn-fillter" type="button" value="Lọc lớp tín chỉ" />
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-8 content-tkb">
                 <div class="row">
@@ -59,7 +85,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Buoi, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownList("Buoi", buoi, htmlAttributes: new { @class = "form-control buoi",@onchange="GetBuoi()" })
+                                @Html.DropDownList("Buoi", buoi, htmlAttributes: new { @class = "form-control buoi", @onchange = "GetBuoi()" })
                                 @Html.ValidationMessageFor(model => model.Buoi, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -67,7 +93,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.TietBD, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.TextBoxFor(model=> model.TietBD, htmlAttributes: new { @class = "form-control tiet-bd",@readonly = "true" })
+                                @Html.TextBoxFor(model => model.TietBD, htmlAttributes: new { @class = "form-control tiet-bd", @readonly = "true" })
                                 @Html.ValidationMessageFor(model => model.TietBD, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -75,16 +101,16 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.MaLopTC, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownList("MaLopTC", ViewBag.LopTCDuocMo as List<SelectListItem>, htmlAttributes: new { @class = "form-control malopTC", @onchange = "getThongTinLop()" })
+                                @Html.DropDownList("MaLopTC", ViewBag.LopTCDuocMo as List<SelectListItem>, htmlAttributes: new { @class = "form-control malopTC", @onclick = "getThongTinLop()", @id = "list-malop" })
                                 @Html.ValidationMessageFor(model => model.MaLopTC, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Ngay, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Ngay,"Ngày bắt đầu học", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10" style="height:130px;">
-                                <div class='input-group date' id='datetimepicker11' >
-                                    <input id="ngay-select" name="Ngay" type='text' class="form-control ngay-select" onchange="KiemTraNgay()"/>
+                                <div class='input-group date' id='datetimepicker11'>
+                                    <input id="ngay-select" name="Ngay" type='text' class="form-control ngay-select" onchange="KiemTraNgay()" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar">
                                         </span>
@@ -150,7 +176,7 @@
             </div>
             <div class="row note-calendar">
                 <div class="col-md-4" style="text-align:right;">
-                     Chú giải :
+                    Chú giải :
                 </div>
                 <div class="col-md-8">
                     <h5> Màu xanh dương  : giảng viên đã có lịch buổi sáng còn trống buổi chiều</h5>
@@ -159,7 +185,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <!--Calendar-->
             <div id="full-year-calendar"></div>
@@ -253,9 +278,9 @@
                 for (var i = 0; i < listNgayFull.length; i++) {
                     for (var j = 0; j < listNgayBuoiSang.length; j++) {
                         if (listNgayBuoiSang[j] == listNgayFull[i]) {
-                         
+
                             listNgayBuoiSang = removeArray(listNgayBuoiSang, listNgayBuoiSang[j]);
-                        
+
                         }
                     }
                     for (var j = 0; j < listNgayBuoiChieu.length; j++) {
@@ -491,5 +516,36 @@
         }
         $('.tiet-bd').val(5);
     }
+
+    $(document).ready(function () {
+        $('#fillter').click(function () {
+            var magiangvien = $('.ma-gv').val();
+            var mamonhoc = $('.ma-mh').val();
+            var dt = {
+                maGiangVien: magiangvien,
+                maMonHoc: mamonhoc
+            }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetListLopTheoGiangVienMonHoc", "ThoiKhoaBieux")',
+                data: JSON.stringify(dt),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8'
+            }).done(function (data) {
+                if (data.msg === "Không có lớp tín chỉ nào!" || data.msg === "Lỗi !") {
+                    alert(data);
+                    return;
+                }
+                $('#list-malop').empty();
+                for (var i = 0 ; i < data.msg.length; i++) {
+                    var defaultSelected = false;
+                    var nowSelected = true;
+                    $('#list-malop').append(new Option(data.msg[i], data.msg[i], defaultSelected, nowSelected));
+                }
+            });
+
+            return false;
+        });
+    });
 
 </script>

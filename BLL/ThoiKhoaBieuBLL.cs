@@ -58,15 +58,35 @@ namespace BLL
         #region Create
         public void Create(ThoiKhoaBieu tkb)
         {
+            LopTinChiBLL contextLTC = new LopTinChiBLL();
+            MonHocBLL contextMH = new MonHocBLL();
+            // lấy thông tin lớp tín chỉ của thời khóa biểu.
+            LopTinChi ltc = contextLTC.GetById(tkb.MaLopTC);
+            //Lasays thông tin môn học
+            MonHoc mh = contextMH.GetById(ltc.MaMonHoc);
+
+            int soBuoi = 0;
+            int sotc = mh.SoTinChiLyThuyet + mh.SoTinChiThucHanh;
+            if (sotc*15 % 4 != 0)
+            {
+                soBuoi = (int)(sotc*15 / 4 )+ 1;
+            }
+            else
+            {
+                soBuoi = sotc * 15 / 4;
+            }
             try
             {
-                context.Create(tkb);
+                for (int i = 0; i < soBuoi; i++)
+                {
+                    context.Create(tkb);
+                    tkb.Ngay = tkb.Ngay.AddDays(7);
+                }    
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-            }
-
+            }    
         }
         #endregion
 
