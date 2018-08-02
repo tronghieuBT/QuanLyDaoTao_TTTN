@@ -72,12 +72,26 @@
         </table>
     </div>
     <div class="row">
-        <button type="button" class="btn btn-success">Lưu đăng ký</button>'
-        <button type="button" class="btn btn-danger">Hủy tất cả</button>
+        <button type="button" class="btn btn-success" onclick="luuDK()">Lưu đăng ký</button>
     </div>
 </div>
 
 <script>
+    function luuDK() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("LuuDangKy", "SinhVien")',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8'
+        }).done(function (dt) {
+            if (dt != null) {
+
+                alert(dt.msg);
+            }
+        });
+        return false;
+    }
+
     $(document).ready(function () {
         var lt = $('#tinchi-lt').val();
         var th = $('#tinchi-th').val();
@@ -89,7 +103,7 @@
         if (data != null) {
             var maLTC = $(data).attr('data-maloptc');
             ltc = {
-                maLopTC : maLTC
+                maLopTC: maLTC
             };
             // Tích bỏ chọn đăng ký
             if (data.parentElement.parentElement.parentElement.id == "dangky") {
@@ -116,10 +130,10 @@
                     contentType: 'application/json; charset=utf-8'
                 }).done(function (dt) {
                     if (dt != null) {
-                        if (dt.msg == "OK" ) {
+                        if (dt.msg == "OK") {
                             return;
                         }
-                        else{
+                        else {
                             alert(dt.msg);
                         }
                     }

@@ -224,8 +224,15 @@ namespace QuanLyDaoTao_TTTN.Controllers
                         int tong = Int32.Parse(TempData["SoTinChiDK"].ToString()) + ltc.TongSoTinChi;
                         if (tong < 21)
                         {
-                            listMaLopDK = (List<int>)TempData["ListLopTCDK"];
-                            listMaLopDK.Add(maLopTC);
+                            if(TempData["ListLopTCDK"]!= null)
+                            {
+                                listMaLopDK = (List<int>)TempData["ListLopTCDK"];
+                                listMaLopDK.Add(maLopTC);
+                            }
+                            else
+                            {    
+                                listMaLopDK.Add(maLopTC);
+                            }
                             TempData["ListLopTCDK"] = listMaLopDK;
                             TempData["SoTinChiDK"] = tong;
                             return Json(new { msg = "OK" });
@@ -234,7 +241,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                     }
                 }
             }
-            return Json(new { smg = "FALSE" });
+            return Json(new { msg = "FALSE" });
         }
         #endregion
 
@@ -305,7 +312,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                     }
                 }
             }
-            return Json(new { smg = "FALSE" });
+            return Json(new { msg = "FALSE" });
         }
         #endregion
 
@@ -376,9 +383,10 @@ namespace QuanLyDaoTao_TTTN.Controllers
                         }
                     }
                 }
-                return Json(new { smg = "OK" });
+                TempData.Clear();
+                return Json(new { msg = "Lưu đăng ký thành công!" });
             }
-            return Json(new { smg = "FALSE" });
+            return Json(new { msg = "Lỗi!" });
         }
         #endregion
     }
