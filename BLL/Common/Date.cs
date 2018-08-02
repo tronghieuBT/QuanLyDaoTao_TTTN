@@ -45,7 +45,7 @@ namespace BLL.Common
                 //trong khi ngày đầu tiên của năm không phải thứ 2 thì cộng tiếp 1 ngày cho đến thứ 2
                 while (dt.DayOfWeek != DayOfWeek.Monday)
                 {
-                    dt.AddDays(1);
+                    dt =dt.AddDays(1);
                 }
                 DateTime dtEnd = dt.AddDays(6);
                 Date date = new Date();

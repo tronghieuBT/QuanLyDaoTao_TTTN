@@ -156,6 +156,7 @@
     </Compile>
     <Compile Include="Models\DangKyModel.cs" />
     <Compile Include="Models\GiangVienModel.cs" />
+    <Compile Include="Models\LopTinChiModel.cs" />
     <Compile Include="Models\MonHocModel.cs" />
     <Compile Include="Models\SupportThoiKhoaBieu.cs" />
     <Compile Include="Models\ThoiKhoaBieuModel.cs" />
@@ -469,6 +470,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jquery.weekcalendar.js" />
+    <Content Include="Scripts\localCache.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

@@ -8,6 +8,7 @@ namespace BLL
     public class LopTinChiBLL
     {
         private LopTinChiDAO context = new LopTinChiDAO();
+        
 
         #region GetByMaGV
 
@@ -260,5 +261,25 @@ namespace BLL
         }
 
         #endregion GetById
+
+        #region DangKy
+        public void DangKy(int maLopTC, string maSV)
+        {     
+            try
+            {
+                SinhVienDAO contextSV = new SinhVienDAO();
+                LopTinChi lpTest = context.GetById(maLopTC);
+                SinhVien sv = contextSV.GetById(maSV);
+                if (lpTest != null && sv != null)
+                {
+                    context.DangKy(maLopTC, maSV);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);  
+            }
+        }
+        #endregion
     }
 }

@@ -317,6 +317,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="Insert_DangKy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaSV" Type="varchar" Mode="In" />
+          <Parameter Name="MaLopTC" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="QuanLyDaoTaoModelStoreContainer">
           <EntitySet Name="DangKy" EntityType="Self.DangKy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiemDanh" EntityType="Self.DiemDanh" Schema="dbo" store:Type="Tables" />
@@ -777,6 +781,10 @@
             <End Role="LopTinChi" EntitySet="LopTinChis" />
             <End Role="SinhVien" EntitySet="SinhViens" />
           </AssociationSet>
+          <FunctionImport Name="Insert_DangKy">
+            <Parameter Name="MaSV" Mode="In" Type="String" />
+            <Parameter Name="MaLopTC" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -925,6 +933,7 @@
               <ScalarProperty Name="MaSV" ColumnName="MaSV" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="Insert_DangKy" FunctionName="QuanLyDaoTaoModel.Store.Insert_DangKy" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

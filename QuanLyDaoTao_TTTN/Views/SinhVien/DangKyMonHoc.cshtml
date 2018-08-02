@@ -1,4 +1,4 @@
-﻿
+﻿@model List<QuanLyDaoTao_TTTN.Models.LopTinChiModel>
 @{
     ViewBag.Title = "Đăng ký môn học";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody id="chon">
-                @foreach (var item in ViewBag.ListLTC)
+                @foreach (var item in Model)
                 {
                     <tr>
                         <th scope="row">@item.MaMonHoc</th>
@@ -43,16 +43,11 @@
                         <td id="tinchi-lt">@item.MonHoc.SoTinChiLyThuyet</td>
                         <td id="tinchi-th">@item.MonHoc.SoTinChiThucHanh</td>
 
-                        <td id="tong-tinchi">
-                            @{
-                                var tongTC = item.MonHoc.SoTinChiLyThuyet + item.MonHoc.SoTinChiThucHanh;
-                                @Html.Raw(tongTC);
-                            }
-                        </td>
+                        <td id="tong-tinchi">@item.TongSoTinChi</td>
 
                         <td><input type="checkbox" data-maloptc=@item.MaLopTC onchange="loadData(this)" /></td>
                     </tr>
-                                }
+                }
             </tbody>
         </table>
     </div>
@@ -74,8 +69,11 @@
                 </tr>
             </thead>
             <tbody id="dangky"></tbody>
-
         </table>
+    </div>
+    <div class="row">
+        <button type="button" class="btn btn-success">Lưu đăng ký</button>'
+        <button type="button" class="btn btn-danger">Hủy tất cả</button>
     </div>
 </div>
 
@@ -90,34 +88,50 @@
     function loadData(data) {
         if (data != null) {
             var maLTC = $(data).attr('data-maloptc');
+            ltc = {
+                maLopTC : maLTC
+            };
+            // Tích bỏ chọn đăng ký
+            if (data.parentElement.parentElement.parentElement.id == "dangky") {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteSelectMonHoc", "SinhVien")',
+                    data: JSON.stringify(ltc),
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8'
+                }).done(function (dt) {
+                    if (dt != null && dt.msg === "FALSE") {
+                        alert(dt.msg);
+                        return;
+                    }
+                });
+            }
+            //tích chọn đăng ký
+            if (data.parentElement.parentElement.parentElement.id == "chon") {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AddMonHocDK", "SinhVien")',
+                    data: JSON.stringify(ltc),
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8'
+                }).done(function (dt) {
+                    if (dt != null) {
+                        if (dt.msg == "OK" ) {
+                            return;
+                        }
+                        else{
+                            alert(dt.msg);
+                        }
+                    }
+                });
+            }
             if (data.checked) {
                 $('#dangky').append(data.parentElement.parentElement);
-                var maMh = data.parentElement.parentElement.children[0].lastChild.textContent;
-                if (maMh !== "" && maLTC !==null) {
-                    mh = {
-                        maMonHoc: maMh,
-                        maLopTC: maLTC
-                    };
-                    $.ajax({
-                        type: "POST",
-                        url: '@Url.Action("AddMonHocDK", "SinhVien")',
-                        data: JSON.stringify(mh),
-                        dataType: "json",
-                        contentType: 'application/json; charset=utf-8'
-                    }).done(function (data) {
-
-                    }).fail(function (data) {
-
-                    });
-                    return false;
-                }
             }
             else {
                 $('#chon').append(data.parentElement.parentElement);
-
             }
+            return false;
         }
-
     }
-
 </script>

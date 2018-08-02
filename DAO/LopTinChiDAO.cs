@@ -148,5 +148,15 @@ namespace DAO
             }
         }
         #endregion
+
+        #region DangKy
+        public void DangKy(int maLopTC, string maSV)
+        {
+            using (var context = new QuanLyDaoTaoEntities())
+            {
+                context.Insert_DangKy(maSV, maLopTC);
+            }
+        }
+        #endregion
     }
 }
