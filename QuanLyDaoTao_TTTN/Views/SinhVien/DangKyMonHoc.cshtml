@@ -11,40 +11,89 @@
     .row-title {
         border: 1px solid;
     }
+    .input-drop{
+        margin-top:2%;
+    }
+    .nienkhoa{
+        margin-bottom:1%;
+    }
+    .hocky{
+        margin-bottom:1%;
+    }
 </style>
 <div class="container">
     <div class="row row-title">
         <h1 class="modal-title title-dk">ĐĂNG KÝ MÔN HỌC</h1>
     </div>
-    <div class="row">
-        <h3>Danh sách các môn được mở :</h3>
-    </div>
-    <div class="row">
 
-        <table class="table table-sm">
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Lọc theo niên khóa :</h3>
+            <h3>Lọc theo học kỳ :</h3>
+            <h3>Lọc theo khoa :</h3>
+        </div>
+        <div class="col-md-8 input-drop">
+            @{
+                var dt = DateTime.UtcNow;
+                var lstnienkhoa = new List<SelectListItem>();
+                for (int i = 0; i <= 1; i++)
+                {
+                    string nk = (dt.Year + i).ToString() + "-" + (dt.Year + i + 1).ToString();
+                    SelectListItem nienKhoa = new SelectListItem()
+                    {
+                        Text = nk,
+                        Value = nk
+                    };
+                    lstnienkhoa.Add(nienKhoa);
+                }
+                var lstHocKy = new List<SelectListItem>()
+                {
+                  new SelectListItem() { Text = "1",Value="1"},
+                  new SelectListItem() {Text = "2",Value="2" } ,
+                  new SelectListItem() {Text = "3",Value="3" }
+                };
+            }
+            @Html.DropDownList("NienKhoa", lstnienkhoa, htmlAttributes: new { @class = "form-control nienkhoa", @onchange = "LocNienKhoa()" })
+            @Html.DropDownList("HocKy", lstHocKy, htmlAttributes: new { @class = "form-control hocky", @onchange = "LocNienKhoaHocKy()" })
+            @Html.DropDownList("MaKhoa", (IEnumerable<SelectListItem>)ViewBag.Khoa, htmlAttributes: new { @class = "form-control drop-down makhoa", @onchange = "LocKhoa()" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Danh sách các môn được mở :</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-sm table-ltc">
             <thead>
                 <tr>
                     <th scope="col">Mã môn học</th>
                     <th scope="col">Tên môn học</th>
-                    <th scope="col">Mã giảng viên</th>
+                    <th scope="col">Giảng viên</th>
                     <th scope="col">Số tín chỉ lý thuyết</th>
                     <th scope="col">Số tín chỉ thực hành</th>
                     <th scope="col">Tổng số tín chỉ</th>
+                    <th scope="col">Nhóm</th>
+                    <th scope="col">Tổng</th>
+                    <th scope="col">Còn lại</th>
                     <th scope="col">Chọn</th>
                 </tr>
             </thead>
             <tbody id="chon">
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    <tr class="data-ltc">
                         <th scope="row">@item.MaMonHoc</th>
                         <td>@item.MonHoc.TenMH</td>
-                        <td>@item.MaGV</td>
+                        <td>@item.TenGiangVien</td>
                         <td id="tinchi-lt">@item.MonHoc.SoTinChiLyThuyet</td>
                         <td id="tinchi-th">@item.MonHoc.SoTinChiThucHanh</td>
-
                         <td id="tong-tinchi">@item.TongSoTinChi</td>
-
+                        <td>@item.Nhom</td>
+                        <td>@item.Tong</td>
+                        <td>@item.ConLai</td>
                         <td><input type="checkbox" data-maloptc=@item.MaLopTC onchange="loadData(this)" /></td>
                     </tr>
                 }
@@ -65,6 +114,9 @@
                     <th scope="col">Số tín chỉ lý thuyết</th>
                     <th scope="col">Số tín chỉ thực hành</th>
                     <th scope="col">Tổng số tín chỉ</th>
+                    <th scope="col">Nhóm</th>
+                    <th scope="col">Tổng</th>
+                    <th scope="col">Còn lại</th>
                     <th scope="col">Chọn</th>
                 </tr>
             </thead>
@@ -72,11 +124,148 @@
         </table>
     </div>
     <div class="row">
+        <h1 class="tongtinchi"></h1>
         <button type="button" class="btn btn-success" onclick="luuDK()">Lưu đăng ký</button>
     </div>
 </div>
 
 <script>
+    function LocKhoa() {
+        $('#chon').remove();
+        var bodyText = "<tbody id=\"chon\"></tbody>"
+        $('.table-ltc').append(bodyText);
+        var nk = {
+            maKhoa: $(".makhoa").val()
+        };
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("LocTheoKhoa", "SinhVien")',
+            data: JSON.stringify(nk),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8'
+        }).done(function (dt) {
+            if (dt != null) {
+                if (dt.msg === "FALSE") {
+                    alert('Không có lớp được mở trong khoa này!');
+                    return;
+                }
+                else {
+                    for (var i = 0 ; i < dt.msg.length; i++) {
+                        var textHtml = " <tr id=\"data-ltc\">" +
+                      "<th scope=\"row\">" + dt.msg[i].MaMonHoc + "</th>" +
+                      "<td>" + dt.msg[i].MonHoc.TenMH + "</td>" +
+                      "<td>" + dt.msg[i].TenGiangVien + "</td>" +
+                      "<td id=\"tinchi-lt\">" + dt.msg[i].MonHoc.SoTinChiLyThuyet + "</td>" +
+                      "<td id=\"tinchi-th\">" + dt.msg[i].MonHoc.SoTinChiThucHanh + "</td>" +
+                      "<td id=\"tong-tinchi\">" + dt.msg[i].TongSoTinChi + "</td>" +
+                      "<td>" + dt.msg[i].Nhom + "</td>" +
+                      "<td>" + dt.msg[i].Tong + "</td>" +
+                      "<td>" + dt.msg[i].ConLai + "</td>" +
+                      "<td><input type=\"checkbox\" data-maloptc=" + dt.msg[i].MaLopTC + " onchange=\"loadData(this)\"/></td>" +
+                      "</tr>";
+                        $('#chon').append(textHtml);
+                    }
+                }
+            }
+            else {
+                alert('Lỗi');
+                return;
+            }
+        });
+        return false;
+    }
+
+    function LocNienKhoa() {
+        $('#chon').remove();
+        var bodyText = "<tbody id=\"chon\"></tbody>"
+        $('.table-ltc').append(bodyText);
+        var nk = {
+            nienKhoa: $(".nienkhoa").val()
+        };
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("LocMonTheoNienKhoa", "SinhVien")',
+            data: JSON.stringify(nk),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8'
+        }).done(function (dt) {
+            if (dt != null) {
+                if (dt.msg === "FALSE") {
+                    alert('Không có lớp được mở trong niên khóa này!');
+                    return;
+                }
+                else {
+                    for (var i = 0 ; i < dt.msg.length; i++) {
+                        var textHtml = " <tr id=\"data-ltc\">" +
+                      "<th scope=\"row\">" + dt.msg[i].MaMonHoc + "</th>" +
+                      "<td>" + dt.msg[i].MonHoc.TenMH + "</td>" +
+                      "<td>" + dt.msg[i].TenGiangVien + "</td>" +
+                      "<td id=\"tinchi-lt\">" + dt.msg[i].MonHoc.SoTinChiLyThuyet + "</td>" +
+                      "<td id=\"tinchi-th\">" + dt.msg[i].MonHoc.SoTinChiThucHanh + "</td>" +
+                      "<td id=\"tong-tinchi\">" + dt.msg[i].TongSoTinChi + "</td>" +
+                      "<td>" + dt.msg[i].Nhom + "</td>" +
+                       "<td>" + dt.msg[i].Tong + "</td>" +
+                      "<td>" + dt.msg[i].ConLai + "</td>" +
+                      "<td><input type=\"checkbox\" data-maloptc=" + dt.msg[i].MaLopTC + " onchange=\"loadData(this)\"/></td>" +
+                      "</tr>";
+                        $('#chon').append(textHtml);
+                    }
+                }
+            }
+            else {
+                alert('Lỗi');
+                return;
+            }
+        });
+        return false;
+    }
+
+    function LocNienKhoaHocKy() {
+        $('#chon').remove();
+        var bodyText = "<tbody id=\"chon\"></tbody>"
+        $('.table-ltc').append(bodyText);
+        var nk = {
+            nienKhoa: $(".nienkhoa").val(),
+            hocky: $(".hocky").val()
+        };
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("LocTheoNieKhoaHocKy", "SinhVien")',
+            data: JSON.stringify(nk),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8'
+        }).done(function (dt) {
+            if (dt != null) {
+                if (dt.msg === "FALSE") {
+                    alert('Không có lớp được mở trong niên khóa và học kỳ này!');
+                    return;
+                }
+                else {
+                    for (var i = 0 ; i < dt.msg.length; i++) {
+                        var textHtml = " <tr id=\"data-ltc\">" +
+                      "<th scope=\"row\">" + dt.msg[i].MaMonHoc + "</th>" +
+                      "<td>" + dt.msg[i].MonHoc.TenMH + "</td>" +
+                      "<td>" + dt.msg[i].TenGiangVien + "</td>" +
+                      "<td id=\"tinchi-lt\">" + dt.msg[i].MonHoc.SoTinChiLyThuyet + "</td>" +
+                      "<td id=\"tinchi-th\">" + dt.msg[i].MonHoc.SoTinChiThucHanh + "h</td>" +
+                      "<td id=\"tong-tinchi\">" + dt.msg[i].TongSoTinChi + "</td>" +
+                      "<td>" + dt.msg[i].Nhom + "</td>" +
+                      "<td>" + dt.msg[i].Tong + "</td>" +
+                      "<td>" + dt.msg[i].ConLai + "</td>" +
+                      "<td><input type=\"checkbox\" data-maloptc=" + dt.msg[i].MaLopTC + " onchange=\"loadData(this)\"/></td>" +
+                      "</tr>";
+                        $('#chon').append(textHtml);
+                    }
+                }
+            }
+            else {
+                alert('Lỗi');
+                return;
+            }
+        });
+        return false;
+    }
+
     function luuDK() {
         $.ajax({
             type: "POST",
@@ -85,7 +274,6 @@
             contentType: 'application/json; charset=utf-8'
         }).done(function (dt) {
             if (dt != null) {
-
                 alert(dt.msg);
             }
         });
@@ -107,6 +295,8 @@
             };
             // Tích bỏ chọn đăng ký
             if (data.parentElement.parentElement.parentElement.id == "dangky") {
+
+
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("DeleteSelectMonHoc", "SinhVien")',

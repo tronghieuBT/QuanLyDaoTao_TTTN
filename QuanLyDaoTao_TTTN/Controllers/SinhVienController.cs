@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using System.Net;
 
 namespace QuanLyDaoTao_TTTN.Controllers
 {
@@ -15,6 +16,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
     {
         private List<DangKyModel> DangKy = new List<DangKyModel>();
         private List<MonHoc> listMonHoc = new List<MonHoc>();
+
         #region     Index
         // GET: SinhVien
         [CheckLogin]
@@ -105,6 +107,8 @@ namespace QuanLyDaoTao_TTTN.Controllers
         [CheckLogin]
         public ActionResult DangKyMonHoc()
         {
+            string maSV = Session["MaSV"].ToString().Trim();
+            KhoaBLL contextK = new KhoaBLL();
             LopTinChiBLL contextLTC = new LopTinChiBLL();
             List<LopTinChi> lstLTC = contextLTC.GetAll();
 
@@ -114,43 +118,48 @@ namespace QuanLyDaoTao_TTTN.Controllers
             List<LopTinChiModel> listLTCModel = new List<LopTinChiModel>();
             foreach (LopTinChi ltc in lstLTC)
             {
-                if (ltc.TrangThai == true)
+                var query = ltc.SinhViens.Where(x => x.MaSV == maSV).FirstOrDefault();
+                if (query == null)
                 {
-                    GiangVien giangVien = contextGV.GetById(ltc.MaGV);
-                    MonHoc monHoc = contextMH.GetById(ltc.MaMonHoc);
-                    LopTinChiModel ltcModel = new LopTinChiModel()
+                    if (ltc.TrangThai == true && ltc.SinhViens.Count < 50)
                     {
-                        MaLopTC = ltc.MaLopTC,
-                        TrangThai = ltc.TrangThai,
-                        HocKy = ltc.HocKy,
-                        MaGV = ltc.MaMonHoc,
-                        MaMonHoc = ltc.MaMonHoc,
-                        Nhom = ltc.Nhom,
-                        NienKhoa = ltc.NienKhoa,
-                        GiangVienModel = new GiangVienModel()
+                        GiangVien giangVien = contextGV.GetById(ltc.MaGV);
+                        MonHoc monHoc = contextMH.GetById(ltc.MaMonHoc);
+                        LopTinChiModel ltcModel = new LopTinChiModel()
                         {
-                            MaGV = giangVien.MaGV,
-                            Email = giangVien.Email,
-                            GioiTinh = giangVien.GioiTinh,
-                            HoVaTenLot = giangVien.HoVaTenLot,
-                            MaKhoa = giangVien.MaKhoa,
-                            MatKhau = giangVien.MatKhau,
-                            NgaySinh = giangVien.NgaySinh,
-                            SDT = giangVien.SDT,
-                            TenGV = giangVien.TenGV,
-                            TrinhDo = giangVien.TrinhDo
-                        },
-                        MonHoc = new MonHocModel
-                        {
-                            MaMH = monHoc.MaMH,
-                            SoTinChiLyThuyet = monHoc.SoTinChiLyThuyet,
-                            SoTinChiThucHanh = monHoc.SoTinChiThucHanh,
-                            TenMH = monHoc.TenMH
-                        }
-                    };
-                    listLTCModel.Add(ltcModel);
+                            MaLopTC = ltc.MaLopTC,
+                            TrangThai = ltc.TrangThai,
+                            HocKy = ltc.HocKy,
+                            MaGV = ltc.MaGV,
+                            MaMonHoc = ltc.MaMonHoc,
+                            Nhom = ltc.Nhom,
+                            NienKhoa = ltc.NienKhoa,
+                            GiangVienModel = new GiangVienModel()
+                            {
+                                MaGV = giangVien.MaGV,
+                                Email = giangVien.Email,
+                                GioiTinh = giangVien.GioiTinh,
+                                HoVaTenLot = giangVien.HoVaTenLot,
+                                MaKhoa = giangVien.MaKhoa,
+                                MatKhau = giangVien.MatKhau,
+                                NgaySinh = giangVien.NgaySinh,
+                                SDT = giangVien.SDT,
+                                TenGV = giangVien.TenGV,
+                                TrinhDo = giangVien.TrinhDo
+                            },
+                            MonHoc = new MonHocModel
+                            {
+                                MaMH = monHoc.MaMH,
+                                SoTinChiLyThuyet = monHoc.SoTinChiLyThuyet,
+                                SoTinChiThucHanh = monHoc.SoTinChiThucHanh,
+                                TenMH = monHoc.TenMH
+                            }
+                        };
+                        listLTCModel.Add(ltcModel);
+                    }
                 }
             }
+            ViewBag.Khoa = new SelectList(contextK.GetAll(), "MaKhoa", "TenKhoa");
             return View(listLTCModel);
 
         }
@@ -160,6 +169,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
         [HttpPost]
         public JsonResult AddMonHocDK(int maLopTC)
         {
+            string maSV = Session["MaSV"].ToString().Trim();
             LopTinChiBLL contextLTC = new LopTinChiBLL();
             List<LopTinChi> lstLTC = contextLTC.GetAll();
 
@@ -168,42 +178,47 @@ namespace QuanLyDaoTao_TTTN.Controllers
             List<LopTinChiModel> listLTCModel = new List<LopTinChiModel>();
             foreach (LopTinChi ltc in lstLTC)
             {
-                if (ltc.TrangThai == true)
+                var query = ltc.SinhViens.Where(x => x.MaSV == maSV).FirstOrDefault();
+                if (query == null)
                 {
-                    GiangVien giangVien = contextGV.GetById(ltc.MaGV);
-                    MonHoc monHoc = contextMH.GetById(ltc.MaMonHoc);
-                    LopTinChiModel ltcModel = new LopTinChiModel()
+                    if (ltc.TrangThai == true && ltc.SinhViens.Count < 50)
                     {
-                        MaLopTC = ltc.MaLopTC,
-                        TrangThai = ltc.TrangThai,
-                        HocKy = ltc.HocKy,
-                        MaGV = ltc.MaMonHoc,
-                        MaMonHoc = ltc.MaMonHoc,
-                        Nhom = ltc.Nhom,
-                        NienKhoa = ltc.NienKhoa,
-                        GiangVienModel = new GiangVienModel()
+                        GiangVien giangVien = contextGV.GetById(ltc.MaGV);
+                        MonHoc monHoc = contextMH.GetById(ltc.MaMonHoc);
+                        LopTinChiModel ltcModel = new LopTinChiModel()
                         {
-                            MaGV = giangVien.MaGV,
-                            Email = giangVien.Email,
-                            GioiTinh = giangVien.GioiTinh,
-                            HoVaTenLot = giangVien.HoVaTenLot,
-                            MaKhoa = giangVien.MaKhoa,
-                            MatKhau = giangVien.MatKhau,
-                            NgaySinh = giangVien.NgaySinh,
-                            SDT = giangVien.SDT,
-                            TenGV = giangVien.TenGV,
-                            TrinhDo = giangVien.TrinhDo
-                        },
-                        MonHoc = new MonHocModel
-                        {
-                            MaMH = monHoc.MaMH,
-                            SoTinChiLyThuyet = monHoc.SoTinChiLyThuyet,
-                            SoTinChiThucHanh = monHoc.SoTinChiThucHanh,
-                            TenMH = monHoc.TenMH
-                        }
-                    };
-                    listLTCModel.Add(ltcModel);
+                            MaLopTC = ltc.MaLopTC,
+                            TrangThai = ltc.TrangThai,
+                            HocKy = ltc.HocKy,
+                            MaGV = ltc.MaMonHoc,
+                            MaMonHoc = ltc.MaMonHoc,
+                            Nhom = ltc.Nhom,
+                            NienKhoa = ltc.NienKhoa,
+                            GiangVienModel = new GiangVienModel()
+                            {
+                                MaGV = giangVien.MaGV,
+                                Email = giangVien.Email,
+                                GioiTinh = giangVien.GioiTinh,
+                                HoVaTenLot = giangVien.HoVaTenLot,
+                                MaKhoa = giangVien.MaKhoa,
+                                MatKhau = giangVien.MatKhau,
+                                NgaySinh = giangVien.NgaySinh,
+                                SDT = giangVien.SDT,
+                                TenGV = giangVien.TenGV,
+                                TrinhDo = giangVien.TrinhDo
+                            },
+                            MonHoc = new MonHocModel
+                            {
+                                MaMH = monHoc.MaMH,
+                                SoTinChiLyThuyet = monHoc.SoTinChiLyThuyet,
+                                SoTinChiThucHanh = monHoc.SoTinChiThucHanh,
+                                TenMH = monHoc.TenMH
+                            }
+                        };
+                        listLTCModel.Add(ltcModel);
+                    }
                 }
+
             }
 
             if (listLTCModel.Count > 0)
@@ -224,13 +239,13 @@ namespace QuanLyDaoTao_TTTN.Controllers
                         int tong = Int32.Parse(TempData["SoTinChiDK"].ToString()) + ltc.TongSoTinChi;
                         if (tong < 21)
                         {
-                            if(TempData["ListLopTCDK"]!= null)
+                            if (TempData["ListLopTCDK"] != null)
                             {
                                 listMaLopDK = (List<int>)TempData["ListLopTCDK"];
                                 listMaLopDK.Add(maLopTC);
                             }
                             else
-                            {    
+                            {
                                 listMaLopDK.Add(maLopTC);
                             }
                             TempData["ListLopTCDK"] = listMaLopDK;
@@ -249,6 +264,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
         [HttpPost]
         public JsonResult DeleteSelectMonHoc(int maLopTC)
         {
+            string maSV = Session["MaSV"].ToString().Trim();
             LopTinChiBLL contextLTC = new LopTinChiBLL();
             List<LopTinChi> lstLTC = contextLTC.GetAll();
 
@@ -257,43 +273,48 @@ namespace QuanLyDaoTao_TTTN.Controllers
             List<LopTinChiModel> listLTCModel = new List<LopTinChiModel>();
             foreach (LopTinChi ltc in lstLTC)
             {
-                if (ltc.TrangThai == true)
+                var query = ltc.SinhViens.Where(x => x.MaSV == maSV).FirstOrDefault();
+                if (query == null)
                 {
-                    GiangVien giangVien = contextGV.GetById(ltc.MaGV);
-                    MonHoc monHoc = contextMH.GetById(ltc.MaMonHoc);
-                    LopTinChiModel ltcModel = new LopTinChiModel()
+                    if (ltc.TrangThai == true && ltc.SinhViens.Count < 50)
                     {
-                        MaLopTC = ltc.MaLopTC,
-                        TrangThai = ltc.TrangThai,
-                        HocKy = ltc.HocKy,
-                        MaGV = ltc.MaMonHoc,
-                        MaMonHoc = ltc.MaMonHoc,
-                        Nhom = ltc.Nhom,
-                        NienKhoa = ltc.NienKhoa,
-                        GiangVienModel = new GiangVienModel()
+                        GiangVien giangVien = contextGV.GetById(ltc.MaGV);
+                        MonHoc monHoc = contextMH.GetById(ltc.MaMonHoc);
+                        LopTinChiModel ltcModel = new LopTinChiModel()
                         {
-                            MaGV = giangVien.MaGV,
-                            Email = giangVien.Email,
-                            GioiTinh = giangVien.GioiTinh,
-                            HoVaTenLot = giangVien.HoVaTenLot,
-                            MaKhoa = giangVien.MaKhoa,
-                            MatKhau = giangVien.MatKhau,
-                            NgaySinh = giangVien.NgaySinh,
-                            SDT = giangVien.SDT,
-                            TenGV = giangVien.TenGV,
-                            TrinhDo = giangVien.TrinhDo
-                        },
-                        MonHoc = new MonHocModel
-                        {
-                            MaMH = monHoc.MaMH,
-                            SoTinChiLyThuyet = monHoc.SoTinChiLyThuyet,
-                            SoTinChiThucHanh = monHoc.SoTinChiThucHanh,
-                            TenMH = monHoc.TenMH
-                        }
-                    };
-                    listLTCModel.Add(ltcModel);
+                            MaLopTC = ltc.MaLopTC,
+                            TrangThai = ltc.TrangThai,
+                            HocKy = ltc.HocKy,
+                            MaGV = ltc.MaMonHoc,
+                            MaMonHoc = ltc.MaMonHoc,
+                            Nhom = ltc.Nhom,
+                            NienKhoa = ltc.NienKhoa,
+                            GiangVienModel = new GiangVienModel()
+                            {
+                                MaGV = giangVien.MaGV,
+                                Email = giangVien.Email,
+                                GioiTinh = giangVien.GioiTinh,
+                                HoVaTenLot = giangVien.HoVaTenLot,
+                                MaKhoa = giangVien.MaKhoa,
+                                MatKhau = giangVien.MatKhau,
+                                NgaySinh = giangVien.NgaySinh,
+                                SDT = giangVien.SDT,
+                                TenGV = giangVien.TenGV,
+                                TrinhDo = giangVien.TrinhDo
+                            },
+                            MonHoc = new MonHocModel
+                            {
+                                MaMH = monHoc.MaMH,
+                                SoTinChiLyThuyet = monHoc.SoTinChiLyThuyet,
+                                SoTinChiThucHanh = monHoc.SoTinChiThucHanh,
+                                TenMH = monHoc.TenMH
+                            }
+                        };
+                        listLTCModel.Add(ltcModel);
+                    }
                 }
             }
+
 
             if (listLTCModel.Count > 0)
             {
@@ -320,6 +341,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
         [HttpPost]
         public JsonResult LuuDangKy()
         {
+            string maSV = Session["MaSV"].ToString().Trim();
             LopTinChiBLL contextLTC = new LopTinChiBLL();
             List<LopTinChi> lstLTC = contextLTC.GetAll();
 
@@ -328,48 +350,53 @@ namespace QuanLyDaoTao_TTTN.Controllers
             List<LopTinChiModel> listLTCModel = new List<LopTinChiModel>();
             foreach (LopTinChi ltc in lstLTC)
             {
-                if (ltc.TrangThai == true)
+                var query = ltc.SinhViens.Where(x => x.MaSV == maSV).FirstOrDefault();
+                if (query == null)
                 {
-                    GiangVien giangVien = contextGV.GetById(ltc.MaGV);
-                    MonHoc monHoc = contextMH.GetById(ltc.MaMonHoc);
-                    LopTinChiModel ltcModel = new LopTinChiModel()
+                    if (ltc.TrangThai == true && ltc.SinhViens.Count < 50)
                     {
-                        MaLopTC = ltc.MaLopTC,
-                        TrangThai = ltc.TrangThai,
-                        HocKy = ltc.HocKy,
-                        MaGV = ltc.MaMonHoc,
-                        MaMonHoc = ltc.MaMonHoc,
-                        Nhom = ltc.Nhom,
-                        NienKhoa = ltc.NienKhoa,
-                        GiangVienModel = new GiangVienModel()
+                        GiangVien giangVien = contextGV.GetById(ltc.MaGV);
+                        MonHoc monHoc = contextMH.GetById(ltc.MaMonHoc);
+                        LopTinChiModel ltcModel = new LopTinChiModel()
                         {
-                            MaGV = giangVien.MaGV,
-                            Email = giangVien.Email,
-                            GioiTinh = giangVien.GioiTinh,
-                            HoVaTenLot = giangVien.HoVaTenLot,
-                            MaKhoa = giangVien.MaKhoa,
-                            MatKhau = giangVien.MatKhau,
-                            NgaySinh = giangVien.NgaySinh,
-                            SDT = giangVien.SDT,
-                            TenGV = giangVien.TenGV,
-                            TrinhDo = giangVien.TrinhDo
-                        },
-                        MonHoc = new MonHocModel
-                        {
-                            MaMH = monHoc.MaMH,
-                            SoTinChiLyThuyet = monHoc.SoTinChiLyThuyet,
-                            SoTinChiThucHanh = monHoc.SoTinChiThucHanh,
-                            TenMH = monHoc.TenMH
-                        }
-                    };
-                    listLTCModel.Add(ltcModel);
+                            MaLopTC = ltc.MaLopTC,
+                            TrangThai = ltc.TrangThai,
+                            HocKy = ltc.HocKy,
+                            MaGV = ltc.MaMonHoc,
+                            MaMonHoc = ltc.MaMonHoc,
+                            Nhom = ltc.Nhom,
+                            NienKhoa = ltc.NienKhoa,
+                            GiangVienModel = new GiangVienModel()
+                            {
+                                MaGV = giangVien.MaGV,
+                                Email = giangVien.Email,
+                                GioiTinh = giangVien.GioiTinh,
+                                HoVaTenLot = giangVien.HoVaTenLot,
+                                MaKhoa = giangVien.MaKhoa,
+                                MatKhau = giangVien.MatKhau,
+                                NgaySinh = giangVien.NgaySinh,
+                                SDT = giangVien.SDT,
+                                TenGV = giangVien.TenGV,
+                                TrinhDo = giangVien.TrinhDo
+                            },
+                            MonHoc = new MonHocModel
+                            {
+                                MaMH = monHoc.MaMH,
+                                SoTinChiLyThuyet = monHoc.SoTinChiLyThuyet,
+                                SoTinChiThucHanh = monHoc.SoTinChiThucHanh,
+                                TenMH = monHoc.TenMH
+                            }
+                        };
+                        listLTCModel.Add(ltcModel);
+                    }
                 }
             }
+
 
             DangKyModel dk = new DangKyModel();
 
             List<int> listMaLopDK = (List<int>)TempData["ListLopTCDK"];
-            if(listMaLopDK.Count > 0)
+            if (listMaLopDK.Count > 0)
             {
                 foreach (int a in listMaLopDK)
                 {
@@ -378,8 +405,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                     {
                         if (Session["MaSV"] != null)
                         {
-                            string maSV = Session["MaSV"].ToString().Trim();
-                            contextLTC.DangKy(ltcModel.MaLopTC, maSV); 
+                            contextLTC.DangKy(ltcModel.MaLopTC, maSV);
                         }
                     }
                 }
@@ -389,5 +415,213 @@ namespace QuanLyDaoTao_TTTN.Controllers
             return Json(new { msg = "Lỗi!" });
         }
         #endregion
+
+        #region LocMonTheoNienKhoa
+        [HttpPost]
+        public ActionResult LocMonTheoNienKhoa(string nienKhoa)
+        {
+            string maSV = Session["MaSV"].ToString().Trim();
+            if (string.IsNullOrEmpty(nienKhoa))
+            {
+                return Json(new { msg = "FALSE" });
+            }
+            KhoaBLL contextK = new KhoaBLL();
+            LopTinChiBLL contextLTC = new LopTinChiBLL();
+            List<LopTinChi> lstLTC = contextLTC.GetAll();
+
+            MonHocBLL contextMH = new MonHocBLL();
+            GiangVienBLL contextGV = new GiangVienBLL();
+            List<LopTinChiModel> listLTCModel = new List<LopTinChiModel>();
+            foreach (LopTinChi ltc in lstLTC)
+            {
+                var query = ltc.SinhViens.Where(x => x.MaSV == maSV).FirstOrDefault();
+                if (query == null)
+                {
+                    if (ltc.TrangThai == true && ltc.NienKhoa == nienKhoa && ltc.SinhViens.Count < 50)
+                    {
+                        GiangVien giangVien = contextGV.GetById(ltc.MaGV);
+                        MonHoc monHoc = contextMH.GetById(ltc.MaMonHoc);
+                        LopTinChiModel ltcModel = new LopTinChiModel()
+                        {
+                            MaLopTC = ltc.MaLopTC,
+                            TrangThai = ltc.TrangThai,
+                            HocKy = ltc.HocKy,
+                            MaGV = ltc.MaGV,
+                            MaMonHoc = ltc.MaMonHoc,
+                            Nhom = ltc.Nhom,
+                            NienKhoa = ltc.NienKhoa,
+                            GiangVienModel = new GiangVienModel()
+                            {
+                                MaGV = giangVien.MaGV,
+                                Email = giangVien.Email,
+                                GioiTinh = giangVien.GioiTinh,
+                                HoVaTenLot = giangVien.HoVaTenLot,
+                                MaKhoa = giangVien.MaKhoa,
+                                MatKhau = giangVien.MatKhau,
+                                NgaySinh = giangVien.NgaySinh,
+                                SDT = giangVien.SDT,
+                                TenGV = giangVien.TenGV,
+                                TrinhDo = giangVien.TrinhDo
+                            },
+                            MonHoc = new MonHocModel
+                            {
+                                MaMH = monHoc.MaMH,
+                                SoTinChiLyThuyet = monHoc.SoTinChiLyThuyet,
+                                SoTinChiThucHanh = monHoc.SoTinChiThucHanh,
+                                TenMH = monHoc.TenMH
+                            }
+                        };
+                        listLTCModel.Add(ltcModel);
+                    }
+                }
+            }
+
+            ViewBag.Khoa = new SelectList(contextK.GetAll(), "MaKhoa", "TenKhoa");
+            if (listLTCModel.Count > 0)
+            {
+                return Json(new { msg = listLTCModel });
+            }
+            return Json(new { msg = "FALSE" });
+        }
+        #endregion
+
+        #region LocTheoNieKhoaHocKy
+        [HttpPost]
+        public JsonResult LocTheoNieKhoaHocKy(string nienKhoa, int hocky)
+        {
+            string maSV = Session["MaSV"].ToString().Trim();
+            if (string.IsNullOrEmpty(nienKhoa) || hocky < 0 || hocky > 3)
+            {
+                return Json(new { msg = "FALSE" });
+            }
+            KhoaBLL contextK = new KhoaBLL();
+            LopTinChiBLL contextLTC = new LopTinChiBLL();
+            List<LopTinChi> lstLTC = contextLTC.GetAll();
+
+            MonHocBLL contextMH = new MonHocBLL();
+            GiangVienBLL contextGV = new GiangVienBLL();
+            List<LopTinChiModel> listLTCModel = new List<LopTinChiModel>();
+            foreach (LopTinChi ltc in lstLTC)
+            {
+                var query = ltc.SinhViens.Where(x => x.MaSV == maSV).FirstOrDefault();
+                if (query == null)
+                {
+                    if (ltc.TrangThai == true && ltc.NienKhoa == nienKhoa && ltc.HocKy == hocky && ltc.SinhViens.Count < 50)
+                    {
+                        GiangVien giangVien = contextGV.GetById(ltc.MaGV);
+                        MonHoc monHoc = contextMH.GetById(ltc.MaMonHoc);
+                        LopTinChiModel ltcModel = new LopTinChiModel()
+                        {
+                            MaLopTC = ltc.MaLopTC,
+                            TrangThai = ltc.TrangThai,
+                            HocKy = ltc.HocKy,
+                            MaGV = ltc.MaGV,
+                            MaMonHoc = ltc.MaMonHoc,
+                            Nhom = ltc.Nhom,
+                            NienKhoa = ltc.NienKhoa,
+                            GiangVienModel = new GiangVienModel()
+                            {
+                                MaGV = giangVien.MaGV,
+                                Email = giangVien.Email,
+                                GioiTinh = giangVien.GioiTinh,
+                                HoVaTenLot = giangVien.HoVaTenLot,
+                                MaKhoa = giangVien.MaKhoa,
+                                MatKhau = giangVien.MatKhau,
+                                NgaySinh = giangVien.NgaySinh,
+                                SDT = giangVien.SDT,
+                                TenGV = giangVien.TenGV,
+                                TrinhDo = giangVien.TrinhDo
+                            },
+                            MonHoc = new MonHocModel
+                            {
+                                MaMH = monHoc.MaMH,
+                                SoTinChiLyThuyet = monHoc.SoTinChiLyThuyet,
+                                SoTinChiThucHanh = monHoc.SoTinChiThucHanh,
+                                TenMH = monHoc.TenMH
+                            }
+                        };
+                        listLTCModel.Add(ltcModel);
+                    }
+                }
+            }
+
+            ViewBag.Khoa = new SelectList(contextK.GetAll(), "MaKhoa", "TenKhoa");
+            if (listLTCModel.Count > 0)
+            {
+                return Json(new { msg = listLTCModel });
+            }
+            return Json(new { msg = "FALSE" });
+
+        }
+        #endregion
+
+        public JsonResult LocTheoKhoa(string maKhoa)
+        {
+            string maSV = Session["MaSV"].ToString().Trim();
+            if (string.IsNullOrEmpty(maKhoa))
+            {
+                return Json(new { msg = "FALSE" });
+            }
+            KhoaBLL contextK = new KhoaBLL();
+            LopTinChiBLL contextLTC = new LopTinChiBLL();
+            List<LopTinChi> lstLTC = contextLTC.GetAll();
+
+            MonHocBLL contextMH = new MonHocBLL();
+            GiangVienBLL contextGV = new GiangVienBLL();
+            List<LopTinChiModel> listLTCModel = new List<LopTinChiModel>();
+            foreach (LopTinChi ltc in lstLTC)
+            {
+                var query = ltc.SinhViens.Where(x => x.MaSV == maSV).FirstOrDefault();
+                if (query == null)
+                {
+                    if (ltc.TrangThai == true && ltc.SinhViens.Count < 50)
+                    {
+                        GiangVien giangVien = contextGV.GetById(ltc.MaGV);
+                        if (giangVien.MaKhoa == maKhoa)
+                        {
+                            MonHoc monHoc = contextMH.GetById(ltc.MaMonHoc);
+                            LopTinChiModel ltcModel = new LopTinChiModel()
+                            {
+                                MaLopTC = ltc.MaLopTC,
+                                TrangThai = ltc.TrangThai,
+                                HocKy = ltc.HocKy,
+                                MaGV = ltc.MaGV,
+                                MaMonHoc = ltc.MaMonHoc,
+                                Nhom = ltc.Nhom,
+                                NienKhoa = ltc.NienKhoa,
+                                GiangVienModel = new GiangVienModel()
+                                {
+                                    MaGV = giangVien.MaGV,
+                                    Email = giangVien.Email,
+                                    GioiTinh = giangVien.GioiTinh,
+                                    HoVaTenLot = giangVien.HoVaTenLot,
+                                    MaKhoa = giangVien.MaKhoa,
+                                    MatKhau = giangVien.MatKhau,
+                                    NgaySinh = giangVien.NgaySinh,
+                                    SDT = giangVien.SDT,
+                                    TenGV = giangVien.TenGV,
+                                    TrinhDo = giangVien.TrinhDo
+                                },
+                                MonHoc = new MonHocModel
+                                {
+                                    MaMH = monHoc.MaMH,
+                                    SoTinChiLyThuyet = monHoc.SoTinChiLyThuyet,
+                                    SoTinChiThucHanh = monHoc.SoTinChiThucHanh,
+                                    TenMH = monHoc.TenMH
+                                }
+                            };
+                            listLTCModel.Add(ltcModel);
+                        }
+                    }
+                }
+            }
+
+            ViewBag.Khoa = new SelectList(contextK.GetAll(), "MaKhoa", "TenKhoa");
+            if (listLTCModel.Count > 0)
+            {
+                return Json(new { msg = listLTCModel });
+            }
+            return Json(new { msg = "FALSE" });
+        }
     }
 }

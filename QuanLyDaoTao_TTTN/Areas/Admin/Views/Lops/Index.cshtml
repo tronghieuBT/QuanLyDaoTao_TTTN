@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<DAO.Lop>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Lớp";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Lớp</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Thêm mới", "Create")
 </p>
 <table class="table">
     <tr>
@@ -36,9 +36,9 @@
             @Html.DisplayFor(modelItem => item.Khoa.TenKhoa)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MaLop }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MaLop }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MaLop })
+            @Html.ActionLink("Sửa", "Edit", new { id=item.MaLop }) |
+            @Html.ActionLink("Chi tiết", "Details", new { id=item.MaLop }) |
+            @Html.ActionLink("Xóa", "Delete", new { id=item.MaLop })
         </td>
     </tr>
 }

@@ -137,6 +137,20 @@
           <Property Name="TietBD" Type="smallint" Nullable="false" />
           <Property Name="MaLopTC" Type="int" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="DangKy_V">
+          <Key>
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="MaSV" />
+            <PropertyRef Name="MaLopTC" />
+            <PropertyRef Name="Expr2" />
+          </Key>
+          <Property Name="Expr1" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="MaSV" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="MaLopTC" Type="int" Nullable="false" />
+          <Property Name="Expr2" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK_BuoiHoc_LopTinChi">
           <End Role="LopTinChi" Type="Self.LopTinChi" Multiplicity="1" />
           <End Role="ThoiKhoaBieu" Type="Self.ThoiKhoaBieu" Multiplicity="*" />
@@ -335,6 +349,14 @@
           <EntitySet Name="MonHoc" EntityType="Self.MonHoc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SinhVien" EntityType="Self.SinhVien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThoiKhoaBieu" EntityType="Self.ThoiKhoaBieu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DangKy_V" EntityType="Self.DangKy_V" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DangKy_V].[Expr1] AS [Expr1], 
+    [DangKy_V].[MaSV] AS [MaSV], 
+    [DangKy_V].[MaLopTC] AS [MaLopTC], 
+    [DangKy_V].[Expr2] AS [Expr2]
+    FROM [dbo].[DangKy_V] AS [DangKy_V]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_BuoiHoc_LopTinChi" Association="Self.FK_BuoiHoc_LopTinChi">
             <End Role="LopTinChi" EntitySet="LopTinChi" />
             <End Role="ThoiKhoaBieu" EntitySet="ThoiKhoaBieu" />
@@ -785,7 +807,20 @@
             <Parameter Name="MaSV" Mode="In" Type="String" />
             <Parameter Name="MaLopTC" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="DangKy_V" EntityType="QuanLyDaoTaoModel.DangKy_V" />
         </EntityContainer>
+        <EntityType Name="DangKy_V">
+          <Key>
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="MaSV" />
+            <PropertyRef Name="MaLopTC" />
+            <PropertyRef Name="Expr2" />
+          </Key>
+          <Property Name="Expr1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MaSV" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MaLopTC" Type="Int32" Nullable="false" />
+          <Property Name="Expr2" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -934,6 +969,16 @@
             </EndProperty>
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="Insert_DangKy" FunctionName="QuanLyDaoTaoModel.Store.Insert_DangKy" />
+          <EntitySetMapping Name="DangKy_V">
+            <EntityTypeMapping TypeName="QuanLyDaoTaoModel.DangKy_V">
+              <MappingFragment StoreEntitySet="DangKy_V">
+                <ScalarProperty Name="Expr2" ColumnName="Expr2" />
+                <ScalarProperty Name="MaLopTC" ColumnName="MaLopTC" />
+                <ScalarProperty Name="MaSV" ColumnName="MaSV" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

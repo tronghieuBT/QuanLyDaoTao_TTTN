@@ -39,6 +39,7 @@ namespace DAO
         public virtual DbSet<MonHoc> MonHocs { get; set; }
         public virtual DbSet<SinhVien> SinhViens { get; set; }
         public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
+        public virtual DbSet<DangKy_V> DangKy_V { get; set; }
     
         public virtual int Insert_DangKy(string maSV, Nullable<int> maLopTC)
         {

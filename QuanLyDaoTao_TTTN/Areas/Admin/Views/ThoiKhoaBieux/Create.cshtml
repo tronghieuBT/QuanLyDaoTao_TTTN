@@ -57,10 +57,36 @@
         new SelectListItem() { Text = "Buổi sáng", Value = "Sáng" }  ,
         new SelectListItem() { Text = "Buổi Chiều", Value = "Chiều" }
     };
-    @Html.AntiForgeryToken()
+    var dt = DateTime.UtcNow;
+    var lstnienkhoa = new List<SelectListItem>();
+    for (int i = 0; i <= 1; i++)
+    {
+        string nk = (dt.Year + i).ToString() + "-" + (dt.Year + i + 1).ToString();
+        SelectListItem nienKhoa = new SelectListItem()
+        {
+            Text = nk,
+            Value = nk
+        };
+        lstnienkhoa.Add(nienKhoa);
+    }
+    var lstHocKy = new List<SelectListItem>()
+                {
+                  new SelectListItem() { Text = "1",Value="1"},
+                  new SelectListItem() {Text = "2",Value="2" } ,
+                  new SelectListItem() {Text = "3",Value="3" }
+                };
 
+    @Html.AntiForgeryToken()
     <div class="container-fluid">
         <div class="form-group" style="display:inline-flex">
+            <div class="row">
+                <label class="control-label label-fillter col-md-2" for="email">Lọc lớp tín chỉ theo niên khóa:</label>
+                @Html.DropDownList("NienKhoa", lstnienkhoa, htmlAttributes: new { @class = "form-control drop-down col-md-8 nienkhoa", @onchange = "LocNienKhoa()" })
+            </div>
+            <div class="row">
+                <label class="control-label label-fillter col-md-2" for="email">Lọc lớp tín chỉ theo học kỳ :</label>
+                @Html.DropDownList("HocKy", lstHocKy, htmlAttributes: new { @class = "form-control drop-down col-md-8 hocky", @onchange = "LocNienKhoaHocKy()" })
+            </div>
             <div class="row">
                 <label class="control-label label-fillter col-md-2" for="email">Lọc lớp tín chỉ theo giảng viên:</label>
                 @Html.DropDownList("MaGV", (IEnumerable<SelectListItem>)ViewBag.GiangVienModel, htmlAttributes: new { @class = "form-control drop-down col-md-8 ma-gv" })
@@ -107,7 +133,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Ngay,"Ngày bắt đầu học", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Ngay, "Ngày bắt đầu học", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10" style="height:130px;">
                                 <div class='input-group date' id='datetimepicker11'>
                                     <input id="ngay-select" name="Ngay" type='text' class="form-control ngay-select" onchange="KiemTraNgay()" />
@@ -361,130 +387,130 @@
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
-      $('#datetimepicker11').datetimepicker({
+        $('#datetimepicker11').datetimepicker({
             daysOfWeekDisabled: [0],
             format: 'YYYY-MM-DD'
-      });
-      $('#datetimepicker11').on('dp.change', function (e) {
+        });
+        $('#datetimepicker11').on('dp.change', function (e) {
 
-          var hocky = $('#hocky').text();
-          var ngayFormat = $('.ngay-select').val();
-          var nam = parseInt(ngayFormat.split('-')[0]);
-          var thang = parseInt(ngayFormat.split('-')[1]);
-          var ngay = parseInt(ngayFormat.split('-')[2]);
-          var dtNow = new Date();
-          if (nam < dtNow.getFullYear()) {
-              alert('Thời gian phải lớn hơn thời gian hiện tại !');
-              resetDatePicker();
-              return;
-          }
-          if (nam == dtNow.getFullYear()) {
-              if (hocky == 1 ) {
-                  if (thang < 9) {
-                      alert('Lớp học mở trong học kỳ 1 nên thời gian phải từ 1/9 đến 31/12 !');
-                      resetDatePicker();
-                      return;
-                  }
-              }
-              if (hocky == 2) {
-                  if (thang > 6) {
-                      alert('Lớp học mở trong học kỳ 2 nên thời gian phải từ 31/1 đến 31/5 !');
-                      resetDatePicker();
-                      return;
-                  }
-              }
-              if (hocky == 3) {
-                  if (thang < 6 || thang > 8 ) {
-                      alert('Lớp học mở trong học kỳ 2 nên thời gian phải từ 1/6 đến 30/8 !');
-                      resetDatePicker();
-                      return;
-                  }
-              }
-              if (thang < dtNow.getMonth()) {
-                  alert('Tháng phải lớn hơn tháng gian hiện tại !');
-                  resetDatePicker();
-                  return;
-              }
-              if ( thang == dtNow.getMonth() && ngay < dtNow.getDate()) {
-                  alert('Ngày phải lớn hơn ngày hiện tại !');
-                  resetDatePicker();
-                  return;
-              }
-          }
-          if (ngayFormat === null) return;
-          var maGV = {
-              maGiangVien: $('#magiangvien').text()
-          };
-          $.ajax({
-              type: "POST",
-              url: '@Url.Action("GetThoiKhoaBieuGiangVien", "ThoiKhoaBieux")',
-              data: JSON.stringify(maGV),
-              dataType: "json",
-              contentType: 'application/json; charset=utf-8'
-          }).done(function (data) {
-              if (data === "Giảng viên trống lịch trong thời gian tới !") {
-                  $('.note-calendar').show();
-                  $('.notif-giangvien').show();
-                  $('.notif-giangvien').append(data);
-                  return false;
-              }
-              $('.note-giangvien').show();
-              var lstLich = data.lich;
-              var listNgayBuoiSang = [];
-              var listNgayBuoiChieu = [];
-              var listNgayFull = [];
-              for (var i = 0 ; i < lstLich.length; i++) {
-                  var ngay = lstLich[i].NgayString;
-                  if (lstLich[i].TietBD === 1) {
-                      listNgayBuoiSang.push(ngay);
-                  }
-                  else {
-                      listNgayBuoiChieu.push(ngay);
-                  }
-              }
+            var hocky = $('#hocky').text();
+            var ngayFormat = $('.ngay-select').val();
+            var nam = parseInt(ngayFormat.split('-')[0]);
+            var thang = parseInt(ngayFormat.split('-')[1]);
+            var ngay = parseInt(ngayFormat.split('-')[2]);
+            var dtNow = new Date();
+            if (nam < dtNow.getFullYear()) {
+                alert('Thời gian phải lớn hơn thời gian hiện tại !');
+                resetDatePicker();
+                return;
+            }
+            if (nam == dtNow.getFullYear()) {
+                if (hocky == 1) {
+                    if (thang < 9) {
+                        alert('Lớp học mở trong học kỳ 1 nên thời gian phải từ 1/9 đến 31/12 !');
+                        resetDatePicker();
+                        return;
+                    }
+                }
+                if (hocky == 2) {
+                    if (thang > 6) {
+                        alert('Lớp học mở trong học kỳ 2 nên thời gian phải từ 31/1 đến 31/5 !');
+                        resetDatePicker();
+                        return;
+                    }
+                }
+                if (hocky == 3) {
+                    if (thang < 6 || thang > 8) {
+                        alert('Lớp học mở trong học kỳ 2 nên thời gian phải từ 1/6 đến 30/8 !');
+                        resetDatePicker();
+                        return;
+                    }
+                }
+                if (thang < dtNow.getMonth()) {
+                    alert('Tháng phải lớn hơn tháng gian hiện tại !');
+                    resetDatePicker();
+                    return;
+                }
+                if (thang == dtNow.getMonth() && ngay < dtNow.getDate()) {
+                    alert('Ngày phải lớn hơn ngày hiện tại !');
+                    resetDatePicker();
+                    return;
+                }
+            }
+            if (ngayFormat === null) return;
+            var maGV = {
+                maGiangVien: $('#magiangvien').text()
+            };
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetThoiKhoaBieuGiangVien", "ThoiKhoaBieux")',
+                data: JSON.stringify(maGV),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8'
+            }).done(function (data) {
+                if (data === "Giảng viên trống lịch trong thời gian tới !") {
+                    $('.note-calendar').show();
+                    $('.notif-giangvien').show();
+                    $('.notif-giangvien').append(data);
+                    return false;
+                }
+                $('.note-giangvien').show();
+                var lstLich = data.lich;
+                var listNgayBuoiSang = [];
+                var listNgayBuoiChieu = [];
+                var listNgayFull = [];
+                for (var i = 0 ; i < lstLich.length; i++) {
+                    var ngay = lstLich[i].NgayString;
+                    if (lstLich[i].TietBD === 1) {
+                        listNgayBuoiSang.push(ngay);
+                    }
+                    else {
+                        listNgayBuoiChieu.push(ngay);
+                    }
+                }
 
-              for (var i = 0; i < listNgayBuoiSang.length; i++) {
-                  for (var j = 0; j < listNgayBuoiChieu.length; j++) {
-                      if (listNgayBuoiChieu[i] == listNgayBuoiSang[j]) {
-                          listNgayFull.push(listNgayBuoiChieu[i]);
-                          listNgayBuoiSang = removeArray(listNgayBuoiSang, listNgayBuoiSang[i]);
-                          listNgayBuoiChieu = removeArray(listNgayBuoiChieu, listNgayBuoiChieu[j]);
-                      }
-                  }
-              }
-              var fyc = $('#full-year-calendar').fullYearCalendar({
-                  weekDaysHolidays: [0],
-                  publicHolidays: listNgayFull,
-                  niwds: listNgayBuoiSang,
-                  halfDays: listNgayBuoiChieu,
-                  noSchools: [],
-              });
-              for (var i = 0 ; i < listNgayFull.length; i++) {
-                  if (listNgayFull[i] === ngayFormat) {
-                      alert('Giảng viên đã kín lịch vào ngày này!');
-                      return;
-                  }
-              }
-              var tietBD = $('.tiet-bd').val();
-              if (tietBD == 1) {
-                  for (var i = 0 ; i < listNgayBuoiSang.length; i++) {
-                      if (listNgayBuoiSang[i] === ngayFormat) {
-                          alert('Giảng viên đã dạy vào ngày này buổi sáng!');
-                          return;
-                      }
-                  }
-              }
-              for (var i = 0 ; i < listNgayBuoiChieu.length; i++) {
-                  if (listNgayBuoiChieu[i] === ngayFormat) {
-                      alert('Giảng viên đã có lịch dạy vào ngày này buổi chiều!');
-                      return;
-                  }
-              }
-              //fyc.addHoliday({ type: 'niwds', from: '2018-05-05' });
-          }).fail(function () {
-              alert("Kết nối server lỗi !");
-          });
-      });
+                for (var i = 0; i < listNgayBuoiSang.length; i++) {
+                    for (var j = 0; j < listNgayBuoiChieu.length; j++) {
+                        if (listNgayBuoiChieu[i] == listNgayBuoiSang[j]) {
+                            listNgayFull.push(listNgayBuoiChieu[i]);
+                            listNgayBuoiSang = removeArray(listNgayBuoiSang, listNgayBuoiSang[i]);
+                            listNgayBuoiChieu = removeArray(listNgayBuoiChieu, listNgayBuoiChieu[j]);
+                        }
+                    }
+                }
+                var fyc = $('#full-year-calendar').fullYearCalendar({
+                    weekDaysHolidays: [0],
+                    publicHolidays: listNgayFull,
+                    niwds: listNgayBuoiSang,
+                    halfDays: listNgayBuoiChieu,
+                    noSchools: [],
+                });
+                for (var i = 0 ; i < listNgayFull.length; i++) {
+                    if (listNgayFull[i] === ngayFormat) {
+                        alert('Giảng viên đã kín lịch vào ngày này!');
+                        return;
+                    }
+                }
+                var tietBD = $('.tiet-bd').val();
+                if (tietBD == 1) {
+                    for (var i = 0 ; i < listNgayBuoiSang.length; i++) {
+                        if (listNgayBuoiSang[i] === ngayFormat) {
+                            alert('Giảng viên đã dạy vào ngày này buổi sáng!');
+                            return;
+                        }
+                    }
+                }
+                for (var i = 0 ; i < listNgayBuoiChieu.length; i++) {
+                    if (listNgayBuoiChieu[i] === ngayFormat) {
+                        alert('Giảng viên đã có lịch dạy vào ngày này buổi chiều!');
+                        return;
+                    }
+                }
+                //fyc.addHoliday({ type: 'niwds', from: '2018-05-05' });
+            }).fail(function () {
+                alert("Kết nối server lỗi !");
+            });
+        });
     });
 </script>
 <script>
@@ -521,9 +547,12 @@
         $('#fillter').click(function () {
             var magiangvien = $('.ma-gv').val();
             var mamonhoc = $('.ma-mh').val();
+
             var dt = {
                 maGiangVien: magiangvien,
-                maMonHoc: mamonhoc
+                maMonHoc: mamonhoc,
+                nienKhoa: $(".nienkhoa").val(),
+                hocky: $(".hocky").val()
             }
             $.ajax({
                 type: "POST",
@@ -533,7 +562,7 @@
                 contentType: 'application/json; charset=utf-8'
             }).done(function (data) {
                 if (data.msg === "Không có lớp tín chỉ nào!" || data.msg === "Lỗi !") {
-                    alert(data);
+                    alert(data.msg);
                     return;
                 }
                 $('#list-malop').empty();

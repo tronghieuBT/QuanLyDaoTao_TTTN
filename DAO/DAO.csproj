@@ -52,6 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DangKy_V.cs">
+      <DependentUpon>DB_QLDT.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DangKy_VDAO.cs" />
     <Compile Include="DB_QLDT.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

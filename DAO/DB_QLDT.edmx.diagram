@@ -31,6 +31,7 @@
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_BuoiHoc_LopTinChi" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_LopTinChi_MonHoc" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.DangKy" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.DangKy_V" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

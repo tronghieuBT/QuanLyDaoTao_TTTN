@@ -42,9 +42,10 @@ namespace BLL
         /// <returns>List lop</returns>
         public List<LopTinChi> GetAll()
         {
+            SinhVienBLL contextSV = new SinhVienBLL();
             try
             {
-                List<LopTinChi> lstLop = context.GetAll();
+                List<LopTinChi> lstLop = context.GetAll();     
                 return lstLop;
             }
             catch (Exception ex)
@@ -281,5 +282,7 @@ namespace BLL
             }
         }
         #endregion
+
+       
     }
 }

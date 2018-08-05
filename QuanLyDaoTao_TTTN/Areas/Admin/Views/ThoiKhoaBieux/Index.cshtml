@@ -13,6 +13,20 @@
 <table class="table">
     <tr>
         <th>
+            <label>Niên khóa</label>
+        </th>
+        <th>
+            <label>Ngày</label>
+        </th>
+
+        <th>
+            <label>Buổi</label>
+        </th>
+
+        <th>
+            <label>Tiết bắt đầu</label>
+        </th>
+        <th>
             <label>Mã lớp tín chỉ</label>
         </th>
         <th>
@@ -21,18 +35,7 @@
         <th>
             <label>Giảng viên giảng dạy</label>
         </th>
-        <th>
-            <label>Ngày</label>
-        </th>
-        <th>
-            <label>Buổi</label>
-        </th>
-        <th>
-            <label>Tiết bắt đầu</label>
-        </th>
-        <th>
-            <label>Niên khóa</label>
-        </th>
+
         <th></th>
     </tr>
 
@@ -40,32 +43,30 @@
     {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.LopTinChi.NienKhoa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ngay)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Buoi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TietBD)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.MaLopTC)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LopTinChi.MaGV)
             </td>
             <td>
-               @{ 
-                   var tenGV = item.LopTinChi.GiangVien.HoVaTenLot + " " + item.LopTinChi.GiangVien.TenGV;
-               }
-               <label>@tenGV</label>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ngay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Buoi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TietBD)
-            <td>
-                @Html.DisplayFor(modelItem => item.LopTinChi.NienKhoa)
-            </td>
-            <td>
-                @*@Html.ActionLink("Sửa", "Edit", new { tkb = item })*@ |
-                @Html.ActionLink("Xóa", "Delete", new { tkb = item })
+                @{
+                    var tenGV = item.LopTinChi.GiangVien.HoVaTenLot + " " + item.LopTinChi.GiangVien.TenGV;
+                }
+                <label>@tenGV</label>
             </td>
         </tr>
-    }
+                    }
 </table>

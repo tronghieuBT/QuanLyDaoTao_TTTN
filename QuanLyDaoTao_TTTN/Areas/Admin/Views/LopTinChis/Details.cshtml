@@ -1,14 +1,14 @@
 ﻿@model DAO.LopTinChi
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Chi tiết";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Chi tiết</h2>
 
 <div>
-    <h4>LopTinChi</h4>
+    <h4>Lớp tín chỉ</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -36,11 +36,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.GiangVien.HoVaTenLot)
+            Giảng viên
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.GiangVien.HoVaTenLot)
+            @Html.DisplayFor(model => model.GiangVien.HoVaTenLot) @Html.DisplayFor(model => model.GiangVien.TenGV)
         </dd>
 
         <dt>

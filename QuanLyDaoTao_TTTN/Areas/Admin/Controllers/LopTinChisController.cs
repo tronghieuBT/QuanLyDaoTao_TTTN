@@ -28,6 +28,10 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         public ActionResult Details(int id)
         {
             LopTinChi lopTinChi = contextLopTC.GetById(id);
+            GiangVienBLL ctGV = new GiangVienBLL();
+            MonHocBLL ctMH = new MonHocBLL();
+            lopTinChi.GiangVien = ctGV.GetById(lopTinChi.MaGV);
+            lopTinChi.MonHoc = ctMH.GetById(lopTinChi.MaMonHoc);
             if (lopTinChi == null)
             {
                 return HttpNotFound();

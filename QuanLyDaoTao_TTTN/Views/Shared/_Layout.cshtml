@@ -6,13 +6,18 @@
     <title>@ViewBag.Title - Quản Lý Đào Tạo - Học viện Bưu Chính Viễn Thông</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")  
+    @Scripts.Render("~/bundles/jquery")
     <style>
-         body{
-             padding-top: 0;
-         }
+        body {
+            padding-top: 0;
+        }
+
         .nav-menu {
             margin-left: 330px !important;
+        }
+
+        .nav-option {
+            margin-left: 11%;
         }
     </style>
 </head>
@@ -27,7 +32,7 @@
                 </button>
             </div>
             <div class="navbar-collapse collapse nav-menu">
-                <ul class="nav navbar-nav nav-custom">
+                <ul class="nav navbar-nav nav-custom nav-option">
                     <li>@Html.ActionLink("Học viện công nghệ bưu chính viễn thông", "Index", "Home")</li>
                     <li class="dang-ky">@Html.ActionLink("Đăng ký môn học", "DangKyMonHoc", "SinhVien")</li>
                     <li class="thoi-khoa-bieu">@Html.ActionLink("Thời khóa biểu", "Index", "SinhVien")</li>
@@ -46,20 +51,23 @@
         <hr class="hr-ft" />
         <footer>
             <section id="tabs">
-                <div class="container">
-                    <h6 class="section-title h1">Học viện công nghệ bưu chính viễn thông</h6>
+                <div class="container" style="color:indigo">
+                    <h6 class="section-title h1" style="color:indigo">Học viện công nghệ bưu chính viễn thông</h6>
+                    <div>Trụ sở chính : 122 Hoàng Quốc Việt, Q.Cầu Giấy, Hà Nội.</div>
+                    <div>Cơ sở tại TP.Hồ Chí Minh: 11 Nguyễn Đình Chiểu, P. Đa Kao, Q.1 TP Hồ Chí Minh</div>
+                    <div>Cơ sở đào tạo tại TP.Hồ Chí Minh: Đường Man Thiện, P. Hiệp Phú, Q.9 TP Hồ Chí Minh</div>
                 </div>
             </section>
         </footer>
     </div>
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-    
+
     <script>
         $(document).ready(function () {
-            var sinhvien =$('.sinhvien').text();
+            var sinhvien = $('.sinhvien').text();
             var giangvien = $('.giangvien').text();
-           
+
             if (sinhvien != "" && giangvien == "") {
                 $('.giangvien').css("display", "none")
                 $('#dangnhap').css("display", "none");
@@ -68,7 +76,7 @@
             if (sinhvien == "" && giangvien != "") {
                 $('.sinhvien').css("display", "none");
                 $('#dangnhap').css("display", "none");
-                $('.dang-ky').css("display","none");
+                $('.dang-ky').css("display", "none");
                 $('.thoi-khoa-bieu').css("display", "none");
                 $('.hoc-phi').css("display", "none");
             }

@@ -28,6 +28,8 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         [SessionCheck]
         public ActionResult Create()
         {
+            ThoiKhoaBieuBLL contextTKB = new ThoiKhoaBieuBLL();
+            List<ThoiKhoaBieu> lstTKB = contextTKB.GetAll();
             GiangVienBLL contextGV = new GiangVienBLL();
             MonHocBLL contextMH = new MonHocBLL();
 
@@ -54,8 +56,17 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
             List<LopTinChi> lstLTC = contextLTC.GetAll();
             lstLTC = contextLTC.GetListLTCOpen(lstLTC);
 
+            List<LopTinChi> lstLTCNew = new List<LopTinChi>();
+            foreach(LopTinChi item in lstLTC)
+            {
+                var query = lstTKB.Where(x => x.MaLopTC == item.MaLopTC).FirstOrDefault();
+                if(query== null)
+                {
+                    lstLTCNew.Add(item);
+                }
+            }
 
-            SelectList selectList = new SelectList(lstLTC, "MaLopTC", "MaLopTC");
+            SelectList selectList = new SelectList(lstLTCNew, "MaLopTC", "MaLopTC");
 
             ViewBag.GiangVienModel = new SelectList(listGVModel, "MaGV", "TenDayDu");
             ViewBag.MonHocModels = new SelectList(listMH, "MaMH", "TenMH");
@@ -133,7 +144,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
 
         [HttpPost]
         public JsonResult GetLopTC(int maLopTC)
-        {
+        {       
             LopTinChiModel ltcModel;
             LopTinChiBLL contextLTC = new LopTinChiBLL();
             LopTinChi ltc = contextLTC.GetById(maLopTC);
@@ -141,7 +152,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
             GiangVienBLL contextGV = new GiangVienBLL();
             MonHocBLL contextMH = new MonHocBLL();
             if (ltc != null)
-            {
+            {     
                 ltcModel = new LopTinChiModel
                 {
                     MaGV = ltc.MaGV,
@@ -231,17 +242,37 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
             }
             return Json(new { lich = lichGV });
         }
-        public JsonResult GetListLopTheoGiangVienMonHoc(string maGiangVien, string maMonHoc)
+        public JsonResult GetListLopTheoGiangVienMonHoc(string maGiangVien, string maMonHoc, string nienKhoa, int hocKy)
         {
             if (string.IsNullOrEmpty(maGiangVien) || string.IsNullOrEmpty(maMonHoc))
             {
                 return Json(new { msg = "Lỗi !"});
             }
+
+            ThoiKhoaBieuBLL contextTKB = new ThoiKhoaBieuBLL();
+            List<ThoiKhoaBieu> lstTKB = contextTKB.GetAll();
             LopTinChiBLL contextLTC = new LopTinChiBLL();
+            List<LopTinChi> lstLTCResult = new List<LopTinChi>();
             var listLopTC = contextLTC.GetByMaGVVaMaMH(maGiangVien, maMonHoc);
-            if(listLopTC.Count > 0)
+            List<LopTinChi> lstLTCNew = new List<LopTinChi>();
+            foreach (LopTinChi item in listLopTC)
             {
-                List<int> listMaLopTC = listLopTC.Select(x => x.MaLopTC).ToList();
+                var query = lstTKB.Where(x => x.MaLopTC == item.MaLopTC).FirstOrDefault();
+                if (query == null)
+                {
+                    lstLTCNew.Add(item);
+                }
+            }
+            if (lstLTCNew.Count > 0)
+            {
+                foreach(var item in lstLTCNew)
+                {
+                    if(item.NienKhoa == nienKhoa && item.HocKy == hocKy)
+                    {
+                        lstLTCResult.Add(item);
+                    }
+                }
+                List<int> listMaLopTC = lstLTCResult.Select(x => x.MaLopTC).ToList();
                 return Json(new { msg = listMaLopTC });
             }
             return Json(new { msg = "Không có lớp tín chỉ nào!" });

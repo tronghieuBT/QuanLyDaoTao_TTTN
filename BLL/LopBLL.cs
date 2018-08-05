@@ -9,7 +9,8 @@ namespace BLL
 {
     public class LopBLL
     {
-        private const int SONAMDAOTAO = 5;
+        private const int SONAMDAOTAODH = 5;
+        private const int SONAMDAOTAOCD = 3;
 
         #region GetByMaKhoa
         /// <summary>
@@ -99,14 +100,16 @@ namespace BLL
             LopDAO context = new LopDAO();
             
             try
-            {
-                int nk = int.Parse(lop.NienKhoa) + SONAMDAOTAO;
+            {       
+                int nk = int.Parse(lop.NienKhoa) + SONAMDAOTAODH;
                 lop.NienKhoa += "-" + nk.ToString().Trim();
                 Lop lpTest = context.GetById(lop.MaLop);
                 if(lpTest != null)
                 {
                     return 0;
                 }
+                LopBLL contextL = new LopBLL();
+                lop.MaLop = contextL.CreateMaLop(lop.MaKhoa, lop.NienKhoa, "CQ");
                 context.Create(lop);
                 return 1;
             }
