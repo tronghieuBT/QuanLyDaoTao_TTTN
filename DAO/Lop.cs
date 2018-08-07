@@ -28,8 +28,8 @@ namespace DAO
         public string NienKhoa { get; set; }
         [Display(Name = "Mã khoa")]
         public string MaKhoa { get; set; }
-    
-        public virtual Khoa Khoa { get; set; }
+        public string MaHDT { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SinhVien> SinhViens { get; set; }
     }

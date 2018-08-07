@@ -22,6 +22,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
         [CheckLogin]
         public ActionResult Index()
         {
+            HeDaoTaoBLL contextHDT = new HeDaoTaoBLL();
             MonHocBLL contextMH = new MonHocBLL();
             ThoiKhoaBieuBLL contextTKB = new ThoiKhoaBieuBLL();
             SinhVienBLL contextSV = new SinhVienBLL();
@@ -36,7 +37,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                 }
             }
             ViewData["MaLop"] = sv.MaLop;
-            ViewData["HDT"] = sv.HeDaoTao1.TenHDT;
+            ViewData["HDT"] = contextHDT.GetById(sv.Lop.MaHDT).TenHDT;
             ViewData["Khoa"] = sv.Lop.NienKhoa;
             //sv.LopTinChis
             // lấy số tuần của năm và list ngày BD , KT của từng tuần lưu vào selectList
@@ -83,7 +84,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                 SupportThoiKhoaBieu spTKB = new SupportThoiKhoaBieu();
                 SinhVienBLL contextSV = new SinhVienBLL();
                 SinhVien sv = contextSV.GetById(Session["MaSV"].ToString().Trim());
-
+                HeDaoTaoBLL contextHDT = new HeDaoTaoBLL();
                 List<SinhVien> lstSV = contextSV.GetAll();
                 foreach (SinhVien sv1 in lstSV)
                 {
@@ -93,7 +94,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                     }
                 }
                 ViewData["MaLop"] = sv.MaLop;
-                ViewData["HDT"] = sv.HeDaoTao1.TenHDT;
+                ViewData["HDT"] = contextHDT.GetById(sv.Lop.MaHDT).TenHDT;
                 ViewData["Khoa"] = sv.Lop.NienKhoa;
 
                 List<SupportThoiKhoaBieu> lstSPTKB = spTKB.GetListSPTKB(tuan, sv.LopTinChis);

@@ -28,7 +28,9 @@ namespace DAO
         [Required(ErrorMessage = "Ngày không được trống")]
         [Display(Name = "Ngày")]
         public System.DateTime Ngay { get; set; }
-    
+        public int SoTien { get; set; }
+        public string NienKhoa { get; set; }
+
         public virtual HocPhiTheoDangKy HocPhiTheoDangKy { get; set; }
         public virtual SinhVien SinhVien { get; set; }
     }

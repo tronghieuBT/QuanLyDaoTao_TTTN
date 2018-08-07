@@ -60,7 +60,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.HeDaoTao = new SelectList(contextHDT.GetAll(), "MaHDT", "TenHDT", sinhVien.HeDaoTao);
+            ViewBag.HeDaoTao = new SelectList(contextHDT.GetAll(), "MaHDT", "TenHDT");
             ViewBag.MaLop = new SelectList(contextLop.GetAll(), "MaLop", "TenLop", sinhVien.MaLop);
             return View(sinhVien);
         }
@@ -78,7 +78,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.HeDaoTao = new SelectList(contextHDT.GetAll(), "MaHDT", "TenHDT", sinhVien.HeDaoTao);
+            ViewBag.HeDaoTao = new SelectList(contextHDT.GetAll(), "MaHDT", "TenHDT");
             ViewBag.MaLop = new SelectList(contextLop.GetAll(), "MaLop", "TenLop", sinhVien.MaLop);
             return View(sinhVien);
         }
@@ -96,7 +96,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
                 contextSV.Edit(sinhVien);
                 return RedirectToAction("Index");
             }
-            ViewBag.HeDaoTao = new SelectList(contextHDT.GetAll(), "MaHDT", "TenHDT", sinhVien.HeDaoTao);
+            ViewBag.HeDaoTao = new SelectList(contextHDT.GetAll(), "MaHDT", "TenHDT");
             ViewBag.MaLop = new SelectList(contextLop.GetAll(), "MaLop", "TenLop", sinhVien.MaLop);
             return View(sinhVien);
         }

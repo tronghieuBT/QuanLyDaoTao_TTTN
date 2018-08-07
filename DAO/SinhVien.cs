@@ -32,8 +32,6 @@ namespace DAO
         public string GioiTinh { get; set; }
         [Display(Name = "Ngày sinh")]
         public System.DateTime NgaySinh { get; set; }
-        [Display(Name = "Mã hệ đào tạo")]
-        public string HeDaoTao { get; set; }
         [Display(Name = "Email")]
         public string Email { get; set; }
         [Display(Name = "Mã lớp")]
@@ -45,7 +43,6 @@ namespace DAO
         public virtual ICollection<DiemDanh> DiemDanhs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DongHocPhi> DongHocPhis { get; set; }
-        public virtual HeDaoTao HeDaoTao1 { get; set; }
         public virtual Lop Lop { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LopTinChi> LopTinChis { get; set; }

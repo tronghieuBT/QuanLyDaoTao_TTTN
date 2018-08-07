@@ -38,7 +38,7 @@ namespace DAO
         [Required(ErrorMessage = "Ngày thay đổi không được trống")]
         [Display(Name = "Ngày thay đổi")]
         public System.DateTime NgayThayDoi { get; set; }
-    
+        public string NienKhoa { get; set; }
         public virtual HeDaoTao HeDaoTao { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HocPhiTheoDangKy> HocPhiTheoDangKies { get; set; }

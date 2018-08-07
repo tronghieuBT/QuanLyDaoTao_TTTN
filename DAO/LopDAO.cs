@@ -34,7 +34,7 @@ namespace DAO
         {
             using (var context = new QuanLyDaoTaoEntities())
             {
-                var listLop = context.Lops.Include(l => l.Khoa).ToList();
+                var listLop = context.Lops.ToList();
                 return listLop;
             }
         }

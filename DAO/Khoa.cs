@@ -18,8 +18,7 @@ namespace DAO
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Khoa()
         {
-            this.GiangViens = new HashSet<GiangVien>();
-            this.Lops = new HashSet<Lop>();
+            this.GiangViens = new HashSet<GiangVien>();  
         }
         [Required(ErrorMessage = "Mã khoa không được trống", AllowEmptyStrings = false)]
         [StringLength(10)]
@@ -33,7 +32,5 @@ namespace DAO
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GiangVien> GiangViens { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Lop> Lops { get; set; }
     }
 }
