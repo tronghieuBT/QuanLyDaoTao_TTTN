@@ -163,6 +163,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\QuanLyDaoTao.sql" />
     <Content Include="Areas\Admin\Content\Admin\admin.css" />
     <Content Include="Areas\Admin\Content\Lop\create.css" />
     <Content Include="Areas\Admin\Content\ThoiKhoaBieu\jquerysctipttop.css" />
@@ -523,9 +524,7 @@
     <Content Include="Views\GiangVien\Index.cshtml" />
     <Content Include="Views\SinhVien\DangKyMonHoc.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
