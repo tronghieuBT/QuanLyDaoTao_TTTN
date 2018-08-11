@@ -139,6 +139,7 @@
     <Compile Include="Areas\Admin\Controllers\LopsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LopTinChisController.cs" />
     <Compile Include="Areas\Admin\Controllers\MonHocsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NienKhoaHocKyController.cs" />
     <Compile Include="Areas\Admin\Controllers\SinhViensController.cs" />
     <Compile Include="Areas\Admin\Controllers\ThoiKhoaBieuxController.cs" />
     <Compile Include="Areas\Admin\Fillter\SessionCheck.cs" />
@@ -461,6 +462,8 @@
     <Content Include="Areas\Admin\Views\ThoiKhoaBieux\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\ThoiKhoaBieux\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ThoiKhoaBieux\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NienKhoaHocKy\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\NienKhoaHocKy\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\DangNhap\main.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

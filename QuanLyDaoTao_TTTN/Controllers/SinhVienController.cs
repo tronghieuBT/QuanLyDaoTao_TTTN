@@ -129,8 +129,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                         LopTinChiModel ltcModel = new LopTinChiModel()
                         {
                             MaLopTC = ltc.MaLopTC,
-                            TrangThai = ltc.TrangThai,
-                            HocKy = ltc.HocKy,
+                            TrangThai = ltc.TrangThai, 
                             MaGV = ltc.MaGV,
                             MaMonHoc = ltc.MaMonHoc,
                             Nhom = ltc.Nhom,
@@ -189,8 +188,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                         LopTinChiModel ltcModel = new LopTinChiModel()
                         {
                             MaLopTC = ltc.MaLopTC,
-                            TrangThai = ltc.TrangThai,
-                            HocKy = ltc.HocKy,
+                            TrangThai = ltc.TrangThai, 
                             MaGV = ltc.MaMonHoc,
                             MaMonHoc = ltc.MaMonHoc,
                             Nhom = ltc.Nhom,
@@ -284,8 +282,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                         LopTinChiModel ltcModel = new LopTinChiModel()
                         {
                             MaLopTC = ltc.MaLopTC,
-                            TrangThai = ltc.TrangThai,
-                            HocKy = ltc.HocKy,
+                            TrangThai = ltc.TrangThai,   
                             MaGV = ltc.MaMonHoc,
                             MaMonHoc = ltc.MaMonHoc,
                             Nhom = ltc.Nhom,
@@ -361,8 +358,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                         LopTinChiModel ltcModel = new LopTinChiModel()
                         {
                             MaLopTC = ltc.MaLopTC,
-                            TrangThai = ltc.TrangThai,
-                            HocKy = ltc.HocKy,
+                            TrangThai = ltc.TrangThai, 
                             MaGV = ltc.MaMonHoc,
                             MaMonHoc = ltc.MaMonHoc,
                             Nhom = ltc.Nhom,
@@ -445,8 +441,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                         LopTinChiModel ltcModel = new LopTinChiModel()
                         {
                             MaLopTC = ltc.MaLopTC,
-                            TrangThai = ltc.TrangThai,
-                            HocKy = ltc.HocKy,
+                            TrangThai = ltc.TrangThai,  
                             MaGV = ltc.MaGV,
                             MaMonHoc = ltc.MaMonHoc,
                             Nhom = ltc.Nhom,
@@ -499,23 +494,24 @@ namespace QuanLyDaoTao_TTTN.Controllers
             LopTinChiBLL contextLTC = new LopTinChiBLL();
             List<LopTinChi> lstLTC = contextLTC.GetAll();
 
+            NienKhoaHocKyBLL contextNKHK = new NienKhoaHocKyBLL();
             MonHocBLL contextMH = new MonHocBLL();
             GiangVienBLL contextGV = new GiangVienBLL();
             List<LopTinChiModel> listLTCModel = new List<LopTinChiModel>();
             foreach (LopTinChi ltc in lstLTC)
             {
+                NienKhoaHocKy nkhk = contextNKHK.GetById(ltc.NienKhoa);
                 var query = ltc.SinhViens.Where(x => x.MaSV == maSV).FirstOrDefault();
                 if (query == null)
                 {
-                    if (ltc.TrangThai == true && ltc.NienKhoa == nienKhoa && ltc.HocKy == hocky && ltc.SinhViens.Count < 50)
+                    if (ltc.TrangThai == true && ltc.NienKhoa == nienKhoa && nkhk.HocKy == hocky && ltc.SinhViens.Count < 50)
                     {
                         GiangVien giangVien = contextGV.GetById(ltc.MaGV);
                         MonHoc monHoc = contextMH.GetById(ltc.MaMonHoc);
                         LopTinChiModel ltcModel = new LopTinChiModel()
                         {
                             MaLopTC = ltc.MaLopTC,
-                            TrangThai = ltc.TrangThai,
-                            HocKy = ltc.HocKy,
+                            TrangThai = ltc.TrangThai,   
                             MaGV = ltc.MaGV,
                             MaMonHoc = ltc.MaMonHoc,
                             Nhom = ltc.Nhom,
@@ -584,8 +580,7 @@ namespace QuanLyDaoTao_TTTN.Controllers
                             LopTinChiModel ltcModel = new LopTinChiModel()
                             {
                                 MaLopTC = ltc.MaLopTC,
-                                TrangThai = ltc.TrangThai,
-                                HocKy = ltc.HocKy,
+                                TrangThai = ltc.TrangThai,    
                                 MaGV = ltc.MaGV,
                                 MaMonHoc = ltc.MaMonHoc,
                                 Nhom = ltc.Nhom,

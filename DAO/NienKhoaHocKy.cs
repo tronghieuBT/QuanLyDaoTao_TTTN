@@ -12,24 +12,28 @@ namespace DAO
     using System;
     using System.Collections.Generic;
     
-    public partial class HocPhiTheoDangKy
+    public partial class NienKhoaHocKy
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public HocPhiTheoDangKy()
+        public NienKhoaHocKy()
         {
             this.DongHocPhis = new HashSet<DongHocPhi>();
+            this.GiaTinChis = new HashSet<GiaTinChi>();
+            this.HocPhiTheoDangKies = new HashSet<HocPhiTheoDangKy>();
+            this.LopTinChis = new HashSet<LopTinChi>();
         }
     
         public string ID { get; set; }
-        public double SoTienDong { get; set; }
-        public int SoTinChi { get; set; }
         public string NienKhoa { get; set; }
-        public string GhiChu { get; set; }
-        public string MaGiaTC { get; set; }
+        public int HocKy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DongHocPhi> DongHocPhis { get; set; }
-        public virtual GiaTinChi GiaTinChi { get; set; }
-        public virtual NienKhoaHocKy NienKhoaHocKy { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GiaTinChi> GiaTinChis { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HocPhiTheoDangKy> HocPhiTheoDangKies { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LopTinChi> LopTinChis { get; set; }
     }
 }

@@ -4,32 +4,39 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7bdaf6ceef114d2f875f6811712b61a2" Name="Diagram1">
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.DiemDanh" Width="1.5" PointX="7.5" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.DongHocPhi" Width="1.5" PointX="12.75" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.GiangVien" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.GiaTinChi" Width="1.5" PointX="8.25" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.HeDaoTao" Width="1.5" PointX="6" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.HocPhiTheoDangKy" Width="1.5" PointX="10.5" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.Khoa" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.Lop" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.LopTinChi" Width="1.5" PointX="5.25" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.MonHoc" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.SinhVien" Width="1.5" PointX="10.5" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.ThoiKhoaBieu" Width="1.5" PointX="7.5" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuanLyDaoTaoModel.DangKy_V" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+      <Diagram DiagramId="3b5362f75c0347db80b02e7c54fbc628" Name="Diagram1">
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.DiemDanh" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.DongHocPhi" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.GiangVien" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.GiaTinChi" Width="1.5" PointX="6" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.HeDaoTao" Width="1.5" PointX="3.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.HocPhiTheoDangKy" Width="1.5" PointX="8.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.Khoa" Width="1.5" PointX="1.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.Lop" Width="1.5" PointX="6" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.LopTinChi" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.MonHoc" Width="1.5" PointX="0.75" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.NienKhoaHocKy" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.SinhVien" Width="1.5" PointX="8.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.ThoiKhoaBieu" Width="1.5" PointX="5.25" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyDaoTaoModel.DangKy_V" Width="1.5" PointX="8.75" PointY="2" IsExpanded="true" />
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_DiemDanh_LopTinChi" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_DiemDanh_SinhVien" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_DongHocPhi_HocPhiTheoDangKy" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyDaoTaoModel.FK_DongHocPhi_NienKhoaHocKy" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_DongHocPhi_SinhVien" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_GiangVien_Khoa" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_LopTinChi_GiangVien" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_GiaTinChi_HeDaoTao" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyDaoTaoModel.FK_GiaTinChi_NienKhoaHocKy" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_HocPhiTheoDangKy_GiaTinChi" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyDaoTaoModel.FK_Lop_HeDaoTao" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyDaoTaoModel.FK_HocPhiTheoDangKy_NienKhoaHocKy" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_SinhVien_Lop" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_BuoiHoc_LopTinChi" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.FK_LopTinChi_MonHoc" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyDaoTaoModel.FK_LopTinChi_NienKhoaHocKy" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyDaoTaoModel.DangKy" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyDaoTaoModel.FK_Lop_Khoa" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

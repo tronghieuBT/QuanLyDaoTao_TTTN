@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="QuanLyDaoTaoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="QuanLyDaoTaoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DangKy">
           <Key>
             <PropertyRef Name="MaSV" />
@@ -32,7 +32,7 @@
           <Property Name="IDHocPhi" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Ngay" Type="datetime" Nullable="false" />
           <Property Name="SoTien" Type="int" Nullable="false" />
-          <Property Name="NienKhoa" Type="nvarchar" MaxLength="50" />
+          <Property Name="NienKhoa" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="GiangVien">
           <Key>
@@ -57,7 +57,7 @@
           <Property Name="MaHDT" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Gia" Type="float" Nullable="false" />
           <Property Name="NgayThayDoi" Type="datetime" Nullable="false" />
-          <Property Name="NienKhoa" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NienKhoa" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="HeDaoTao">
           <Key>
@@ -74,7 +74,7 @@
           <Property Name="ID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="SoTienDong" Type="float" Nullable="false" />
           <Property Name="SoTinChi" Type="int" Nullable="false" />
-          <Property Name="NienKhoa" Type="nvarchar" MaxLength="50" />
+          <Property Name="NienKhoa" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="GhiChu" Type="nvarchar(max)" />
           <Property Name="MaGiaTC" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
@@ -93,16 +93,15 @@
           <Property Name="TenLop" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="NienKhoa" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="MaKhoa" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="MaHDT" Type="varchar" MaxLength="10" />
+          <Property Name="MaHDT" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="LopTinChi">
           <Key>
             <PropertyRef Name="MaLopTC" />
           </Key>
           <Property Name="MaLopTC" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="HocKy" Type="smallint" Nullable="false" />
           <Property Name="Nhom" Type="smallint" Nullable="false" />
-          <Property Name="NienKhoa" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NienKhoa" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="MaMonHoc" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="MaGV" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="TrangThai" Type="bit" Nullable="false" />
@@ -115,6 +114,14 @@
           <Property Name="TenMH" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="SoTinChiLyThuyet" Type="smallint" Nullable="false" />
           <Property Name="SoTinChiThucHanh" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NienKhoaHocKy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="NienKhoa" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="HocKy" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SinhVien">
           <Key>
@@ -226,6 +233,18 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DongHocPhi_NienKhoaHocKy">
+          <End Role="NienKhoaHocKy" Type="Self.NienKhoaHocKy" Multiplicity="1" />
+          <End Role="DongHocPhi" Type="Self.DongHocPhi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NienKhoaHocKy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DongHocPhi">
+              <PropertyRef Name="NienKhoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DongHocPhi_SinhVien">
           <End Role="SinhVien" Type="Self.SinhVien" Multiplicity="1" />
           <End Role="DongHocPhi" Type="Self.DongHocPhi" Multiplicity="*" />
@@ -262,6 +281,18 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_GiaTinChi_NienKhoaHocKy">
+          <End Role="NienKhoaHocKy" Type="Self.NienKhoaHocKy" Multiplicity="1" />
+          <End Role="GiaTinChi" Type="Self.GiaTinChi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NienKhoaHocKy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GiaTinChi">
+              <PropertyRef Name="NienKhoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_HocPhiTheoDangKy_GiaTinChi">
           <End Role="GiaTinChi" Type="Self.GiaTinChi" Multiplicity="1" />
           <End Role="HocPhiTheoDangKy" Type="Self.HocPhiTheoDangKy" Multiplicity="*" />
@@ -271,6 +302,42 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             </Principal>
             <Dependent Role="HocPhiTheoDangKy">
               <PropertyRef Name="MaGiaTC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HocPhiTheoDangKy_NienKhoaHocKy">
+          <End Role="NienKhoaHocKy" Type="Self.NienKhoaHocKy" Multiplicity="1" />
+          <End Role="HocPhiTheoDangKy" Type="Self.HocPhiTheoDangKy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NienKhoaHocKy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HocPhiTheoDangKy">
+              <PropertyRef Name="NienKhoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lop_HeDaoTao">
+          <End Role="HeDaoTao" Type="Self.HeDaoTao" Multiplicity="1" />
+          <End Role="Lop" Type="Self.Lop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HeDaoTao">
+              <PropertyRef Name="MaHDT" />
+            </Principal>
+            <Dependent Role="Lop">
+              <PropertyRef Name="MaHDT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lop_Khoa">
+          <End Role="Khoa" Type="Self.Khoa" Multiplicity="1" />
+          <End Role="Lop" Type="Self.Lop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Khoa">
+              <PropertyRef Name="MaKhoa" />
+            </Principal>
+            <Dependent Role="Lop">
+              <PropertyRef Name="MaKhoa" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -295,6 +362,18 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             </Principal>
             <Dependent Role="LopTinChi">
               <PropertyRef Name="MaMonHoc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LopTinChi_NienKhoaHocKy">
+          <End Role="NienKhoaHocKy" Type="Self.NienKhoaHocKy" Multiplicity="1" />
+          <End Role="LopTinChi" Type="Self.LopTinChi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NienKhoaHocKy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LopTinChi">
+              <PropertyRef Name="NienKhoa" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -326,6 +405,7 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
           <EntitySet Name="Lop" EntityType="Self.Lop" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LopTinChi" EntityType="Self.LopTinChi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MonHoc" EntityType="Self.MonHoc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NienKhoaHocKy" EntityType="Self.NienKhoaHocKy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SinhVien" EntityType="Self.SinhVien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThoiKhoaBieu" EntityType="Self.ThoiKhoaBieu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DangKy_V" EntityType="Self.DangKy_V" store:Type="Views" store:Schema="dbo">
@@ -360,6 +440,10 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             <End Role="HocPhiTheoDangKy" EntitySet="HocPhiTheoDangKy" />
             <End Role="DongHocPhi" EntitySet="DongHocPhi" />
           </AssociationSet>
+          <AssociationSet Name="FK_DongHocPhi_NienKhoaHocKy" Association="Self.FK_DongHocPhi_NienKhoaHocKy">
+            <End Role="NienKhoaHocKy" EntitySet="NienKhoaHocKy" />
+            <End Role="DongHocPhi" EntitySet="DongHocPhi" />
+          </AssociationSet>
           <AssociationSet Name="FK_DongHocPhi_SinhVien" Association="Self.FK_DongHocPhi_SinhVien">
             <End Role="SinhVien" EntitySet="SinhVien" />
             <End Role="DongHocPhi" EntitySet="DongHocPhi" />
@@ -372,9 +456,25 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             <End Role="HeDaoTao" EntitySet="HeDaoTao" />
             <End Role="GiaTinChi" EntitySet="GiaTinChi" />
           </AssociationSet>
+          <AssociationSet Name="FK_GiaTinChi_NienKhoaHocKy" Association="Self.FK_GiaTinChi_NienKhoaHocKy">
+            <End Role="NienKhoaHocKy" EntitySet="NienKhoaHocKy" />
+            <End Role="GiaTinChi" EntitySet="GiaTinChi" />
+          </AssociationSet>
           <AssociationSet Name="FK_HocPhiTheoDangKy_GiaTinChi" Association="Self.FK_HocPhiTheoDangKy_GiaTinChi">
             <End Role="GiaTinChi" EntitySet="GiaTinChi" />
             <End Role="HocPhiTheoDangKy" EntitySet="HocPhiTheoDangKy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HocPhiTheoDangKy_NienKhoaHocKy" Association="Self.FK_HocPhiTheoDangKy_NienKhoaHocKy">
+            <End Role="NienKhoaHocKy" EntitySet="NienKhoaHocKy" />
+            <End Role="HocPhiTheoDangKy" EntitySet="HocPhiTheoDangKy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lop_HeDaoTao" Association="Self.FK_Lop_HeDaoTao">
+            <End Role="HeDaoTao" EntitySet="HeDaoTao" />
+            <End Role="Lop" EntitySet="Lop" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lop_Khoa" Association="Self.FK_Lop_Khoa">
+            <End Role="Khoa" EntitySet="Khoa" />
+            <End Role="Lop" EntitySet="Lop" />
           </AssociationSet>
           <AssociationSet Name="FK_LopTinChi_GiangVien" Association="Self.FK_LopTinChi_GiangVien">
             <End Role="GiangVien" EntitySet="GiangVien" />
@@ -384,13 +484,16 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             <End Role="MonHoc" EntitySet="MonHoc" />
             <End Role="LopTinChi" EntitySet="LopTinChi" />
           </AssociationSet>
+          <AssociationSet Name="FK_LopTinChi_NienKhoaHocKy" Association="Self.FK_LopTinChi_NienKhoaHocKy">
+            <End Role="NienKhoaHocKy" EntitySet="NienKhoaHocKy" />
+            <End Role="LopTinChi" EntitySet="LopTinChi" />
+          </AssociationSet>
           <AssociationSet Name="FK_SinhVien_Lop" Association="Self.FK_SinhVien_Lop">
             <End Role="Lop" EntitySet="Lop" />
             <End Role="SinhVien" EntitySet="SinhVien" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QuanLyDaoTaoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -415,8 +518,9 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
           <Property Name="IDHocPhi" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Ngay" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="SoTien" Type="Int32" Nullable="false" />
-          <Property Name="NienKhoa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NienKhoa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="HocPhiTheoDangKy" Relationship="Self.FK_DongHocPhi_HocPhiTheoDangKy" FromRole="DongHocPhi" ToRole="HocPhiTheoDangKy" />
+          <NavigationProperty Name="NienKhoaHocKy" Relationship="Self.FK_DongHocPhi_NienKhoaHocKy" FromRole="DongHocPhi" ToRole="NienKhoaHocKy" />
           <NavigationProperty Name="SinhVien" Relationship="Self.FK_DongHocPhi_SinhVien" FromRole="DongHocPhi" ToRole="SinhVien" />
         </EntityType>
         <EntityType Name="GiangVien">
@@ -444,8 +548,9 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
           <Property Name="MaHDT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Gia" Type="Double" Nullable="false" />
           <Property Name="NgayThayDoi" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="NienKhoa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NienKhoa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="HeDaoTao" Relationship="Self.FK_GiaTinChi_HeDaoTao" FromRole="GiaTinChi" ToRole="HeDaoTao" />
+          <NavigationProperty Name="NienKhoaHocKy" Relationship="Self.FK_GiaTinChi_NienKhoaHocKy" FromRole="GiaTinChi" ToRole="NienKhoaHocKy" />
           <NavigationProperty Name="HocPhiTheoDangKies" Relationship="Self.FK_HocPhiTheoDangKy_GiaTinChi" FromRole="GiaTinChi" ToRole="HocPhiTheoDangKy" />
         </EntityType>
         <EntityType Name="HeDaoTao">
@@ -456,6 +561,7 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
           <Property Name="TenHDT" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="GiaTinChis" Relationship="Self.FK_GiaTinChi_HeDaoTao" FromRole="HeDaoTao" ToRole="GiaTinChi" />
+          <NavigationProperty Name="Lops" Relationship="Self.FK_Lop_HeDaoTao" FromRole="HeDaoTao" ToRole="Lop" />
         </EntityType>
         <EntityType Name="HocPhiTheoDangKy">
           <Key>
@@ -464,11 +570,16 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
           <Property Name="ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SoTienDong" Type="Double" Nullable="false" />
           <Property Name="SoTinChi" Type="Int32" Nullable="false" />
-          <Property Name="NienKhoa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NienKhoa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" >
+            <Documentation>
+              <Summary>Niên khóa</Summary>
+            </Documentation>
+          </Property>
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MaGiaTC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="DongHocPhis" Relationship="Self.FK_DongHocPhi_HocPhiTheoDangKy" FromRole="HocPhiTheoDangKy" ToRole="DongHocPhi" />
           <NavigationProperty Name="GiaTinChi" Relationship="Self.FK_HocPhiTheoDangKy_GiaTinChi" FromRole="HocPhiTheoDangKy" ToRole="GiaTinChi" />
+          <NavigationProperty Name="NienKhoaHocKy" Relationship="Self.FK_HocPhiTheoDangKy_NienKhoaHocKy" FromRole="HocPhiTheoDangKy" ToRole="NienKhoaHocKy" />
         </EntityType>
         <EntityType Name="Khoa">
           <Key>
@@ -477,6 +588,7 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
           <Property Name="MaKhoa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TenKhoa" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="GiangViens" Relationship="Self.FK_GiangVien_Khoa" FromRole="Khoa" ToRole="GiangVien" />
+          <NavigationProperty Name="Lops" Relationship="QuanLyDaoTaoModel.FK_Lop_Khoa" FromRole="Khoa" ToRole="Lop" />
         </EntityType>
         <EntityType Name="Lop">
           <Key>
@@ -486,17 +598,18 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
           <Property Name="TenLop" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="NienKhoa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MaKhoa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="MaHDT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MaHDT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="HeDaoTao" Relationship="Self.FK_Lop_HeDaoTao" FromRole="Lop" ToRole="HeDaoTao" />
           <NavigationProperty Name="SinhViens" Relationship="Self.FK_SinhVien_Lop" FromRole="Lop" ToRole="SinhVien" />
+          <NavigationProperty Name="Khoa" Relationship="QuanLyDaoTaoModel.FK_Lop_Khoa" FromRole="Lop" ToRole="Khoa" />
         </EntityType>
         <EntityType Name="LopTinChi">
           <Key>
             <PropertyRef Name="MaLopTC" />
           </Key>
           <Property Name="MaLopTC" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="HocKy" Type="Int16" Nullable="false" />
           <Property Name="Nhom" Type="Int16" Nullable="false" />
-          <Property Name="NienKhoa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NienKhoa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MaMonHoc" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MaGV" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TrangThai" Type="Boolean" Nullable="false" />
@@ -504,6 +617,7 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
           <NavigationProperty Name="GiangVien" Relationship="Self.FK_LopTinChi_GiangVien" FromRole="LopTinChi" ToRole="GiangVien" />
           <NavigationProperty Name="ThoiKhoaBieux" Relationship="Self.FK_BuoiHoc_LopTinChi" FromRole="LopTinChi" ToRole="ThoiKhoaBieu" />
           <NavigationProperty Name="MonHoc" Relationship="Self.FK_LopTinChi_MonHoc" FromRole="LopTinChi" ToRole="MonHoc" />
+          <NavigationProperty Name="NienKhoaHocKy" Relationship="Self.FK_LopTinChi_NienKhoaHocKy" FromRole="LopTinChi" ToRole="NienKhoaHocKy" />
           <NavigationProperty Name="SinhViens" Relationship="Self.DangKy" FromRole="LopTinChi" ToRole="SinhVien" />
         </EntityType>
         <EntityType Name="MonHoc">
@@ -515,6 +629,18 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
           <Property Name="SoTinChiLyThuyet" Type="Int16" Nullable="false" />
           <Property Name="SoTinChiThucHanh" Type="Int16" Nullable="false" />
           <NavigationProperty Name="LopTinChis" Relationship="Self.FK_LopTinChi_MonHoc" FromRole="MonHoc" ToRole="LopTinChi" />
+        </EntityType>
+        <EntityType Name="NienKhoaHocKy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NienKhoa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HocKy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DongHocPhis" Relationship="Self.FK_DongHocPhi_NienKhoaHocKy" FromRole="NienKhoaHocKy" ToRole="DongHocPhi" />
+          <NavigationProperty Name="GiaTinChis" Relationship="Self.FK_GiaTinChi_NienKhoaHocKy" FromRole="NienKhoaHocKy" ToRole="GiaTinChi" />
+          <NavigationProperty Name="HocPhiTheoDangKies" Relationship="Self.FK_HocPhiTheoDangKy_NienKhoaHocKy" FromRole="NienKhoaHocKy" ToRole="HocPhiTheoDangKy" />
+          <NavigationProperty Name="LopTinChis" Relationship="Self.FK_LopTinChi_NienKhoaHocKy" FromRole="NienKhoaHocKy" ToRole="LopTinChi" />
         </EntityType>
         <EntityType Name="SinhVien">
           <Key>
@@ -593,6 +719,18 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DongHocPhi_NienKhoaHocKy">
+          <End Role="NienKhoaHocKy" Type="Self.NienKhoaHocKy" Multiplicity="1" />
+          <End Role="DongHocPhi" Type="Self.DongHocPhi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NienKhoaHocKy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DongHocPhi">
+              <PropertyRef Name="NienKhoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DongHocPhi_SinhVien">
           <End Role="SinhVien" Type="Self.SinhVien" Multiplicity="1" />
           <End Role="DongHocPhi" Type="Self.DongHocPhi" Multiplicity="*" />
@@ -641,6 +779,18 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_GiaTinChi_NienKhoaHocKy">
+          <End Role="NienKhoaHocKy" Type="Self.NienKhoaHocKy" Multiplicity="1" />
+          <End Role="GiaTinChi" Type="Self.GiaTinChi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NienKhoaHocKy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GiaTinChi">
+              <PropertyRef Name="NienKhoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_HocPhiTheoDangKy_GiaTinChi">
           <End Role="GiaTinChi" Type="Self.GiaTinChi" Multiplicity="1" />
           <End Role="HocPhiTheoDangKy" Type="Self.HocPhiTheoDangKy" Multiplicity="*" />
@@ -650,6 +800,30 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             </Principal>
             <Dependent Role="HocPhiTheoDangKy">
               <PropertyRef Name="MaGiaTC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lop_HeDaoTao">
+          <End Role="HeDaoTao" Type="Self.HeDaoTao" Multiplicity="1" />
+          <End Role="Lop" Type="Self.Lop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HeDaoTao">
+              <PropertyRef Name="MaHDT" />
+            </Principal>
+            <Dependent Role="Lop">
+              <PropertyRef Name="MaHDT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HocPhiTheoDangKy_NienKhoaHocKy">
+          <End Role="NienKhoaHocKy" Type="Self.NienKhoaHocKy" Multiplicity="1" />
+          <End Role="HocPhiTheoDangKy" Type="Self.HocPhiTheoDangKy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NienKhoaHocKy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HocPhiTheoDangKy">
+              <PropertyRef Name="NienKhoa" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -689,6 +863,18 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LopTinChi_NienKhoaHocKy">
+          <End Role="NienKhoaHocKy" Type="Self.NienKhoaHocKy" Multiplicity="1" />
+          <End Role="LopTinChi" Type="Self.LopTinChi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NienKhoaHocKy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LopTinChi">
+              <PropertyRef Name="NienKhoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="DangKy">
           <End Role="LopTinChi" Type="Self.LopTinChi" Multiplicity="*" />
           <End Role="SinhVien" Type="Self.SinhVien" Multiplicity="*" />
@@ -704,6 +890,7 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
           <EntitySet Name="Lops" EntityType="Self.Lop" />
           <EntitySet Name="LopTinChis" EntityType="Self.LopTinChi" />
           <EntitySet Name="MonHocs" EntityType="Self.MonHoc" />
+          <EntitySet Name="NienKhoaHocKies" EntityType="Self.NienKhoaHocKy" />
           <EntitySet Name="SinhViens" EntityType="Self.SinhVien" />
           <EntitySet Name="ThoiKhoaBieux" EntityType="Self.ThoiKhoaBieu" />
           <EntitySet Name="DangKy_V" EntityType="Self.DangKy_V" />
@@ -717,6 +904,10 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
           </AssociationSet>
           <AssociationSet Name="FK_DongHocPhi_HocPhiTheoDangKy" Association="Self.FK_DongHocPhi_HocPhiTheoDangKy">
             <End Role="HocPhiTheoDangKy" EntitySet="HocPhiTheoDangKies" />
+            <End Role="DongHocPhi" EntitySet="DongHocPhis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DongHocPhi_NienKhoaHocKy" Association="Self.FK_DongHocPhi_NienKhoaHocKy">
+            <End Role="NienKhoaHocKy" EntitySet="NienKhoaHocKies" />
             <End Role="DongHocPhi" EntitySet="DongHocPhis" />
           </AssociationSet>
           <AssociationSet Name="FK_DongHocPhi_SinhVien" Association="Self.FK_DongHocPhi_SinhVien">
@@ -735,8 +926,20 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             <End Role="HeDaoTao" EntitySet="HeDaoTaos" />
             <End Role="GiaTinChi" EntitySet="GiaTinChis" />
           </AssociationSet>
+          <AssociationSet Name="FK_GiaTinChi_NienKhoaHocKy" Association="Self.FK_GiaTinChi_NienKhoaHocKy">
+            <End Role="NienKhoaHocKy" EntitySet="NienKhoaHocKies" />
+            <End Role="GiaTinChi" EntitySet="GiaTinChis" />
+          </AssociationSet>
           <AssociationSet Name="FK_HocPhiTheoDangKy_GiaTinChi" Association="Self.FK_HocPhiTheoDangKy_GiaTinChi">
             <End Role="GiaTinChi" EntitySet="GiaTinChis" />
+            <End Role="HocPhiTheoDangKy" EntitySet="HocPhiTheoDangKies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lop_HeDaoTao" Association="Self.FK_Lop_HeDaoTao">
+            <End Role="HeDaoTao" EntitySet="HeDaoTaos" />
+            <End Role="Lop" EntitySet="Lops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HocPhiTheoDangKy_NienKhoaHocKy" Association="Self.FK_HocPhiTheoDangKy_NienKhoaHocKy">
+            <End Role="NienKhoaHocKy" EntitySet="NienKhoaHocKies" />
             <End Role="HocPhiTheoDangKy" EntitySet="HocPhiTheoDangKies" />
           </AssociationSet>
           <AssociationSet Name="FK_SinhVien_Lop" Association="Self.FK_SinhVien_Lop">
@@ -751,6 +954,10 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             <End Role="MonHoc" EntitySet="MonHocs" />
             <End Role="LopTinChi" EntitySet="LopTinChis" />
           </AssociationSet>
+          <AssociationSet Name="FK_LopTinChi_NienKhoaHocKy" Association="Self.FK_LopTinChi_NienKhoaHocKy">
+            <End Role="NienKhoaHocKy" EntitySet="NienKhoaHocKies" />
+            <End Role="LopTinChi" EntitySet="LopTinChis" />
+          </AssociationSet>
           <AssociationSet Name="DangKy" Association="Self.DangKy">
             <End Role="LopTinChi" EntitySet="LopTinChis" />
             <End Role="SinhVien" EntitySet="SinhViens" />
@@ -759,7 +966,23 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             <Parameter Name="MaSV" Mode="In" Type="String" />
             <Parameter Name="MaLopTC" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_Lop_Khoa" Association="QuanLyDaoTaoModel.FK_Lop_Khoa">
+            <End Role="Khoa" EntitySet="Khoas" />
+            <End Role="Lop" EntitySet="Lops" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Lop_Khoa">
+          <End Type="QuanLyDaoTaoModel.Khoa" Role="Khoa" Multiplicity="1" />
+          <End Type="QuanLyDaoTaoModel.Lop" Role="Lop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Khoa">
+              <PropertyRef Name="MaKhoa" />
+            </Principal>
+            <Dependent Role="Lop">
+              <PropertyRef Name="MaKhoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -859,7 +1082,6 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
             <EntityTypeMapping TypeName="QuanLyDaoTaoModel.LopTinChi">
               <MappingFragment StoreEntitySet="LopTinChi">
                 <ScalarProperty Name="MaLopTC" ColumnName="MaLopTC" />
-                <ScalarProperty Name="HocKy" ColumnName="HocKy" />
                 <ScalarProperty Name="Nhom" ColumnName="Nhom" />
                 <ScalarProperty Name="NienKhoa" ColumnName="NienKhoa" />
                 <ScalarProperty Name="MaMonHoc" ColumnName="MaMonHoc" />
@@ -875,6 +1097,15 @@ warning 6002: The table/view 'QuanLyDaoTao.dbo.DangKy_V' does not have a primary
                 <ScalarProperty Name="TenMH" ColumnName="TenMH" />
                 <ScalarProperty Name="SoTinChiLyThuyet" ColumnName="SoTinChiLyThuyet" />
                 <ScalarProperty Name="SoTinChiThucHanh" ColumnName="SoTinChiThucHanh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NienKhoaHocKies">
+            <EntityTypeMapping TypeName="QuanLyDaoTaoModel.NienKhoaHocKy">
+              <MappingFragment StoreEntitySet="NienKhoaHocKy">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NienKhoa" ColumnName="NienKhoa" />
+                <ScalarProperty Name="HocKy" ColumnName="HocKy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

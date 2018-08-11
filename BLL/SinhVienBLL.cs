@@ -9,6 +9,7 @@ namespace BLL
 {
     public class SinhVienBLL
     {
+        public const string MailSinhVien = "student.ptithcm.edu.vn";
         private SinhVienDAO context = new SinhVienDAO();
 
         #region  GetLoginSinhVien
@@ -23,18 +24,18 @@ namespace BLL
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(pass))
             {
                 return null;
-            }   
+            }
             try
             {
                 SinhVien sv = context.GetLoginSinhVien(email, pass);
                 return sv;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 return null;
             }
-            
+
         }
         #endregion
 
@@ -45,7 +46,7 @@ namespace BLL
         /// <param name="maLop"></param>
         /// <returns>List<SinhVien></returns>
         public List<SinhVien> GetByMaLop(string maLop)
-        {  
+        {
             List<SinhVien> lstSV = new List<SinhVien>();
             try
             {
@@ -62,7 +63,7 @@ namespace BLL
 
         #region GetAll
         public List<SinhVien> GetAll()
-        {                                       
+        {
             List<SinhVien> lstSV = new List<SinhVien>();
             try
             {
@@ -98,11 +99,13 @@ namespace BLL
         {
             try
             {
-                context.Create(sv);       
+                sv.MaSV = CreateMaSV(sv.MaLop);
+                sv.Email = CreateEmail(sv.MaSV);
+                context.Create(sv);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);  
+                Console.WriteLine(ex);
             }
         }
         #endregion
@@ -135,5 +138,46 @@ namespace BLL
         }
         #endregion
 
+
+        public string CreateMaSV(string maLop)
+        {
+            SinhVienBLL contextSV = new SinhVienBLL();
+            LopBLL contextL = new LopBLL();
+            HeDaoTaoBLL contextHDT = new HeDaoTaoBLL();
+            try
+            {
+                Lop Lop = contextL.GetById(maLop);
+                if (Lop != null)
+                {
+                    string stt = "";
+                    int dem = contextSV.GetByMaLop(maLop).Count;
+                    if (dem >= 100)
+                    {
+                        stt = dem.ToString().Trim();
+                    }
+                    else if (dem < 100 && dem >= 10)
+                    {
+                        stt = "0" + dem.ToString().Trim();
+                    }
+                    else
+                    {
+                        stt = "00" + dem.ToString().Trim();
+                    }
+                    string ma = "N" + Lop.NienKhoa.Substring(2, 2) + Lop.MaHDT.Substring(0, 1) + Lop.MaHDT.Substring(2, 1) + Lop.MaKhoa.Substring(0, 2) + stt;
+                    return ma;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
+
+        public string CreateEmail(string maSV)
+        {
+            return ( maSV + "@" + MailSinhVien);
+        }
     }
 }

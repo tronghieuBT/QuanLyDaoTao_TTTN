@@ -1,0 +1,35 @@
+﻿@model IEnumerable<DAO.NienKhoaHocKy>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Danh sách các niên khóa học kỳ</h2>
+
+<p>
+    @Html.ActionLink("Thêm mới", "Create")
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>
+            Niên khóa
+        </th>
+        <th>
+            Học kỳ
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NienKhoa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocKy)
+        </td>
+    </tr>
+}
+
+</table>

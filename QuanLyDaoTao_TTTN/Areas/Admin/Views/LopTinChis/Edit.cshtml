@@ -5,16 +5,11 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>Chỉnh sửa</h2>
 
 @using (Html.BeginForm())
 {
-    var HocKy = new List<SelectListItem>()
-    {
-        new SelectListItem() { Text = "1", Value = "1" },
-        new SelectListItem() { Text = "2", Value = "2" },
-        new SelectListItem() { Text = "3", Value = "3" }
-    };
+   
     var trangThai = new List<SelectListItem>()
     {
         new SelectListItem() { Text = "Mở", Value = "true" },
@@ -27,42 +22,59 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.MaLopTC)
-
+        <!---mã Niên khóa-->
         <div class="form-group">
-            @Html.LabelFor(model => model.HocKy, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NienKhoa, "ID niên khóa", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("HocKy", HocKy, new { @class = "form-control hocky", @onchange = "getMaNhom()" })
+                @Html.EditorFor(model => model.NienKhoa, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
             </div>
         </div>
 
+        <!---Niên khóa-->
         <div class="form-group">
-            @Html.LabelFor(model => model.Nhom, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NienKhoaHocKy.NienKhoa, "Niên khóa", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Nhom, new { htmlAttributes = new {@id= "manhom", @class = "form-control", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.Nhom, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.NienKhoaHocKy.NienKhoa, new { htmlAttributes = new {  @class = "form-control nienkhoa", @readonly = true } })
             </div>
         </div>
 
+        <!--Học kỳ-->
         <div class="form-group">
-            @Html.LabelFor(model => model.NienKhoa, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class = "control-label col-md-2">Học kỳ</label>
             <div class="col-md-10">
-                @Html.DropDownList("NienKhoa", ViewBag.NienKhoa as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control nienkhoa", @onchange = "getMaNhom()" })
-                @Html.ValidationMessageFor(model => model.NienKhoa, "", new { @class = "text-danger" })
+                @Html.EditorFor(model=> model.NienKhoaHocKy.HocKy, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
             </div>
         </div>
 
+        <!--Nhóm-->
         <div class="form-group">
-            @Html.LabelFor(model => model.MaMonHoc, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Nhóm</label>
             <div class="col-md-10">
-                @Html.DropDownList("MaMonHoc",null, htmlAttributes: new { @class = "form-control mamonhoc", @onchange = "getMaNhom()" })
-                @Html.ValidationMessageFor(model => model.MaMonHoc, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Nhom, new { htmlAttributes = new {@id= "manhom", @class = "form-control", @readonly = true } })     
             </div>
         </div>
 
+        <!--Mã môn học-->
         <div class="form-group">
-            @Html.LabelFor(model => model.MaGV, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MaMonHoc,"Mã môn học", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("MaGV", null, htmlAttributes: new { @class = "form-control magiangvien", @onchange = "getMaNhom()" })
+               @Html.EditorFor(model => model.MaMonHoc, new { htmlAttributes = new {  @class = "form-control mamonhoc", @readonly = true } })
+            </div>
+        </div>
+
+        <!--Tên môn học-->
+        <div class="form-group">
+            @Html.LabelFor(model => model.MonHoc.TenMH, "Tên môn học", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MonHoc.TenMH, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            </div>
+        </div>
+
+        <!--Giảng viên-->
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaGV,"Giảng viên", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("MaGV",null, htmlAttributes: new { @class = "form-control magiangvien", @onchange = "getMaNhom()" })
                 @Html.ValidationMessageFor(model => model.MaGV, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -77,7 +89,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Lưu" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -88,7 +100,7 @@
 </div>
 <script>
     function getMaNhom() {
-        var hk = $('.hocky').val();
+        var hk = $('#NienKhoaHocKy_HocKy').val();
         var mamonhoc = $('.mamonhoc').val();
         var nk = $('.nienkhoa').val();
         var magiangvien = $('.magiangvien').val();

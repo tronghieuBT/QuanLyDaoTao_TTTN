@@ -9,9 +9,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Models
 {
     public class LopTinChiModel
     {
-        public int MaLopTC { get; set; }
-
-        public short HocKy { get; set; }
+        public int MaLopTC { get; set; }      
 
         public short Nhom { get; set; }
 
@@ -26,17 +24,18 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Models
         public MonHocModel MonHoc { get; set; } 
         public GiangVienModel GiangVien { get; set; }
 
-        public int GetMaNhom(string maMonHoc, string nienKhoa, string maGiangVien, int hocKy)
+        public int GetMaNhom(string maMonHoc, string idNienKhoa, string maGiangVien, int hocKy)
         {
-            int nkTest = Int32.Parse(nienKhoa) +1;
-            string nienKhoaNew = nienKhoa + "-" + nkTest.ToString().Trim();
             LopTinChiBLL contectLopTC = new LopTinChiBLL();
-            List<LopTinChi> lstLopTinChi = contectLopTC.GetAll();
-            int dem = 1;
+            NienKhoaHocKyBLL contextNKHK = new NienKhoaHocKyBLL();
             List<LopTinChi> lstLopTinChiTrung = new List<LopTinChi>();
+
+            List<LopTinChi> lstLopTinChi = contectLopTC.GetAll(); 
+            
+            int dem = 1;
             foreach(LopTinChi ltc in lstLopTinChi)
             {
-                if(ltc.MaGV.Equals(maGiangVien) && ltc.NienKhoa.Equals(nienKhoaNew) && ltc.MaMonHoc.Equals(maMonHoc))
+                if(ltc.MaGV.Equals(maGiangVien) && ltc.NienKhoa.Equals(idNienKhoa) && ltc.MaMonHoc.Equals(maMonHoc))
                 {
                     lstLopTinChiTrung.Add(ltc);
                 }
@@ -46,7 +45,8 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Models
             {
                 foreach(LopTinChi ltc in lstLopTinChiTrung)
                 {
-                    if(ltc.HocKy == hocKy)
+                    NienKhoaHocKy nkhk = contextNKHK.GetById(ltc.NienKhoa);
+                    if (nkhk.HocKy == hocKy)
                     {
                         dem++;
                     }

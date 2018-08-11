@@ -100,16 +100,9 @@ namespace BLL
             LopDAO context = new LopDAO();
             
             try
-            {       
-                int nk = int.Parse(lop.NienKhoa) + SONAMDAOTAODH;
-                lop.NienKhoa += "-" + nk.ToString().Trim();
-                Lop lpTest = context.GetById(lop.MaLop);
-                if(lpTest != null)
-                {
-                    return 0;
-                }
+            {     
                 LopBLL contextL = new LopBLL();
-                lop.MaLop = contextL.CreateMaLop(lop.MaKhoa, lop.NienKhoa, "CQ");
+                lop.MaLop = contextL.CreateMaLop(lop.MaKhoa, lop.NienKhoa, lop.MaHDT);
                 context.Create(lop);
                 return 1;
             }
@@ -198,14 +191,14 @@ namespace BLL
             string maLop = "";
             try
             {
-                List<Lop> lstLop = lp.GetByMaKhoaAndNienKhoa(maKhoa,nienKhoa);
+                List<Lop> lstLop = lp.GetByMaKhoaAndNienKhoaHDT(maKhoa,nienKhoa,maHDT);
                 if(lstLop == null)
                 {
-                    maLop = maHDT.Substring(0,1) + nienKhoa.Substring(1, 2) + maHDT.Substring(2, 2) + maKhoa.Substring(0, 2)+"01";
+                    maLop = maHDT.Substring(0,1) + nienKhoa.Substring(2, 2) + maHDT.Substring(2, 2) + maKhoa.Substring(0, 2)+"01";
                     return maLop.Trim() ;
                 }
                 int dem = lstLop.Count + 1;
-                maLop = maHDT.Substring(0, 1) + nienKhoa.Substring(1, 2) + maHDT.Substring(2, 2) + maKhoa.Substring(0, 2) +"0"+ dem.ToString();
+                maLop = maHDT.Substring(0, 1) + nienKhoa.Substring(2, 2) + maHDT.Substring(2, 2) + maKhoa.Substring(0, 2) +"0"+ dem.ToString();
                 return maLop.Trim();
             }
             catch(Exception ex)

@@ -11,15 +11,15 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.HocKy)
+            Học kỳ
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.HocKy)
+            @Html.DisplayFor(model => model.NienKhoaHocKy.HocKy)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Nhom)
+            Nhóm
         </dt>
 
         <dd>
@@ -27,35 +27,39 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NienKhoa)
+            Niên khóa
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NienKhoa)
+            @Html.DisplayFor(model => model.NienKhoaHocKy.NienKhoa)
         </dd>
 
-        <dd>
-            <dt>Giảng viên</dt>
-        </dd>
+        <dt>
+            Giảng viên
+        </dt>
         <dd>
             @Model.GiangVien.HoVaTenLot @Model.GiangVien.TenGV
         </dd>
-        <dd>
-            <dt>Mã môn học</dt>
-        </dd>
+
+        <dt>
+            Mã môn học
+        </dt>
         <dd>
             @Model.MonHoc.MaMH
         </dd>
+
+        <dt>
+            Tên môn học
+        </dt>
+
         <dd>
-            <dt>Tên môn học</dt>
-        </dd>
-        <dd>
-            @Model.MonHoc.TenMH 
+            @Model.MonHoc.TenMH
         </dd>
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

@@ -8,7 +8,7 @@ namespace BLL
     public class LopTinChiBLL
     {
         private LopTinChiDAO context = new LopTinChiDAO();
-        
+
 
         #region GetByMaGV
 
@@ -45,7 +45,7 @@ namespace BLL
             SinhVienBLL contextSV = new SinhVienBLL();
             try
             {
-                List<LopTinChi> lstLop = context.GetAll();     
+                List<LopTinChi> lstLop = context.GetAll();
                 return lstLop;
             }
             catch (Exception ex)
@@ -66,10 +66,17 @@ namespace BLL
         /// <returns>Lop</returns>
         public LopTinChi GetById(int maLop)
         {
+            GiangVienBLL ctGV = new GiangVienBLL();
+            LopTinChiBLL contextLTC = new LopTinChiBLL();
+            MonHocBLL contextMH = new MonHocBLL();
+            NienKhoaHocKyBLL contextNKHK = new NienKhoaHocKyBLL();
             try
             {
-                LopTinChi lp = context.GetById(maLop);
-                return lp;
+                LopTinChi lopTinChi = context.GetById(maLop);
+                lopTinChi.NienKhoaHocKy = contextNKHK.GetById(lopTinChi.NienKhoa);
+                lopTinChi.MonHoc = contextMH.GetById(lopTinChi.MaMonHoc);
+                lopTinChi.GiangVien = ctGV.GetById(lopTinChi.MaGV);
+                return lopTinChi;
             }
             catch (Exception ex)
             {
@@ -96,10 +103,10 @@ namespace BLL
             {
                 return -1;
             }
-            if(lop.NienKhoa.Length == 4)
+            if (lop.NienKhoa.Length == 4)
             {
                 int nk = Int32.Parse(lop.NienKhoa) + 1;
-                lop.NienKhoa = lop.NienKhoa + "-" + nk.ToString().Trim();            
+                lop.NienKhoa = lop.NienKhoa + "-" + nk.ToString().Trim();
             }
             try
             {
@@ -132,12 +139,7 @@ namespace BLL
             if (lop == null)
             {
                 return false;
-            }
-            if (lop.NienKhoa.Length == 4)
-            {
-                int nk = Int32.Parse(lop.NienKhoa) + 1;
-                lop.NienKhoa = lop.NienKhoa + "-" + nk.ToString().Trim();
-            }
+            }      
             try
             {
                 context.Edit(lop);
@@ -206,6 +208,7 @@ namespace BLL
         /// <returns></returns>
         public List<LopTinChi> GetListLTCDangKy(ICollection<LopTinChi> lst)
         {
+            NienKhoaHocKyBLL contextNKHK = new NienKhoaHocKyBLL();
             MonHocBLL contextMH = new MonHocBLL();
             List<LopTinChi> lstOpen = new List<LopTinChi>();
             Date supportDateTime = new Date();
@@ -213,20 +216,20 @@ namespace BLL
 
             foreach (LopTinChi ltc in lst)
             {
-
-                if(ltc.HocKy == 1)
+                NienKhoaHocKy nkhk = contextNKHK.GetById(ltc.NienKhoa);
+                if (nkhk != null && nkhk.HocKy == 1)
                 {
-                    if(Int32.Parse(ltc.NienKhoa.Split('-')[0]) == dt.Year)
+                    if (Int32.Parse(ltc.NienKhoa.Split('-')[0]) == dt.Year)
                     {
                         if (ltc.TrangThai == true)
                         {
-                            if(ltc.HocKy == 1)
+                            if (nkhk.HocKy == 1)
                             {
-                                if(dt.Month >=9 && dt.Month <= 12)
+                                if (dt.Month >= 9 && dt.Month <= 12)
                                 {
-                                    DateTime ngayCuoiNam = new DateTime(dt.Year,12,31);
+                                    DateTime ngayCuoiNam = new DateTime(dt.Year, 12, 31);
                                     dt = dt.AddDays(1);
-                                  //  int soTietCoTheMo = supportDateTime.SoTietHocCoTheMo(dt, ngayCuoiNam);
+                                    //  int soTietCoTheMo = supportDateTime.SoTietHocCoTheMo(dt, ngayCuoiNam);
                                 }
                             }
                             ltc.MonHoc = contextMH.GetById(ltc.MaMonHoc);
@@ -234,7 +237,7 @@ namespace BLL
                         }
                     }
                 }
-                
+
             }
             return lstOpen;
         }
@@ -251,7 +254,7 @@ namespace BLL
         {
             try
             {
-                List<LopTinChi> lp = context.GetByMaGVVaMaMH(maGV,maMH);
+                List<LopTinChi> lp = context.GetByMaGVVaMaMH(maGV, maMH);
                 return lp;
             }
             catch (Exception ex)
@@ -265,7 +268,7 @@ namespace BLL
 
         #region DangKy
         public void DangKy(int maLopTC, string maSV)
-        {     
+        {
             try
             {
                 SinhVienDAO contextSV = new SinhVienDAO();
@@ -278,11 +281,11 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);  
+                Console.WriteLine(ex);
             }
         }
         #endregion
 
-       
+
     }
 }

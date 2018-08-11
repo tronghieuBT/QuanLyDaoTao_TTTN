@@ -10,28 +10,28 @@
 <p>
     @Html.ActionLink("Thêm mới", "Create")
 </p>
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.NienKhoa)
+            Niên khóa
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HocKy)
+            Học kỳ
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Nhom)
+           Nhóm
         </th>
         <th>
             Giảng viên
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MonHoc.TenMH)
+            Tên môn học
         </th>
         <th>
             Số sinh viên đăng ký
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TrangThai)
+            Trạng thái
         </th>
         <th></th>
     </tr>
@@ -39,10 +39,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.NienKhoa)
+            @Html.DisplayFor(modelItem => item.NienKhoaHocKy.NienKhoa)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HocKy)
+            @Html.DisplayFor(modelItem => item.NienKhoaHocKy.HocKy)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Nhom)

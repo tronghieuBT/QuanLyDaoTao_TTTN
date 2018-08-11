@@ -155,8 +155,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
             {     
                 ltcModel = new LopTinChiModel
                 {
-                    MaGV = ltc.MaGV,
-                    HocKy = ltc.HocKy,
+                    MaGV = ltc.MaGV,   
                     MaLopTC = ltc.MaLopTC,
                     MaMonHoc = ltc.MaMonHoc,
                     Nhom = ltc.Nhom,
@@ -248,7 +247,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
             {
                 return Json(new { msg = "Lỗi !"});
             }
-
+            NienKhoaHocKyBLL contextNKHK = new NienKhoaHocKyBLL();
             ThoiKhoaBieuBLL contextTKB = new ThoiKhoaBieuBLL();
             List<ThoiKhoaBieu> lstTKB = contextTKB.GetAll();
             LopTinChiBLL contextLTC = new LopTinChiBLL();
@@ -267,7 +266,8 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
             {
                 foreach(var item in lstLTCNew)
                 {
-                    if(item.NienKhoa == nienKhoa && item.HocKy == hocKy)
+                    NienKhoaHocKy nkhk = contextNKHK.GetById(item.NienKhoa);
+                    if (nkhk.NienKhoa == nienKhoa && nkhk.HocKy == hocKy)
                     {
                         lstLTCResult.Add(item);
                     }

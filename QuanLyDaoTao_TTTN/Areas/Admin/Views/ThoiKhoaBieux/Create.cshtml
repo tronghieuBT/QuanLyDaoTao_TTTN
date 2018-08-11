@@ -109,7 +109,7 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Buoi, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Buoi,"Buổi", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.DropDownList("Buoi", buoi, htmlAttributes: new { @class = "form-control buoi", @onchange = "GetBuoi()" })
                                 @Html.ValidationMessageFor(model => model.Buoi, "", new { @class = "text-danger" })
@@ -117,7 +117,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.TietBD, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.TietBD, "Tiết bắt đầu", htmlAttributes: new { @class = "control -label col-md-2" })
                             <div class="col-md-10">
                                 @Html.TextBoxFor(model => model.TietBD, htmlAttributes: new { @class = "form-control tiet-bd", @readonly = "true" })
                                 @Html.ValidationMessageFor(model => model.TietBD, "", new { @class = "text-danger" })
@@ -125,7 +125,7 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.MaLopTC, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.MaLopTC, "Mã lớp tín chỉ", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.DropDownList("MaLopTC", ViewBag.LopTCDuocMo as List<SelectListItem>, htmlAttributes: new { @class = "form-control malopTC", @onclick = "getThongTinLop()", @id = "list-malop" })
                                 @Html.ValidationMessageFor(model => model.MaLopTC, "", new { @class = "text-danger" })

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+﻿using BLL;
 using DAO;
-using BLL;
 using QuanLyDaoTao_TTTN.Areas.Admin.Fillter;
+using System.Net;
+using System.Web.Mvc;
 
 namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
 {
@@ -16,11 +10,12 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
     {
         private LopBLL contextLop = new LopBLL();
         private KhoaBLL contextKhoa = new KhoaBLL();
+        private HeDaoTaoBLL contextHDT = new HeDaoTaoBLL();
+
         // GET: Admin/Lops
         [SessionCheck]
         public ActionResult Index()
         {
-          
             var lops = contextLop.GetAll();
             return View(lops);
         }
@@ -29,7 +24,6 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         [SessionCheck]
         public ActionResult Details(string id)
         {
-           
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -45,26 +39,28 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // GET: Admin/Lops/Create
         [SessionCheck]
         public ActionResult Create()
-        {   
+        {
+            ViewBag.MaHDT = new SelectList(contextHDT.GetAll(), "MaHDT", "TenHDT");
             ViewBag.MaKhoa = new SelectList(contextKhoa.GetAll(), "MaKhoa", "TenKhoa");
             return View();
         }
 
         // POST: Admin/Lops/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SessionCheck]
-        public ActionResult Create([Bind(Include = "MaLop,TenLop,NienKhoa,MaKhoa")] Lop lop)
-        {   
+        public ActionResult Create([Bind(Include = "MaLop,TenLop,NienKhoa,MaKhoa,MaHDT")] Lop lop)
+        {
             if (ModelState.IsValid)
             {
-                contextLop.Create(lop);   
+                contextLop.Create(lop);
                 return RedirectToAction("Index");
             }
 
             ViewBag.MaKhoa = new SelectList(contextKhoa.GetAll(), "MaKhoa", "TenKhoa", lop.MaKhoa);
+            ViewBag.MaHDT = new SelectList(contextHDT.GetAll(), "MaHDT", "TenHDT", lop.MaHDT);
             return View(lop);
         }
 
@@ -72,7 +68,6 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         [SessionCheck]
         public ActionResult Edit(string id)
         {
-            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -87,13 +82,13 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // POST: Admin/Lops/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SessionCheck]
-        public ActionResult Edit([Bind(Include = "MaLop,TenLop,NienKhoa,MaKhoa")] Lop lop)
-        {   
+        public ActionResult Edit([Bind(Include = "MaLop,TenLop,NienKhoa,MaKhoa,MaHDT")] Lop lop)
+        {
             if (ModelState.IsValid)
             {
                 contextLop.Edit(lop);
@@ -107,7 +102,6 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         [SessionCheck]
         public ActionResult Delete(string id)
         {
-           
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -125,9 +119,9 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         [SessionCheck]
         public ActionResult DeleteConfirmed(string id)
-        {  
-            contextLop.Delete(id);  
+        {
+            contextLop.Delete(id);
             return RedirectToAction("Index");
-        }     
+        }
     }
 }

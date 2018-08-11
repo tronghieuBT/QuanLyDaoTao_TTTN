@@ -2,72 +2,67 @@
 using DAO;
 using QuanLyDaoTao_TTTN.Areas.Admin.Fillter;
 using QuanLyDaoTao_TTTN.Areas.Admin.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
 {
     public class LopTinChisController : Controller
     {
+        #region context
+
+        private NienKhoaHocKyBLL contextNKHK = new NienKhoaHocKyBLL();
         private LopTinChiBLL contextLopTC = new LopTinChiBLL();
         private GiangVienModel contextGV = new GiangVienModel();
         private MonHocBLL contextMH = new MonHocBLL();
+
+        #endregion context
+
+        #region index
 
         // GET: Admin/LopTinChis
         [SessionCheck]
         public ActionResult Index()
         {
             var lopTinChis = contextLopTC.GetAll();
+            foreach (LopTinChi item in lopTinChis)
+            {
+                item.NienKhoaHocKy = contextNKHK.GetById(item.NienKhoa);
+            }
             return View(lopTinChis);
         }
+
+        #endregion index
+
+        #region Detail
 
         // GET: Admin/LopTinChis/Details/5
         [SessionCheck]
         public ActionResult Details(int id)
         {
             LopTinChi lopTinChi = contextLopTC.GetById(id);
-            GiangVienBLL ctGV = new GiangVienBLL();
-            MonHocBLL ctMH = new MonHocBLL();
-            lopTinChi.GiangVien = ctGV.GetById(lopTinChi.MaGV);
-            lopTinChi.MonHoc = ctMH.GetById(lopTinChi.MaMonHoc);
             if (lopTinChi == null)
             {
                 return HttpNotFound();
             }
+            GiangVienBLL ctGV = new GiangVienBLL();
+            MonHocBLL ctMH = new MonHocBLL();
+            lopTinChi.GiangVien = ctGV.GetById(lopTinChi.MaGV);
+            lopTinChi.MonHoc = ctMH.GetById(lopTinChi.MaMonHoc);
+            lopTinChi.NienKhoaHocKy = contextNKHK.GetById(lopTinChi.NienKhoa);
             return View(lopTinChi);
         }
+
+        #endregion Detail
+
+        #region Create
 
         // GET: Admin/LopTinChis/Create
         [SessionCheck]
         public ActionResult Create()
         {
+            ViewBag.NienKhoa = new SelectList(contextNKHK.GetNienKhoa(), "NienKhoa", "NienKhoa");
             ViewBag.MaGV = new SelectList(contextGV.GetALL(), "MaGV", "TenDayDu");
             ViewBag.MaMonHoc = new SelectList(contextMH.GetAll(), "MaMH", "TenMH");
-
-            var nienKhoa = from EnumNienKhoa e in Enum.GetValues(typeof(EnumNienKhoa))
-                           select new
-                           {
-                               ID = (int)Enum.Parse(typeof(EnumNienKhoa), e.ToString())
-                                     ,
-                               Name = e.ToString()
-                           };
-            List<SelectListItem> listNienKhoa = new List<SelectListItem>();
-            foreach( var item in nienKhoa)
-            {
-                if (item.ID >= DateTime.UtcNow.Year)
-                {
-                    SelectListItem slectListItem = new SelectListItem()
-                    {
-                        Text = item.ID.ToString(),
-                        Value = item.ID.ToString()
-                    };
-                    listNienKhoa.Add(slectListItem);
-                }
-            }
-            SelectList selectList = new SelectList(listNienKhoa, "Text", "Value");
-            ViewBag.NienKhoa = selectList;
             return View();
         }
 
@@ -77,48 +72,35 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [SessionCheck]
-        public ActionResult Create([Bind(Include = "MaLopTC,HocKy,Nhom,NienKhoa,MaMonHoc,MaGV,TrangThai")] LopTinChi lopTinChi)
+        public ActionResult Create([Bind(Include = "MaLopTC,HocKy,Nhom,NienKhoa,MaMonHoc,MaGV,TrangThai")] LopTinChi lopTinChi, int HocKy)
         {
-            var nienKhoa = from EnumNienKhoa e in Enum.GetValues(typeof(EnumNienKhoa))
-                           select new
-                           {
-                               ID = (int)Enum.Parse(typeof(EnumNienKhoa), e.ToString())
-                                     ,
-                               Name = e.ToString()
-                           };
-            SelectList selectList = new SelectList(nienKhoa, "ID", "ID");
-            ViewBag.NienKhoa = selectList;
+            ViewBag.NienKhoa = new SelectList(contextNKHK.GetNienKhoa(), "NienKhoa", "NienKhoa");
             if (ModelState.IsValid)
             {
+                string idNienKhoa = "K" + lopTinChi.NienKhoa.Substring(2, 2) + "-" + HocKy.ToString();
+                lopTinChi.NienKhoa = idNienKhoa.Trim();
                 contextLopTC.Create(lopTinChi);
                 return RedirectToAction("Index");
             }
-
             ViewBag.MaGV = new SelectList(contextGV.GetALL(), "MaGV", "TenDayDu", lopTinChi.MaGV);
             ViewBag.MaMonHoc = new SelectList(contextMH.GetAll(), "MaMH", "TenMH", lopTinChi.MaMonHoc);
             return View(lopTinChi);
         }
 
+        #endregion Create
+
+        #region Edit
+
         // GET: Admin/LopTinChis/Edit/5
         [SessionCheck]
         public ActionResult Edit(int id)
         {
-            var nienKhoa = from EnumNienKhoa e in Enum.GetValues(typeof(EnumNienKhoa))
-                           select new
-                           {
-                               ID = (int)Enum.Parse(typeof(EnumNienKhoa), e.ToString())
-                                     ,
-                               Name = e.ToString()
-                           };
-            SelectList selectList = new SelectList(nienKhoa, "ID", "ID");
-            ViewBag.NienKhoa = selectList;
             LopTinChi lopTinChi = contextLopTC.GetById(id);
             if (lopTinChi == null)
             {
                 return HttpNotFound();
             }
             ViewBag.MaGV = new SelectList(contextGV.GetALL(), "MaGV", "TenDayDu", lopTinChi.MaGV);
-            ViewBag.MaMonHoc = new SelectList(contextMH.GetAll(), "MaMH", "TenMH", lopTinChi.MaMonHoc);
             return View(lopTinChi);
         }
 
@@ -140,24 +122,22 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
             return View(lopTinChi);
         }
 
+        #endregion Edit
+
+        #region Delete
+
         // GET: Admin/LopTinChis/Delete/5
         [SessionCheck]
         public ActionResult Delete(int id)
         {
+            GiangVienBLL ctGV = new GiangVienBLL();
             LopTinChiBLL contextLTC = new LopTinChiBLL();
-            LopTinChi lopTinChi = new LopTinChi();
-            List<LopTinChi> lstLTC = contextLTC.GetAll();
-            foreach(LopTinChi ltc in lstLTC)
-            {
-                if(ltc.MaLopTC == id)
-                {
-                    lopTinChi = ltc;
-                }
-            }
+            LopTinChi lopTinChi = contextLTC.GetById(id);
             if (lopTinChi == null)
             {
                 return HttpNotFound();
             }
+
             return View(lopTinChi);
         }
 
@@ -171,14 +151,21 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        #endregion Delete
+
+        #region GetMaNhom
+
         public JsonResult GetMaNhom(string maMonHoc, string nienKhoa, string maGiangVien, int hocKy)
         {
+            string idNK = "K" + nienKhoa.Substring(2, 2) + "-" + hocKy.ToString();
             if (string.IsNullOrEmpty(maMonHoc) || string.IsNullOrEmpty(nienKhoa) || string.IsNullOrEmpty(maGiangVien))
             {
                 return Json(new { maNhom = "NULL" });
             }
             LopTinChiModel ltcModel = new LopTinChiModel();
-            return Json(new { maNhom = ltcModel.GetMaNhom(maMonHoc, nienKhoa, maGiangVien, hocKy) });
+            return Json(new { maNhom = ltcModel.GetMaNhom(maMonHoc, idNK.Trim(), maGiangVien, hocKy) });
         }
+
+        #endregion GetMaNhom
     }
 }

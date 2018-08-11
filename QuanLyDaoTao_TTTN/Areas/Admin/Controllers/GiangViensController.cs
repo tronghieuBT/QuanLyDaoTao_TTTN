@@ -12,7 +12,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         private KhoaBLL contextKhoa = new KhoaBLL();
 
         // GET: Admin/GiangViens
-        [SessionCheck]
+        //[SessionCheck]
         public ActionResult Index()
         {  
             var giangViens = contextGV.GetAll();
@@ -20,7 +20,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/GiangViens/Details/5
-        [SessionCheck]
+       // [SessionCheck]
         public ActionResult Details(string id)
         { 
             if (id == null)
@@ -36,7 +36,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/GiangViens/Create
-        [SessionCheck]
+        //[SessionCheck]
         public ActionResult Create()
         { 
             ViewBag.MaKhoa = new SelectList(contextKhoa.GetAll(), "MaKhoa", "TenKhoa");
@@ -48,7 +48,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [SessionCheck]
+       // [SessionCheck]
         public ActionResult Create([Bind(Include = "MaGV,HoVaTenLot,TenGV,NgaySinh,GioiTinh,TrinhDo,SDT,Email,MaKhoa,MatKhau")] GiangVien giangVien)
         {
           
@@ -63,7 +63,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/GiangViens/Edit/5
-        [SessionCheck]
+        //[SessionCheck]
         public ActionResult Edit(string id)
         {  
             if (id == null)
@@ -84,7 +84,7 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [SessionCheck]
+        //[SessionCheck]
         public ActionResult Edit([Bind(Include = "MaGV,HoVaTenLot,TenGV,NgaySinh,GioiTinh,TrinhDo,SDT,Email,MaKhoa,MatKhau")] GiangVien giangVien)
         {   
             if (ModelState.IsValid)
@@ -97,9 +97,10 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
         }
 
         // GET: Admin/GiangViens/Delete/5
-        [SessionCheck]
+       // [SessionCheck]
         public ActionResult Delete(string id)
-        { 
+        {
+            KhoaBLL contextKhoa = new KhoaBLL();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -109,13 +110,14 @@ namespace QuanLyDaoTao_TTTN.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            giangVien.Khoa = contextKhoa.GetById(giangVien.MaKhoa);
             return View(giangVien);
         }
 
         // POST: Admin/GiangViens/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [SessionCheck]
+        //[SessionCheck]
         public ActionResult DeleteConfirmed(string id)
         {   
             contextGV.Delete(id);

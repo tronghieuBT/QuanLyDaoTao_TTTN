@@ -1,0 +1,44 @@
+﻿@model DAO.NienKhoaHocKy
+
+@{
+    ViewBag.Title = "Thêm niên khóa mới";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Thêm niên khóa mới</h2>
+
+@using (Html.BeginForm("Create")) 
+{
+    @Html.AntiForgeryToken() 
+    var listYear = new List<SelectListItem>();
+    for(int i = DateTime.UtcNow.Year; i <= DateTime.UtcNow.Year + 5; i++)
+    {
+        SelectListItem item = new SelectListItem
+        {
+            Text = i.ToString(),
+            Value = i.ToString()
+        };
+        listYear.Add(item);
+    }
+    <div class="form-horizontal">
+        <h4>Ghi chú: bạn chỉ cần chọn năm - chương trình sẽ tự động thêm vào 3 học kỳ tương ứng với niên khóa năm bạn chọn cộng thêm một năm</h4>
+        <h4>Ví dụ : chọn 2018 =>  sẽ có 3 học kỳ trong niên khóa 2018-2019</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class = "control-label col-md-2">Chọn năm :</label>
+            <div class="col-md-10">
+                @Html.DropDownList("nienKhoa", listYear, new { @class = "form-control hocky"})
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Quay lại", "Index")
+</div>
